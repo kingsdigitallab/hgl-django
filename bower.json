@@ -1,0 +1,20 @@
+{
+    "name": "hgl",
+    "version": "0.1",
+    "dependencies": {
+        "almond": null,
+        "jquery": null,
+        "foundation": null,
+        "font-awesome": null,
+        "r.js": null,
+        "requirejs": null
+    },
+    "main": "assets/js/main.js",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}
