@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/repositories/inslib/!svn/ver/9/trunk/django/root/geo
+END
+admin.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/repositories/inslib/!svn/ver/11/trunk/django/root/geo/admin.py
+END
+views.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/repositories/inslib/!svn/ver/9/trunk/django/root/geo/views.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/repositories/inslib/!svn/ver/6/trunk/django/root/geo/__init__.py
+END
+models.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/repositories/inslib/!svn/ver/11/trunk/django/root/geo/models.py
+END
+urls.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/repositories/inslib/!svn/ver/6/trunk/django/root/geo/urls.py
+END
