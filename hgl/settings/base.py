@@ -178,7 +178,7 @@ LANGUAGE_CODE = 'en-gb'
 TIME_ZONE = 'Europe/London'
 USE_I18N = True
 USE_L10N = False
-USE_TZ = True
+USE_TZ = False
 
 WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 

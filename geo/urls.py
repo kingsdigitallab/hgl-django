@@ -1,6 +1,6 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, include, url
+
 
 urlpatterns = patterns('',
-#    (r'^$', 'geo.views.index'),
     (r'^kml', 'geo.views.kml')
 )

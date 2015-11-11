@@ -39,7 +39,7 @@ class Locus_Type(models.Model):
 #
 class Locus(models.Model):
     name = models.CharField(blank = False, max_length = 200, null = False, unique = True)
-    pleiades_uri = models.URLField(blank = True, max_length = 200, null = True, verify_exists = True)
+    pleiades_uri = models.URLField(blank = True, max_length = 200, null = True) #, verify_exists = True)
     locus_type = models.ForeignKey(Locus_Type, blank = True, null = True)
     related_locus = models.ManyToManyField('self', symmetrical = False, through = 'Related_Locus')
     FEATURE_FIELD_TYPE = (
