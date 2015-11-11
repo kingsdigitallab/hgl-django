@@ -1,5 +1,5 @@
 # Create your views here.
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -10,15 +10,15 @@ from django.db.models import Q
 from django.shortcuts import render_to_response
 
 
+
 def geofield_js(request,field):
     context = {}
     context['geofield_js'] = field
-    return render_to_response('geofield_js.js', context, context_instance=RequestContext(request),mimetype='application/text')	
-	
+    return render_to_response('geofield_js.js', context, context_instance=RequestContext(request) , content_type='application/text')		
 	
 def geofield_poly_js(request,field):
     context = {}
     context['geofield_js'] = field
-    return render_to_response('geofield_poly_js.js', context, context_instance=RequestContext(request),mimetype='application/text')	
+    return render_to_response('geofield_poly_js.js', context, context_instance=RequestContext(request) , content_type='application/text')	
 
 	
