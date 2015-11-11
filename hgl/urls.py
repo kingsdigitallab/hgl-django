@@ -14,6 +14,7 @@ urlpatterns = patterns('',
                        url(r'^grappelli/', include('grappelli.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^irt_geo/',include('geo.urls')),
+                       url(r'^geofield/(\w+)/geofield.js','geofield.views.geofield_js'),
                        )
 
 # -----------------------------------------------------------------------------
