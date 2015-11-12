@@ -1,11 +1,11 @@
-# from ddhldap.signal_handlers import register_signal_handlers as \
+# from ddhldap-django.signal_handlers import register_signal_handlers as \
 #     ddhldap_register_signal_handlers
 
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-# from wagtailbase import urls as ws_urls
+from wagtailbase import urls as ws_urls
 
 admin.autodiscover()
 # ddhldap_register_signal_handlers()
@@ -21,7 +21,7 @@ urlpatterns = patterns('',
 # Wagtail CMS
 # -----------------------------------------------------------------------------
 
-# urlpatterns += ws_urls.urlpatterns
+urlpatterns += ws_urls.urlpatterns
 
 # -----------------------------------------------------------------------------
 # Django Debug Toolbar URLS
