@@ -74,6 +74,10 @@ $(document).ready(function(){
 
     currMap.drawingLayer = currDrawingLayer;
     currMap.textArea = maps[i]
+    currMap.latField = $('#id_locus_coordinate-' + i + '-latitude')
+    currMap.lngField = $('#id_locus_coordinate-' + i + '-longitude')
+    
+    currMap.heightField = $('#id_locus_coordinate-' + i + '-height')
 
     currMap.on('draw:created', function (e) {
         this.drawingLayer.clearLayers();
@@ -88,6 +92,9 @@ $(document).ready(function(){
             var wkt = 'SRID=4326;POINT(' + layer.getLatLng().lng.toString() + ' ' +  layer.getLatLng().lat.toString() + ')'
             console.log(wkt)
             $(this.textArea).val(wkt)
+            $(this.latField).val( layer.getLatLng().lat.toFixed(6) )
+            $(this.lngField).val( layer.getLatLng().lng.toFixed(6) )
+            $(this.heightField).val('0')
 
     });
 
