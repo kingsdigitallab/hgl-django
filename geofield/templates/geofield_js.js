@@ -94,7 +94,22 @@ $(document).ready(function(){
             $(this.textArea).val(wkt)
             $(this.latField).val( layer.getLatLng().lat.toFixed(6) )
             $(this.lngField).val( layer.getLatLng().lng.toFixed(6) )
-            $(this.heightField).val('0')
+            var height = $(this.heightField)
+
+            var key = 'oe44IrqJEqFXMrGFA1xnstp7uGgMCzSl'
+
+            var url = 'http://open.mapquestapi.com/elevation/v1/profile?key='+ key +'&shapeFormat=json&latLngCollection='+
+            layer.getLatLng().lat.toFixed(6).toString() + ',' + layer.getLatLng().lng.toFixed(6).toString()
+
+            $.ajax({
+                dataType:"json",
+                url:url,
+                success: function(data){
+                    data.elevationProfile[0].height
+                    $(height).val( data.elevationProfile[0].height )
+                    }
+                }
+            )
 
     });
 
