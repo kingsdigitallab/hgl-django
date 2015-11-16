@@ -38,6 +38,10 @@ $(document).ready(function(){
             '</div>'
         )
 
+	// Get rid of Openlayers div
+        //$( $(maps[i]).attr('id') + '_map' ).remove()
+
+
         // Set up search form:
         searchUrl = 'http://api.geonames.org/searchJSON?formatted=false&country=LY&maxRows=10&lang=en&username=hergazlib'
         // debug search param
@@ -108,7 +112,7 @@ $(document).ready(function(){
             currMap.setView( [ 
                 marker.getBounds()._southWest.lat, 
                 marker.getBounds()._southWest.lng ]
-                , 13 )
+                , 6 )
         }        
 
 	    options = {

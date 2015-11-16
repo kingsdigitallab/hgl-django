@@ -14,11 +14,11 @@ from django.shortcuts import render_to_response
 def geofield_js(request,field):
     context = {}
     context['geofield_js'] = field
-    return render_to_response('geofield_js.js', context, context_instance=RequestContext(request) , content_type='application/text')		
+    return render_to_response('geofield_js.js', context, context_instance=RequestContext(request) , content_type='application/javascript')		
 	
 def geofield_poly_js(request,field):
     context = {}
     context['geofield_js'] = field
-    return render_to_response('geofield_poly_js.js', context, context_instance=RequestContext(request) , content_type='application/text')	
+    return render_to_response('geofield_poly_js.js', context, context_instance=RequestContext(request) , content_type='application/javascript')	
 
-	
+
