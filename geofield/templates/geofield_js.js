@@ -3,7 +3,6 @@
 // Alias jquery to standard
 $ = grp.jQuery;
 
-
 // Alias jquery to standard
 $ = grp.jQuery;
 
@@ -24,10 +23,72 @@ $(document).ready(function(){
             'Map to go here' +
             '</div>'
         );
+
+        $(maps[i]).after(
+            '<div style="height:100px;width:500px;" id="' + $(maps[i]).attr('id') + '-geosearch'  +'">' +
+            '<form class="geosearch-form" id="' + $(maps[i]).attr('id') + '-geosearch-search-form' + '">' +
+            '<label style="padding-left:20px;margin-bottom:20px;" for="' + $(maps[i]).attr('id') + '-geosearch-search' + ' " ' + '>Search text:   </label>' +
+            '<input name="search-text" style="padding-left:20px;margin-bottom:20px;" id="' + $(maps[i]).attr('id') + '-geosearch-search' + '" type="text"></input>' +
+            '<input id="' + $(maps[i]).attr('id') + 'geosearch-submit' + '" type="submit" value="Search"></input></br>' +
+            '<label style="padding-left:20px;" for="' + $(maps[i]).attr('id') + '-geosearch-list' + ' " ' + '>Results:   </label>' +
+            '<select style="padding-left:20px;" id="' + $(maps[i]).attr('id') + '-geosearch-list' + '" type="select">' + 
+                '<option>...</option>' +
+            '</select>' +
+            '</form>' +
+            '</div>'
+        )
+
+        // Set up search form:
+        searchUrl = 'http://api.geonames.org/searchJSON?formatted=false&country=LY&maxRows=10&lang=en&username=hergazlib'
+        // debug search param
+
+
+        
+       $( 'form#' + $(maps[i]).attr('id') + '-geosearch-search-form' ).on('submit', function (e){
+            e.preventDefault();
+            var form =  this;
+            var searchText = $("input[name='search-text']",form).val()
+            var searchResultsHolder = $("select",form)
+            var searchMap = window[ 'map' + $('form.geosearch-form').index(this) ]
+
+            console.log('map' + $('form.geosearch-form').index(this) )
+
+            $.ajax({
+                dataType:"json",
+                url:searchUrl + '&q=' + encodeURIComponent( searchText ),
+                success: function(data){
+                    var options = "";
+                    for (g in data.geonames){
+                        options += '<option data-lng="'+ data.geonames[g].lng +'" data-lat="'+ data.geonames[g].lat +'">'+ data.geonames[g].name +'</option>'
+                    }
+                    $(searchResultsHolder).append(options);
+                    // set event and map result
+                    $(searchResultsHolder).change(function(){
+                        var y = ( $(this).find('option:selected').attr('data-lng') );
+                        var x = ( $(this).find('option:selected').attr('data-lat') );
+                        searchMap.drawingLayer.clearLayers()
+                        var layer = new L.marker([x,y])
+                        searchMap.drawingLayer.addLayer(layer)
+                        $(searchMap.textArea).val('SRID=4326;POINT(' + y + ' ' + x + ')' )
+                        $(searchMap.latField).val(x)
+                        $(searchMap.lngField).val(y)
+                        getHeight(y,x,searchMap.heightField)
+
+                    })
+                }
+            })
+        });
+
+
+
+
+
         var mapDiv = $(maps[i]).prev()
-        // Create each map
+        // Create each map in its respective div
         window['map' + i.toString() ] = new L.map( mapDiv.attr('id') ).setView([28.767659, 20.65429], 4);
         var currMap = window['map' + i.toString() ]
+
+
         
         // Add mapquest layer
         L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg', {
@@ -50,7 +111,7 @@ $(document).ready(function(){
                 , 13 )
         }        
 
-	options = {
+	    options = {
     		position: 'topright',
     		draw: {
         		polygon:  false ,
@@ -59,43 +120,45 @@ $(document).ready(function(){
         	    rectangle:  false 
     		},
     		edit : {
-        		featureGroup: currDrawingLayer
+        		featureGroup: currDrawingLayer,
+                remove: false,
+                edit: false
+
     		}
-	}
+	    }
 
 
-	// Initialise the draw control and pass it the FeatureGroup of editable layers
-	window["drawControl" + i.toString() ] = new L.Control.Draw(
-		options
-	);
+	    // Initialise the draw control and pass it the FeatureGroup of editable layers
+	    window["drawControl" + i.toString() ] = new L.Control.Draw(
+		    options
+	    );
 
-    var currDrawControl = window["drawControl" + i.toString() ]
-	currMap.addControl(currDrawControl);
+        var currDrawControl = window["drawControl" + i.toString() ]
+	    currMap.addControl(currDrawControl);
+        currMap.drawingLayer = currDrawingLayer;
+        currMap.textArea = maps[i]
+        currMap.latField = $('#id_locus_coordinate-' + i + '-latitude')
+        currMap.lngField = $('#id_locus_coordinate-' + i + '-longitude')
+        currMap.heightField = $('#id_locus_coordinate-' + i + '-height')
 
-    currMap.drawingLayer = currDrawingLayer;
-    currMap.textArea = maps[i]
-    currMap.latField = $('#id_locus_coordinate-' + i + '-latitude')
-    currMap.lngField = $('#id_locus_coordinate-' + i + '-longitude')
-    
-    currMap.heightField = $('#id_locus_coordinate-' + i + '-height')
-
-    currMap.on('draw:created', function (e) {
-        this.drawingLayer.clearLayers();
-        var type = e.layerType,
+        currMap.on('draw:created', function (e) {
+            this.drawingLayer.clearLayers();
+            var type = e.layerType,
             layer = e.layer;
             if (type === 'marker') {
-            // Do marker specific actions
+                // Do marker specific actions
             }
             // Do whatever else you need to. (save to db, add to map etc)
             this.drawingLayer.addLayer(layer);
 
             var wkt = 'SRID=4326;POINT(' + layer.getLatLng().lng.toString() + ' ' +  layer.getLatLng().lat.toString() + ')'
-            console.log(wkt)
             $(this.textArea).val(wkt)
             $(this.latField).val( layer.getLatLng().lat.toFixed(6) )
             $(this.lngField).val( layer.getLatLng().lng.toFixed(6) )
             var height = $(this.heightField)
 
+
+            // Mapquest api key for height query
             var key = 'oe44IrqJEqFXMrGFA1xnstp7uGgMCzSl'
 
             var url = 'http://open.mapquestapi.com/elevation/v1/profile?key='+ key +'&shapeFormat=json&latLngCollection='+
@@ -107,21 +170,32 @@ $(document).ready(function(){
                 success: function(data){
                     data.elevationProfile[0].height
                     $(height).val( data.elevationProfile[0].height )
-                    }
                 }
-            )
+            })
 
-    });
-
-
-
+        });
     
-    // For debugging
-    $(maps[i]).show()
+        $(currMap._container).prev().hide()
     
-    }
+    } // end for loop
 
     // Get rid of OpenLayers map
-    
     $('.olMap').remove();
-});
+
+});  // end doc ready
+
+
+function getHeight(y,x,field){
+
+            var key = 'oe44IrqJEqFXMrGFA1xnstp7uGgMCzSl'
+            var url = 'http://open.mapquestapi.com/elevation/v1/profile?key='+ key +'&shapeFormat=json&latLngCollection='+
+                x + ',' + y
+            $.ajax({
+                dataType:"json",
+                url:url,
+                success: function(data){
+                    $(field).val(data.elevationProfile[0].height)   
+                }
+            })
+
+}
