@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import BaseInlineFormSet
-from geo.models import Heritage, Locus_Type, Locus, Coordinate, Related_Locus_Type, Related_Locus, Locus_Variant, Inscription, Inscription_Locus_Type, Inscription_Locus, Geojson
+from geo.models import * #Heritage, Locus_Type, Locus, Coordinate, Related_Locus_Type, Related_Locus, Locus_Variant\
+    #,Inscription, Inscription_Locus_Type, Inscription_Locus, Geojson *
 
 ## compare method to be used to validate the input
 ## get featuretype and validate coordinate count accordingly
@@ -26,9 +27,17 @@ from geo.models import Heritage, Locus_Type, Locus, Coordinate, Related_Locus_Ty
 ## couldn't find the fix 
 #    def clean(self):
 #       compare(Locus().getType(),self.getCount())
-       
-        
+               
 #
+
+
+class BasicAdmin(admin.ModelAdmin):
+    pass
+
+class AttestationInline(admin.StackedInline):
+    model = VariantAttestation
+
+
 class HeritageAdmin(admin.ModelAdmin):
     model = Heritage
     
@@ -94,10 +103,10 @@ class Locus_VariantInline(admin.TabularInline):
     extra = 1
 
 #
-class GeojsonInline(admin.TabularInline):
-    model = Geojson
-    fields = ['geojson']
-    extra = 1
+#class GeojsonInline(admin.TabularInline):
+#    model = Geojson
+#    fields = ['geojson']
+#    extra = 1
 
 #
 class LocusAdmin(admin.ModelAdmin):
@@ -110,7 +119,7 @@ class LocusAdmin(admin.ModelAdmin):
     ordering = ['name', 'id', 'modified']
     search_fields = ['name']
     
-    inlines = [CoordinateInline, GeojsonInline, Related_LocusInline, Locus_VariantInline, Related_LocusInverseInline]
+    inlines = [CoordinateInline,Related_LocusInline, Locus_VariantInline, Related_LocusInverseInline]
 
     class Media:
         geofield = 'coordinate'
@@ -152,7 +161,7 @@ class Related_Locus_TypeAdmin(admin.ModelAdmin):
 #
 class Locus_VariantAdmin(admin.ModelAdmin):
     model = Locus_Variant
-    
+    inlines = [AttestationInline,]
     date_hierarchy = 'modified'
     
     list_display = ['name', 'modified', 'created']
@@ -217,3 +226,9 @@ admin.site.register(Locus_Variant, Locus_VariantAdmin)
 admin.site.register(Inscription, InscriptionAdmin)
 admin.site.register(Inscription_Locus_Type, Inscription_Locus_TypeAdmin)
 admin.site.register(Inscription_Locus, Inscription_LocusAdmin)
+
+
+admin.site.register(VariantAttestation,BasicAdmin)
+admin.site.register(Author,BasicAdmin)
+admin.site.register(Publication,BasicAdmin)
+admin.site.register(PublicationType,BasicAdmin)
