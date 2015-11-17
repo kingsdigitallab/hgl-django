@@ -52,7 +52,7 @@ class Locus(models.Model):
     )
     #add column 'featuretype' for table 'geo_locus'
     featuretype = models.IntegerField(choices=FEATURE_FIELD_TYPE, default = 0)
-    featuretype_fk = models.ForeignKey('FeatureTypes',null=True,blank=True)
+    featuretype_fk = models.ManyToManyField('FeatureTypes',null=True,blank=True)
     note = models.TextField(blank = True, null = True)
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
     created = models.DateTimeField(auto_now_add = True, blank = False, null = False)
