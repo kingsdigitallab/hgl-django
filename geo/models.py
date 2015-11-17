@@ -21,6 +21,9 @@ class Heritage(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Provenance'
     
 #
 class Locus_Type(models.Model):
@@ -78,6 +81,7 @@ class Coordinate(models.Model):
     #add column 'height' for table 'geo_coordinate'
     height = models.DecimalField(blank = False, decimal_places = 7, max_digits = 10, null = False)
     heritage = models.ForeignKey(Heritage)
+    third_party_uri = models.CharField(max_length=500,null=True,blank=True)
     feature = models.CharField(blank = True, max_length = 200, null = True)
     note = models.TextField(blank = True, null = True)
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
@@ -96,6 +100,7 @@ class Coordinate(models.Model):
 
 #
 #add table 'geo_geojson' for database
+# NJ Probably redundant ?? Will remoe from admin...
 class Geojson(models.Model):
     locus = models.ForeignKey(Locus, related_name='locus_geojson')
     geojson = models.TextField(blank = True, null = True)
@@ -155,6 +160,42 @@ class Locus_Variant(models.Model):
         
     def __unicode__(self):
         return self.name
+
+class VariantAttestation(models.Model):
+    name_variant =  models.ForeignKey('Locus_Variant')
+    author = models.ForeignKey('Author',null=True,blank=True)
+    title = models.ForeignKey('Publication',null=True,blank=True)
+    page_reference = models.CharField(max_length=30,null=True,blank=True)
+    notes = models.TextField(null=True,blank=True)
+    link = models.CharField(max_length=500,null=True,blank=True)
+
+    def __unicode__(self):
+        return u'%s, attestation %s' % (self.name_variant,self.pk)
+
+
+class Author(models.Model):
+    person = models.BooleanField(default=True)
+    family_or_institution_name = models.CharField(max_length=50,null=True,blank=True)
+    given_names = models.CharField(max_length=50,null=True,blank=True)
+    date = models.IntegerField(null=True,blank=True)
+
+    def __unicode__(self):
+        return u'%s' % self.family_or_institution_name
+
+
+class Publication(models.Model):
+    publication_type =  models.ForeignKey('PublicationType',null=True,blank=True)
+    title = models.CharField(max_length=150)
+
+    def __unicode__(self):
+        return u'%s' % self.title
+
+
+class PublicationType(models.Model):
+    description = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return u'%s' % self.description
 
 #
 class Inscription(models.Model):
