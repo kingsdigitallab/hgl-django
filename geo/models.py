@@ -52,6 +52,7 @@ class Locus(models.Model):
     )
     #add column 'featuretype' for table 'geo_locus'
     featuretype = models.IntegerField(choices=FEATURE_FIELD_TYPE, default = 0)
+    featuretype_fk = models.ForeignKey('FeatureTypes',null=True,blank=True)
     note = models.TextField(blank = True, null = True)
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
     created = models.DateTimeField(auto_now_add = True, blank = False, null = False)
@@ -71,6 +72,11 @@ class Locus(models.Model):
     ##return the value of featuretype value before save
     #def getType(self):
     #    return self.featuretype
+class FeatureTypes(models.Model):
+    description =  models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return u'%s' % self.description
 
 
 #
@@ -124,9 +130,9 @@ class Related_Locus_Type(models.Model):
 
 #
 class Related_Locus(models.Model):
-    subject = models.ForeignKey(Locus, related_name="subject")
-    obj = models.ForeignKey(Locus, related_name="object")
-    related_locus_type = models.ForeignKey(Related_Locus_Type)
+    subject = models.ForeignKey(Locus, related_name="child",verbose_name='Child')
+    obj = models.ForeignKey(Locus, related_name="parent", verbose_name='Parent')
+    related_locus_type = models.ForeignKey(Related_Locus_Type,verbose_name='Relationship')
     note = models.TextField(blank = True, null = True)
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
     created = models.DateTimeField(auto_now_add = True, blank = False, null = False)
