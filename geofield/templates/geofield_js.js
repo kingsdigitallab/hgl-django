@@ -184,6 +184,7 @@ $(document).ready(function(){
     } // end for loop
 
     // Get rid of OpenLayers map
+
     $('.olMap').remove();
 
 });  // end doc ready
