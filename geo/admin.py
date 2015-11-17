@@ -232,3 +232,5 @@ admin.site.register(VariantAttestation,BasicAdmin)
 admin.site.register(Author,BasicAdmin)
 admin.site.register(Publication,BasicAdmin)
 admin.site.register(PublicationType,BasicAdmin)
+admin.site.register(FeatureTypes,BasicAdmin)
+
