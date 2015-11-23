@@ -3,6 +3,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry
 
+import requests
+
 #===================================================================================================
 # Dependencies:
 #   - py25-mysql    py25-mysql 1.2.2    Python interface to mysql
@@ -62,6 +64,37 @@ class Locus(models.Model):
     @staticmethod
     def autocomplete_search_fields():
             return ("name__icontains",) 
+            
+    # retrieve all geonames alternate names and place in variant
+
+
+    def getAltGeonames(self):
+        l = Locus.objects.get(pk=self.id)
+        if l.geonames_id:
+            geoNamesUrl = 'http://api.geonames.org/getJSON?geonameId=' + str(l.geonames_id) + '&username=hergazlib'
+            response = requests.get(geoNamesUrl)
+            json = response.json()
+            jsonAlt = json['alternateNames']
+            for n in jsonAlt:
+                vn = Locus_Variant()
+                vn.name = n['name']
+                vn.locus = l
+            # Try to record language code if possible
+                try:
+                    code = n['lang']
+                    if code == 'link':
+                        pass
+                    else:
+                        try:
+                            vn.language = Language.objects.get(code=code)
+                        except Exception:
+                            pass                    
+                except Exception:
+                    pass
+                vn.save()
+
+        
+                
 
     class Meta:
         verbose_name = 'Location'
@@ -145,6 +178,7 @@ class Related_Locus(models.Model):
     # new time fields NJ
     date_from =  models.DateTimeField(blank=True, null=True)
     date_to =  models.DateTimeField(blank=True, null=True)
+    period = models.ForeignKey('Period',blank=True,null=True)
 
     def reciprocal_name(self):
         return u'%s' % self.related_locus_type.reciprocal_name
@@ -157,11 +191,21 @@ class Related_Locus(models.Model):
     def __unicode__(self):
         return self.subject.name + ": " + self.related_locus_type.name + ": " + self.obj.name
 
+class Period(models.Model):
+    description = models.CharField(max_length=50)
+    #unit = models.ForeignKey('Locus')
+    
+    class Meta:
+        ordering = ['description',]
+        
+    def __unicode__(self):
+        return u'%s' % (self.description)#,self.unit.name)
+        
 #
 class Locus_Variant(models.Model):
-    name = models.CharField(blank = False, max_length = 200, null = False, unique = True)
+    name = models.CharField(blank = False, max_length = 200, null = False, unique = False)
     locus = models.ForeignKey(Locus,related_name = 'variants')
-    
+    language = models.ForeignKey('Language',null=True,blank=True)
     note = models.TextField(blank = True, null = True)
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
     created = models.DateTimeField(auto_now_add = True, blank = False, null = False)
@@ -173,6 +217,19 @@ class Locus_Variant(models.Model):
     def __unicode__(self):
         return self.name
 
+class Language(models.Model):
+    code = models.CharField(max_length=5)
+    en_name = models.CharField(max_length=50,null=True,blank=True)
+    
+    class Meta:
+        ordering = ('en_name',)
+        
+    def __unicode__(self):
+        en_name = ''
+        if self.en_name:
+            en_name = self.en_name
+        return u'%s (%s)' % (self.code, en_name)
+        
 class VariantAttestation(models.Model):
     name_variant =  models.ForeignKey('Locus_Variant')
     author = models.ForeignKey('Author',null=True,blank=True)
