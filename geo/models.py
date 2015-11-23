@@ -88,7 +88,7 @@ class Coordinate(models.Model):
     latitude = models.DecimalField(blank = False, decimal_places = 7, max_digits = 10, null = False)
     longitude = models.DecimalField(blank = False, decimal_places = 7, max_digits = 10, null = False)
     #add column 'height' for table 'geo_coordinate'
-    height = models.DecimalField(blank = False, decimal_places = 7, max_digits = 10, null = False)
+    height = models.DecimalField(blank = True, decimal_places = 7, max_digits = 10, null = True)
     heritage = models.ForeignKey(Heritage)
     third_party_uri = models.CharField(max_length=500,null=True,blank=True)
     feature = models.CharField(blank = True, max_length = 200, null = True)
@@ -102,7 +102,10 @@ class Coordinate(models.Model):
     def __unicode__(self):
         return str(self.latitude) + ', ' + str(self.longitude) + ', ' + str(self.height)
 
-
+    def save(self,*args,**kwargs):
+        if self.latitude and self.longitude:
+            self.point = GEOSGeometry( u'POINT (%s %s)' % ( str(self.longitude) , str(self.latitude) ) ) 
+        super(Coordinate,self).save(*args,**kwargs)   
 
 
 
