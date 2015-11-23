@@ -78,6 +78,9 @@ class Related_LocusInline(admin.TabularInline):
     autocomplete_lookup_fields = {
         'fk': ['obj'],
     }
+    fieldsets = [
+        (None, {'fields': ['obj','related_locus_type','period','note','date_from','date_to',]}),
+    ]    
     ordering = ['obj']
     fk_name = 'subject'
     extra = 1
@@ -86,18 +89,15 @@ class Related_LocusInline(admin.TabularInline):
 class Related_LocusInverseInline(admin.TabularInline):
     model = Related_Locus
     fields = ['subject', 'related_locus_type',]
-    
     fk_name = 'obj'
     extra = 0
-    
     verbose_name = 'Inverse Related Location'
     verbose_name_plural = 'Inverse Related Locations'
 
 #
 class Locus_VariantInline(admin.TabularInline):
     model = Locus_Variant
-    
-    fields = ['name']
+    fields = ['name','language']
     extra = 1
 
 #
@@ -232,4 +232,5 @@ admin.site.register(Author,BasicAdmin)
 admin.site.register(Publication,BasicAdmin)
 admin.site.register(PublicationType,BasicAdmin)
 admin.site.register(FeatureTypes,BasicAdmin)
-
+admin.site.register(Period,BasicAdmin)
+admin.site.register(Language,BasicAdmin)
