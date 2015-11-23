@@ -27,8 +27,6 @@ from geo.models import * #Heritage, Locus_Type, Locus, Coordinate, Related_Locus
 ## couldn't find the fix 
 #    def clean(self):
 #       compare(Locus().getType(),self.getCount())
-               
-#
 
 
 class BasicAdmin(admin.ModelAdmin):
