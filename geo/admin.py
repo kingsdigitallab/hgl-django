@@ -111,6 +111,7 @@ class Locus_VariantInline(admin.TabularInline):
 #
 class LocusAdmin(admin.ModelAdmin):
     model = Locus
+    exclude = ('locus_type',)
     filter_horizontal = ['featuretype_fk',]
     list_display = ['id', 'name', 'pleiades_uri', 'locus_type', 'modified', 'created']
     list_display_links = ['name']
