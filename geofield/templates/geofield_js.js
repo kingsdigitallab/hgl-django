@@ -3,9 +3,6 @@
 // Alias jquery to standard
 $ = grp.jQuery;
 
-// Alias jquery to standard
-$ = grp.jQuery;
-
 var maps = [];
 
 $(document).ready(function(){
@@ -38,16 +35,9 @@ $(document).ready(function(){
             '</div>'
         )
 
-	// Get rid of Openlayers div
-        //$( $(maps[i]).attr('id') + '_map' ).remove()
-
-
         // Set up search form:
         searchUrl = 'http://api.geonames.org/searchJSON?formatted=false&country=LY&maxRows=10&lang=en&username=hergazlib'
-        // debug search param
 
-
-        
        $( 'form#' + $(maps[i]).attr('id') + '-geosearch-search-form' ).on('submit', function (e){
             e.preventDefault();
             var form =  this;
@@ -71,7 +61,7 @@ $(document).ready(function(){
                         var y = ( $(this).find('option:selected').attr('data-lng') );
                         var x = ( $(this).find('option:selected').attr('data-lat') );
                         searchMap.drawingLayer.clearLayers()
-                        var layer = new L.marker([x,y])
+                        var layer = new L.marker([x,y], {draggable:true}).on('dragend',dragEnd)
                         searchMap.drawingLayer.addLayer(layer)
                         $(searchMap.textArea).val('SRID=4326;POINT(' + y + ' ' + x + ')' )
                         $(searchMap.latField).val(x)
@@ -83,16 +73,10 @@ $(document).ready(function(){
             })
         });
 
-
-
-
-
         var mapDiv = $(maps[i]).prev()
         // Create each map in its respective div
         window['map' + i.toString() ] = new L.map( mapDiv.attr('id') ).setView([28.767659, 20.65429], 4);
         var currMap = window['map' + i.toString() ]
-
-
         
         // Add mapquest layer
         L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg', {
@@ -108,10 +92,20 @@ $(document).ready(function(){
 
         // Parse the point field wkt
         if ( $(maps[i]).html() != '' ){
-            var marker = omnivore.wkt.parse( $(maps[i]).html() ).addTo(currDrawingLayer)
+            // var marker = omnivore.wkt.parse( $(maps[i]).html() ).addTo(currDrawingLayer)
+            var wkt = $(maps[i]).html()
+
+            var lat = parseFloat( wkt.substr(wkt.lastIndexOf('(')+1 , wkt.lastIndexOf(' ')-7 )   )
+            var lng = parseFloat( wkt.substr(wkt.lastIndexOf(' ')+1 ))           
+            
+            var marker = new L.marker([lng,lat],{draggable:true}).addTo(currDrawingLayer)
+            
+            marker.on('dragend', dragEnd );
+            
             currMap.setView( [ 
-                marker.getBounds()._southWest.lat, 
-                marker.getBounds()._southWest.lng ]
+                //marker.getBounds()._southWest.lat, 
+                //marker.getBounds()._southWest.lng ]
+                lng,lat ]
                 , 6 )
         }        
 
@@ -121,16 +115,14 @@ $(document).ready(function(){
         		polygon:  false ,
         		polyline:  false ,
         		circle :  false ,
-        	    rectangle:  false 
+        	    rectangle:  false
     		},
     		edit : {
         		featureGroup: currDrawingLayer,
                 remove: false,
                 edit: false
-
-    		}
+    		},
 	    }
-
 
 	    // Initialise the draw control and pass it the FeatureGroup of editable layers
 	    window["drawControl" + i.toString() ] = new L.Control.Draw(
@@ -144,29 +136,29 @@ $(document).ready(function(){
         currMap.latField = $('#id_locus_coordinate-' + i + '-latitude')
         currMap.lngField = $('#id_locus_coordinate-' + i + '-longitude')
         currMap.heightField = $('#id_locus_coordinate-' + i + '-height')
-
         currMap.on('draw:created', function (e) {
             this.drawingLayer.clearLayers();
             var type = e.layerType,
             layer = e.layer;
+            var marker;
             if (type === 'marker') {
-                // Do marker specific actions
+                // Create a different marker as draw markers don't allow draggable
+                marker = new L.marker( [e.layer.getLatLng().lat, e.layer.getLatLng().lng],{draggable:true}).on('dragend',dragEnd)
             }
             // Do whatever else you need to. (save to db, add to map etc)
-            this.drawingLayer.addLayer(layer);
+            this.drawingLayer.addLayer(marker);
 
-            var wkt = 'SRID=4326;POINT(' + layer.getLatLng().lng.toString() + ' ' +  layer.getLatLng().lat.toString() + ')'
+            var wkt = 'SRID=4326;POINT(' + marker.getLatLng().lng.toString() + ' ' +  marker.getLatLng().lat.toString() + ')'
             $(this.textArea).val(wkt)
-            $(this.latField).val( layer.getLatLng().lat.toFixed(6) )
-            $(this.lngField).val( layer.getLatLng().lng.toFixed(6) )
+            $(this.latField).val( marker.getLatLng().lat.toFixed(6) )
+            $(this.lngField).val( marker.getLatLng().lng.toFixed(6) )
             var height = $(this.heightField)
-
 
             // Mapquest api key for height query
             var key = 'oe44IrqJEqFXMrGFA1xnstp7uGgMCzSl'
 
             var url = 'http://open.mapquestapi.com/elevation/v1/profile?key='+ key +'&shapeFormat=json&latLngCollection='+
-            layer.getLatLng().lat.toFixed(6).toString() + ',' + layer.getLatLng().lng.toFixed(6).toString()
+            marker.getLatLng().lat.toFixed(6).toString() + ',' + marker.getLatLng().lng.toFixed(6).toString()
 
             $.ajax({
                 dataType:"json",
@@ -191,7 +183,6 @@ $(document).ready(function(){
 
 
 function getHeight(y,x,field){
-
             var key = 'oe44IrqJEqFXMrGFA1xnstp7uGgMCzSl'
             var url = 'http://open.mapquestapi.com/elevation/v1/profile?key='+ key +'&shapeFormat=json&latLngCollection='+
                 x + ',' + y
@@ -202,5 +193,30 @@ function getHeight(y,x,field){
                     $(field).val(data.elevationProfile[0].height)   
                 }
             })
+}
 
+
+function dragEnd(e){
+    var map = e.target._map;
+    
+    var wkt = 'SRID=4326;POINT(' + e.target.getLatLng().lng.toString() + ' ' +  e.target.getLatLng().lat.toString() + ')'
+            $(map.textArea).val(wkt)
+            $(map.latField).val( e.target.getLatLng().lat.toFixed(6) )
+            $(map.lngField).val( e.target.getLatLng().lng.toFixed(6) )
+            var height = $(map.heightField)
+
+            // Mapquest api key for height query
+            var key = 'oe44IrqJEqFXMrGFA1xnstp7uGgMCzSl'
+
+            var url = 'http://open.mapquestapi.com/elevation/v1/profile?key='+ key +'&shapeFormat=json&latLngCollection='+
+            e.target.getLatLng().lat.toFixed(6).toString() + ',' + e.target.getLatLng().lng.toFixed(6).toString()
+
+            $.ajax({
+                dataType:"json",
+                url:url,
+                success: function(data){
+                    data.elevationProfile[0].height
+                    $(height).val( data.elevationProfile[0].height )
+                }
+            })
 }

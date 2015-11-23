@@ -41,7 +41,9 @@ class Locus_Type(models.Model):
 
 #
 class Locus(models.Model):
-    name = models.CharField(blank = False, max_length = 200, null = False, unique = True)
+    # Changing display name of field to fit new regime from name to descriptor
+    name = models.CharField(blank = False, max_length = 200, null = False, unique = True,verbose_name='Descriptor')
+    geonames_id = models.IntegerField(null=True,blank=True)
     pleiades_uri = models.URLField(blank = True, max_length = 200, null = True) #, verify_exists = True)
     locus_type = models.ForeignKey(Locus_Type, blank = True, null = True)
     related_locus = models.ManyToManyField('self', symmetrical = False, through = 'Related_Locus')
@@ -51,9 +53,9 @@ class Locus(models.Model):
         (2, 'polygon'),
     )
     #add column 'featuretype' for table 'geo_locus'
-    featuretype = models.IntegerField(choices=FEATURE_FIELD_TYPE, default = 0)
+    featuretype = models.IntegerField(choices=FEATURE_FIELD_TYPE,verbose_name='Geometry type')
     featuretype_fk = models.ManyToManyField('FeatureTypes',null=True,blank=True)
-    note = models.TextField(blank = True, null = True)
+    note = models.TextField(blank = True, null = True,verbose_name='Notes',help_text='Use sparingly!')
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
     created = models.DateTimeField(auto_now_add = True, blank = False, null = False)
 
@@ -74,10 +76,11 @@ class Locus(models.Model):
     #    return self.featuretype
 class FeatureTypes(models.Model):
     description =  models.CharField(max_length=50)
-
     def __unicode__(self):
         return u'%s' % self.description
 
+    class Meta:
+        ordering = ('description',)
 
 #
 class Coordinate(models.Model):
