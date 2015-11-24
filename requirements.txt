@@ -5,7 +5,7 @@ django-grappelli
 django-model-utils
 django-redis
 django-require
-django_compressor
+django-compressor==1.4
 elasticsearch
 south
 pillow
