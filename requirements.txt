@@ -1,5 +1,5 @@
-#-r wagtailbase/requirements.txt
-#-r ddhldap-django/requirements.txt
+-r wagtailbase/requirements.txt
+-r ddhldap-django/requirements.txt
 #django
 django-grappelli
 django-model-utils
@@ -7,7 +7,7 @@ django-redis
 django-require
 elasticsearch
 south
-#pillow
+pillow
 #psycopg2
 mysql-python
 redis
