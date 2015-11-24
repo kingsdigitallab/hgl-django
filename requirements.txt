@@ -1,6 +1,6 @@
 -r wagtailbase/requirements.txt
 -r ddhldap-django/requirements.txt
-#django
+django
 django-grappelli
 django-model-utils
 django-redis
