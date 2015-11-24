@@ -5,6 +5,7 @@ django-grappelli
 django-model-utils
 django-redis
 django-require
+django-compressor==1.4
 elasticsearch
 pillow
 #psycopg2
