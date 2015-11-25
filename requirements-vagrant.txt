@@ -1,11 +1,11 @@
 -r wagtailbase/requirements.txt
--r ddhldap/requirements.txt
-django
+-r ddhldap-django/requirements.txt
+#django
 django-grappelli
 django-model-utils
 django-redis
 django-require
-django-compressor==1.4
+#django-compressor
 elasticsearch
 pillow
 #psycopg2

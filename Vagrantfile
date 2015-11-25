@@ -30,9 +30,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     provider.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
-  config.vm.define "kdl" do |machine|
+  config.vm.define "hgl" do |machine|
     machine.vm.box = "puphpet/debian75-x64"
-    machine.vm.hostname = "kdl.vagrant"
+    machine.vm.hostname = "hgl.vagrant"
     machine.vm.network "private_network", ip: "192.168.33.99"
   end
 end
