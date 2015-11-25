@@ -1,1 +1,73 @@
-/* blank file */
+@import 'settings';
+@import 'foundation/foundation-sites/scss/foundation';
+
+/* Global styles */
+
+/* Navigation */
+
+nav {
+	background: $primary-color;
+
+	a {
+		color: white;
+		&:hover {
+			color: scale-color($primary-color, $lightness: 80%);
+			background: scale-color($primary-color, $lightness: 20%);
+		}
+	}
+
+	.active {
+		background: scale-color($primary-color, $lightness: -20%);
+	}
+
+	.title-bar {
+		background: $primary-color;
+	}
+}
+
+/* Footer */
+
+footer {
+	background: scale-color($secondary-color, $lightness: 50%);
+}
+
+/* Typography */
+
+@font-face {
+	font-family: 'Roboto Condensed';
+	src: url('/static/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf');
+}
+
+@font-face {
+	font-family: 'Roboto Condensed';
+	src: url('/static/fonts/Roboto_Condensed/RobotoCondensed-Light.ttf');
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Roboto Condensed';
+	src: url('/static/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf');
+	font-weight: 700;
+}
+
+@font-face {
+	font-family: 'Roboto Condensed';
+	src: url('/static/fonts/Roboto_Condensed/RobotoCondensed-BoldItalic.ttf');
+	font-weight: 700;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Roboto Condensed';
+	src: url('/static/fonts/Roboto_Condensed/RobotoCondensed-Light.ttf');
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: 'Roboto Condensed';
+	src: url('/static/fonts/Roboto_Condensed/RobotoCondensed-LightItalic.ttf');
+	font-weight: 300;
+	font-style: italic;
+}
+
+@include foundation-everything;
