@@ -1,13 +1,1 @@
--r wagtailbase/requirements.txt
--r ddhldap-django/requirements.txt
-#django
-django-grappelli
-django-model-utils
-django-redis
-django-require
-#django-compressor
-elasticsearch
-pillow
-#psycopg2
-mysql-python
-redis
+-r requirements-dev.txt
