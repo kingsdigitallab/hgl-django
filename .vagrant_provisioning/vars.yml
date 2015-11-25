@@ -4,7 +4,7 @@ project_root: /vagrant
 python: {requirements: requirements-vagrant.txt, virtualenv_location: /home/vagrant/venv}
 system_packages: [ack-grep, vim-nox, python-dev, python-pip,
   python-setuptools, python-virtualenv, nfs-common, mysql-server, mysql-client, python-mysqldb,
-  adminer, libldap2-dev, libsasl2-dev, libjpeg-dev, nodejs,
+  libmysqlclient-dev, adminer, libldap2-dev, libsasl2-dev, libjpeg-dev, nodejs,
   openjdk-7-jre, elasticsearch, libxml2-dev, libxslt-dev, git, git-core, binutils,
   libproj-dev, gdal-bin]
 user_home: /home/vagrant
