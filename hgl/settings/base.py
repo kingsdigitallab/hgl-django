@@ -16,7 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 PROJECT_NAME = 'hgl'
-PROJECT_TITLE = 'Change the title in the settings'
+PROJECT_TITLE = 'Heritage Gazetteer of Libya'
 
 # -----------------------------------------------------------------------------
 # Core Settings
