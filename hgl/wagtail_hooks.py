@@ -7,9 +7,11 @@ from wagtail.wagtailcore.whitelist import attribute_rule, check_url, allow_witho
 
 def whitelister_element_rules():
     return {
+        'p': attribute_rule({'class': True}),
         'a': attribute_rule({'href': check_url, 'id': True, 'class': True}),
         'span': attribute_rule({'class': True}),
         'i': attribute_rule({'class': True}),
+        'iframe': attribute_rule({'id': True, 'class': True, 'src': True, 'style': True, 'frameborder': True, 'allowfullscreen': True, 'width': True, 'height': True }),
     }
 
 hooks.register('construct_whitelister_element_rules',
@@ -19,7 +21,7 @@ hooks.register('construct_whitelister_element_rules',
 def editor_css():
     return format_html("""
                        <link href="{0}{1}" rel="stylesheet"
-                       type="text/x-scss" />
+                       type="text/x-scss">
                        """,
                        settings.STATIC_URL,
                        'fonts/font-awesome/scss/font-awesome.scss')
