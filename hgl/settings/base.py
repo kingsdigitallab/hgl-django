@@ -75,6 +75,7 @@ INSTALLED_APPS += (
     'wagtailbase',
     'geofield',
     'geo',
+    'hgl',
 )
 
 INTERNAL_IPS = ('127.0.0.1', )
