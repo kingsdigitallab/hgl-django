@@ -24,7 +24,7 @@ def editor_css():
                        type="text/x-scss">
                        """,
                        settings.STATIC_URL,
-                       'fonts/font-awesome/scss/font-awesome.scss')
+                       'vendor/font-awesome/scss/font-awesome.scss')
 
 hooks.register('insert_editor_css', editor_css)
 

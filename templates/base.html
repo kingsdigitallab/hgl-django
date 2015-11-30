@@ -19,7 +19,7 @@
   {% compress css %}
   {# SCSS compilation relies on django compressor #}
   <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/main.scss' %}" />
-  <link rel="stylesheet" type="text/x-scss" href="{% static 'fonts/font-awesome/scss/font-awesome.scss' %}" />
+  <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/font-awesome/scss/font-awesome.scss' %}" />
   {% endcompress %}
 
 </head>
@@ -46,8 +46,8 @@
 <footer>
   {% include 'includes/footer.html' %}
 </footer>
-<script src="{% static 'foundation/jquery/dist/jquery.min.js' %}"></script>
-<script src="{% static 'foundation/foundation-sites/dist/foundation.min.js' %}"></script>
+<script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/foundation-sites/dist/foundation.min.js' %}"></script>
 <script src="{% static 'js/app.js' %}"></script>
 
 <script>
