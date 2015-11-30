@@ -7,6 +7,7 @@ Global styles
 Header
 Navigation
 Main content area
+Maps
 Footer
 Typography
 
@@ -87,6 +88,16 @@ nav {
 
 .main {
 	background: scale-color($tertiary-color, $lightness: 72%);
+}
+
+/* Maps */
+
+#map {
+	width: 100%;
+	min-height: 300px;
+	display: block;
+	overflow: hidden;
+	background: $tertiary-color;
 }
 
 /* Footer */
