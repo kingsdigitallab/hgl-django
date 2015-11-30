@@ -1,0 +1,27 @@
+{% extends "wagtailbase/base.html" %}
+{% load staticfiles compress require %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'leaflet/leaflet.css' %}">
+
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+{% endcompress %}
+{% endblock %}
+
+{% block main %}
+
+{{ block.super }}
+
+<div id="map" style="height:700px;background-color:blue;">Here be maps!</div>
+
+{% block related_links %}
+{% include "wagtailbase/includes/related_links.html" with related_links=self.related_links.all title="Related links" %}
+
+{% endblock %}
+
+{% block attachments %}
+{% include "wagtailbase/includes/attachments.html" with attachments=self.attachments.all title="Attachments" %}
+{% endblock %}
+
+{% endblock %}
