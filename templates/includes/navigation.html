@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load staticfiles wagtailbase_tags %}
 
 <div class="row">
   <div class="large-12 columns">
@@ -9,14 +9,12 @@
 
     <div class="top-bar" id="hgl-menu">
       <div class="top-bar-left">
-        <ul class="vertical medium-horizontal menu">
-          <li class="active"><a href="/">Home</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/search/">Advanced search</a></li>
-          <li><a href="/project/">Project</a></li>
-          <li><a href="/sources/">Sources</a></li>
-          <li><a href="/contact/">Contact</a></li>
-        </ul>
+
+        {% block main_menu %}
+        {% get_site_root as site_root %}
+        {% main_menu root=site_root current_page=self %}
+        {% endblock %}
+
       </div>
       <div class="top-bar-right">
       </div>
