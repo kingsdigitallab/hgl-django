@@ -8,6 +8,7 @@ Header
 Navigation
 Main content area
 Maps
+Search
 Footer
 Typography
 
@@ -15,6 +16,21 @@ Typography
 
 /* Global styles */
 
+.badge {
+	vertical-align: text-top;
+}
+
+.off-canvas-wrapper button {
+	margin: 0;
+}
+
+.off-canvas-content {
+	background: none !important;
+}
+
+.off-canvas.position-left {
+	padding-right: 1rem;
+}
 
 // Responsive iframe 
 .iframe-container {
@@ -94,10 +110,39 @@ nav {
 
 #map {
 	width: 100%;
-	min-height: 300px;
+	min-height: 450px;
 	display: block;
 	overflow: hidden;
 	background: $tertiary-color;
+	margin-bottom: 1rem;
+}
+
+/* Search */
+
+#applied-filters {
+	background: scale-color($secondary-color, $lightness: 70%);
+	padding: 1rem;
+	margin-bottom: 1rem;
+
+	.label.light {
+		background: scale-color($secondary-color, $lightness: 50%);
+		color: $primary-color;
+		margin-right: 1rem;
+	}
+
+	h3 {
+		font-size: 1.25rem;
+		color: $primary-color;
+		border-bottom: 1px solid scale-color($secondary-color, $lightness: 50%);
+	}
+}
+
+.facet-panel {
+	margin-top: 1rem;
+	border-bottom: 1px solid scale-color($secondary-color, $lightness: 50%);
+	h4 {
+		font-size: 1.125rem;
+	}
 }
 
 /* Footer */
@@ -122,7 +167,7 @@ footer {
 
 @font-face {
 	font-family: 'Roboto Condensed';
-	src: url('/static/fonts/Roboto_Condensed/RobotoCondensed-Light.ttf');
+	src: url('/static/fonts/Roboto_Condensed/RobotoCondensed-Italic.ttf');
 	font-style: italic;
 }
 

@@ -58,10 +58,11 @@ $light-gray: #e6e6e6;
 $medium-gray: #cacaca;
 $dark-gray: #8a8a8a;
 $black: #0a0a0a;
+$almost-black: #222;
 $white: #fefefe;
 // $body-background: $light-gray;
 $body-background: scale-color($secondary-color, $lightness: 50%);
-$body-font-color: $black;
+$body-font-color: $almost-black;
 $body-font-family: 'Roboto Condensed', sans-serif;
 $body-antialiased: true;
 $global-margin: 1rem;
@@ -144,8 +145,8 @@ $list-lineheight: $paragraph-lineheight;
 $list-margin-bottom: $paragraph-margin-bottom;
 $list-style-type: disc;
 $list-style-position: outside;
-$list-side-margin: 1.25rem;
-$list-nested-side-margin: 1.25rem;
+$list-side-margin: 1.5rem;
+$list-nested-side-margin: 1.5rem;
 $defnlist-margin-bottom: 1rem;
 $defnlist-term-weight: $global-weight-bold;
 $defnlist-term-margin-bottom: 0.3rem;
@@ -207,9 +208,9 @@ $accordionmenu-arrows: true;
 
 $badge-background: $primary-color;
 $badge-color: foreground($badge-background);
-$badge-padding: 0.3em;
+$badge-padding: .3em;
 $badge-minwidth: 2.1em;
-$badge-font-size: 0.6rem;
+$badge-font-size: .6em;
 
 // 10. Breadcrumbs
 // ---------------
@@ -353,6 +354,7 @@ $input-radius: $global-radius;
 $label-background: $primary-color;
 $label-color: foreground($label-background);
 $label-font-size: 0.8rem;
+// $label-font-size: 1em;
 $label-padding: 0.33333rem 0.5rem;
 $label-radius: $global-radius;
 
@@ -376,14 +378,17 @@ $menu-expand-max: 6;
 // --------------
 
 $offcanvas-size: 250px;
-$offcanvas-background: $light-gray;
+// $offcanvas-background: $light-gray;
+$offcanvas-background: none;
 $offcanvas-zindex: -1;
 $offcanvas-transition-length: 0.5s;
 $offcanvas-transition-timing: ease;
 $offcanvas-fixed-reveal: true;
-$offcanvas-exit-background: rgba($white, 0.25);
+// $offcanvas-exit-background: rgba($white, 0.25);
+$offcanvas-exit-background: none;
 $maincontent-class: 'off-canvas-content';
-$maincontent-shadow: 0 0 10px rgba($black, 0.5);
+// $maincontent-shadow: 0 0 10px rgba($black, 0.5);
+$maincontent-shadow: 0;
 
 // 24. Orbit
 // ---------
