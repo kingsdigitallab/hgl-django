@@ -72,6 +72,7 @@ INSTALLED_APPS = (
 INSTALLED_APPS += ws.INSTALLED_APPS
 
 INSTALLED_APPS += (
+    'haystack',
     'wagtailbase',
     'geofield',
     'geo',
@@ -340,3 +341,20 @@ WAGTAILSEARCH_BACKENDS = {
 }
 
 ITEMS_PER_PAGE = ws.ITEMS_PER_PAGE
+
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'hglindex',
+    },
+}
+
+
+#HAYSTACK_CONNECTIONS = {
+#    'default': {
+#        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+#    },
+#}
