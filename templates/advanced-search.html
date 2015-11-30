@@ -1,0 +1,115 @@
+{% extends "wagtailbase/base.html" %}
+{% load staticfiles compress require %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'leaflet/leaflet.css' %}">
+
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+{% endcompress %}
+{% endblock %}
+
+{% block main %}
+{{ block.super }}
+<div class="off-canvas-wrapper">
+	<button type="button" class="button" data-toggle="offCanvas"><i class="fa fa-cog"></i> Search options</button>
+	<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+		<div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+			<ul class="menu">
+				<li><input type="search" placeholder="Search"></li>
+				<li><button type="button" class="button">Search</button></li>
+			</ul>
+			<div class="facet-panel">
+				<a href="#" class="expander"><h4><span class="badge secondary float-right">27</span><i class="fa fa-caret-right"></i> Filter by facet type 1</h4></a>
+				<ul class="facet-list collapsible hide">
+					<li>
+						<a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">17</span>Facet 1.1</a>
+						<ul class="facet-list">
+							<li><a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">8</span>Facet 1.1i</a></li>
+							<li><a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">6</span>Facet 1.1ii</a></li>
+							<li><a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">3</span>Facet 1.1iii</a></li>
+						</ul>
+					</li>
+					<li><a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">7</span>Facet 1.2</a></li>
+					<li><a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">3</span>Facet 1.3</a></li>
+				</ul>
+			</div>
+			<div class="facet-panel">
+				<a href="#" class="expander"><h4><span class="badge secondary float-right">8</span><i class="fa fa-caret-right"></i> Filter by facet type 2</h4></a>
+				<ul class="facet-list collapsible hide">
+					<li><a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">7</span>Facet 2.1</a></li>
+					<li><a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">1</span>Facet 2.2</a></li>
+				</ul>
+			</div>
+			<div class="facet-panel">
+				<a href="#" class="expander"><h4><span class="badge secondary float-right">1</span><i class="fa fa-caret-right"></i> Filter by facet type 3</h4></a>
+				<ul class="facet-list collapsible hide">
+					<li><a href="#" data-toggle="offCanvas"><span class="badge secondary float-right">7</span>Facet 3.1</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="off-canvas-content" data-off-canvas-content>
+
+			<div id="map">Here be maps!</div>
+
+			<h2>Search results <span class="badge">1079</span></h2>
+
+			<div id="applied-filters">
+				<h3>Applied filters <span class="float-right"><a href="#">Clear all <i class="fa fa-trash"></i></a></span></h3>
+				<ul class="menu">
+					<li><span class="label light">Facet 1.1 <a href="#"><i class="fa fa-times-circle"></i></a></span></li>
+					<li><span class="label light">Facet 2 <a href="#"><i class="fa fa-times-circle"></i></a></span></li>
+					<li><span class="label light">Facet 2.2 <a href="#"><i class="fa fa-times-circle"></i></a></span></li>
+				</ul>
+			</div>
+
+			<div id="list-results">
+				<p><em>Showing <strong>1-20</strong></em></p>
+				<ol>
+					<li><a href="#">Result one</a></li>
+					<li><a href="#">Result two</a></li>
+					<li><a href="#">Result three</a></li>
+					<li><a href="#">Result four</a></li>
+					<li><a href="#">Result five</a></li>
+					<li><a href="#">Result six</a></li>
+					<li><a href="#">Result seven</a></li>
+					<li><a href="#">Result eight</a></li>
+					<li><a href="#">Result nine</a></li>
+					<li><a href="#">Result ten</a></li>
+					<li><a href="#">Result eleven</a></li>
+					<li><a href="#">Result twelve</a></li>
+					<li><a href="#">Result thirteen</a></li>
+					<li><a href="#">Result fourteen</a></li>
+					<li><a href="#">Result fifteen</a></li>
+					<li><a href="#">Result sixteen</a></li>
+					<li><a href="#">Result seventeen</a></li>
+					<li><a href="#">Result eigthteen</a></li>
+					<li><a href="#">Result nineteen</a></li>
+					<li><a href="#">Result twenty</a></li>
+				</ol>
+				<ul class="pagination" role="navigation" aria-label="Pagination">
+					<li class="pagination-previous"><a href="#" aria-label="Previous page">Previous <span class="show-for-sr">page</span></a></li>
+					<li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+					<li><a href="#" aria-label="Page 2">2</a></li>
+					<li><a href="#" aria-label="Page 3">3</a></li>
+					<li><a href="#" aria-label="Page 4">4</a></li>
+					<li class="ellipsis" aria-hidden="true"></li>
+					<li><a href="#" aria-label="Page 12">12</a></li>
+					<li><a href="#" aria-label="Page 13">13</a></li>
+					<li class="pagination-next"><a href="#" aria-label="Next page">Next <span class="show-for-sr">page</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% block related_links %}
+{% include "wagtailbase/includes/related_links.html" with related_links=self.related_links.all title="Related links" %}
+
+{% endblock %}
+
+{% block attachments %}
+{% include "wagtailbase/includes/attachments.html" with attachments=self.attachments.all title="Attachments" %}
+{% endblock %}
+
+{% endblock %}

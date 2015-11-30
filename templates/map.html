@@ -12,10 +12,8 @@
 
 {% block main %}
 
+<div id="map">Here be maps!</div>
 {{ block.super }}
-
-<div id="map" style="height:700px;background-color:blue;margin-bottom:50px;">Here be maps!</div>
-
 
 {% block related_links %}
 {% include "wagtailbase/includes/related_links.html" with related_links=self.related_links.all title="Related links" %}
