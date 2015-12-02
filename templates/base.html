@@ -6,7 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>{% block meta_title %}{% endblock %} | HGL</title>
   <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  {% compress css %}
+  {# SCSS compilation relies on django compressor #}
+  <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/main.scss' %}">
+  <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/font-awesome/scss/font-awesome.scss' %}">
+  {% endcompress %}
+
+  {% block extra_head %}
+  {% endblock %}
 
   <!-- define requirejs config settings. -->
   <!-- 
@@ -15,15 +24,6 @@
   </script>
   -->
   {# require_module 'config' #}
-
-  {% compress css %}
-  {# SCSS compilation relies on django compressor #}
-  <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/main.scss' %}" />
-  <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/font-awesome/scss/font-awesome.scss' %}" />
-  {% endcompress %}
-
-  {% block extra_head %}
-  {% endblock %}
 
 </head>
 <body>

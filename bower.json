@@ -3,14 +3,15 @@
     "version": "0.1",
     "dependencies": {
         "almond": null,
-        "jquery": null,
-        "foundation-sites": null,
         "font-awesome": null,
+        "foundation-sites": null,
+        "jquery": null,
         "leaflet": null,
         "leaflet.draw": null,
         "leaflet-dvf": null,
         "r.js": null,
-        "requirejs": null
+        "requirejs": null,
+        "what-input": null
     },
     "main": "assets/js/main.js",
     "ignore": [
