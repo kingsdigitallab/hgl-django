@@ -1,11 +1,12 @@
 -r wagtailbase/requirements.txt
 -r ddhldap-django/requirements.txt
 django-grappelli
+django-haystack
 django-model-utils
 django-redis
 django-require
 elasticsearch
-south
-pillow
 mysql-python
+pillow
 redis
+south
