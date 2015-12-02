@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load staticfiles compress require %}
+
+{% block main %}
+<h1>Advanced search two</h1>
+<div class="rich-text"><p>Option 2 for the search page<br></p></div>
+<div class="row">
+	<div class="large-3 columns">
+		<h3>Refine your search</h3>
+                    
+        <form method="get" action=".">
+		<ul class="menu">
+			<li><input id="id_q" name="q" type="search" placeholder="Search"></li>
+			<li><input type="submit" class="button" value="Search"></input></li>
+		</ul>
+        </form>
+        
+		<div class="facet-panel">
+			<a href="#" class="expander"><h4><span class="badge secondary float-right">1</span><i class="fa fa-caret-right"></i> Filter by facet type 3</h4></a>
+			<ul class="facet-list collapsible hide">
+				<li><a href="#"><span class="badge secondary float-right">7</span>Facet 3.1</a></li>
+			</ul>
+		</div>
+        <!-- end facets -->        
+	</div>        
+ 	<div class="large-9 columns">
+		<div id="map">Here be maps!</div>
+
+		<h2>Search results <span class="badge">1079</span></h2>
+
+		<div id="applied-filters">
+			<h3><span class="float-right"><a href="#">Clear all <i class="fa fa-trash"></i></a></span>Applied filters</h3>
+			<ul class="menu">
+				<li><span class="label light">Facet 1.1 <a href="#"><i class="fa fa-times-circle"></i></a></span></li>
+				<li><span class="label light">Facet 2 <a href="#"><i class="fa fa-times-circle"></i></a></span></li>
+				<li><span class="label light">Facet 2.2 <a href="#"><i class="fa fa-times-circle"></i></a></span></li>
+			</ul>
+		</div>
+        
+        {% if query %}
+		<div id="list-results">
+			<p><em>Showing <strong>1-20</strong> results</em></p>
+            {% for result in page.object_list %}
+                <ol>
+                    <li><a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a></li>
+                </ol>
+            {% empty %}
+                <p>No results found.</p>
+            {% endfor %}
+
+            {% if page.has_previous or page.has_next %}
+                <ol>
+                    {% if page.has_previous %}<li><a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a></li>{% endif %}
+                    |
+                    {% if page.has_next %}<li><a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>></li>{% endif %}
+                </ol>
+            {% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}        
+		</div>
+	</div>
+</div>
+
+{% block related_links %}
+{% include "wagtailbase/includes/related_links.html" with related_links=self.related_links.all title="Related links" %}
+
+{% endblock %}
+
+{% block attachments %}
+{% include "wagtailbase/includes/attachments.html" with attachments=self.attachments.all title="Attachments" %}
+{% endblock %}
+
+{% block extra_footer %}
+
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+{% endcompress %}
+
+
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endcompress %}
+{% endblock %}
+
+{% endblock %}
+
+
