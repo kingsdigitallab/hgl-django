@@ -1,15 +1,7 @@
 {% extends "wagtailbase/base.html" %}
 {% load staticfiles compress require %}
 
-{% block extra_head %}
-<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
-
-{% compress js %}
-<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
-{% endcompress %}
-{% endblock %}
-
-{% block main %}
+{% block main %} 
 {{ block.super }}
 <div class="row">
 	<div class="large-3 columns">
@@ -19,7 +11,7 @@
 			<li><input type="search" placeholder="Search"></li>
 			<li><button type="button" class="button">Search</button></li>
 		</ul>
-
+        <!-- start facets -->
 		<div class="facet-panel">
 			<a href="#" class="expander"><h4><span class="badge secondary float-right">27</span><i class="fa fa-caret-right"></i> Filter by facet type 1</h4></a>
 			<ul class="facet-list collapsible hide">
@@ -48,6 +40,7 @@
 				<li><a href="#"><span class="badge secondary float-right">7</span>Facet 3.1</a></li>
 			</ul>
 		</div>
+        <!-- end facets -->        
 	</div>
 	<div class="large-9 columns">
 		<div id="map">Here be maps!</div>
@@ -109,6 +102,20 @@
 
 {% block attachments %}
 {% include "wagtailbase/includes/attachments.html" with attachments=self.attachments.all title="Attachments" %}
+{% endblock %}
+
+{% block extra_footer %}
+
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+{% endcompress %}
+
+
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endcompress %}
 {% endblock %}
 
 {% endblock %}
