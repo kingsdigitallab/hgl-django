@@ -8,14 +8,6 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- define requirejs config settings. -->
-  <!-- 
-  <script type="text/javascript">
-    {# include 'includes/config.js' #}
-  </script>
-  -->
-  {# require_module 'config' #}
-
   {% compress css %}
   {# SCSS compilation relies on django compressor #}
   <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/main.scss' %}" />
@@ -24,6 +16,14 @@
 
   {% block extra_head %}
   {% endblock %}
+
+  <!-- define requirejs config settings. -->
+  <!-- 
+  <script type="text/javascript">
+    {# include 'includes/config.js' #}
+  </script>
+  -->
+  {# require_module 'config' #}
 
 </head>
 <body>
