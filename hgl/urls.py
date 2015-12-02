@@ -5,23 +5,22 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+import haystack
+
 from wagtailbase import urls as ws_urls
 
 admin.autodiscover()
 # ddhldap_register_signal_handlers()
 
 urlpatterns = patterns('',
+                       url(r'^haystack_search/', include('haystack.urls')),
                        url(r'^grappelli/', include('grappelli.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^irt_geo/',include('geo.urls')),
                        url(r'^geofield/(\w+)/geofield.js','geofield.views.geofield_js'),
                        )
 
-# -----------------------------------------------------------------------------
-# Wagtail CMS
-# -----------------------------------------------------------------------------
 
-urlpatterns += ws_urls.urlpatterns
 
 # -----------------------------------------------------------------------------
 # Django Debug Toolbar URLS
@@ -36,6 +35,16 @@ try:
 
 except ImportError:
     pass
+
+
+
+
+# -----------------------------------------------------------------------------
+# Wagtail CMS
+# -----------------------------------------------------------------------------
+
+urlpatterns += ws_urls.urlpatterns
+
 
 # -----------------------------------------------------------------------------
 # Static file DEBUGGING

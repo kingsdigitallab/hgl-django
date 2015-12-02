@@ -65,14 +65,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    #'debug_toolbar',
     #'compressor',
     'require',
+    'haystack',
 )
 
 INSTALLED_APPS += ws.INSTALLED_APPS
 
 INSTALLED_APPS += (
-    'haystack',
     'wagtailbase',
     'geofield',
     'geo',

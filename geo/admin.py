@@ -122,13 +122,13 @@ class LocusAdmin(admin.ModelAdmin):
 
     class Media:
         geofield = 'coordinate'
-        js = ('/static/leaflet/leaflet.js',\
-              '/static/leaflet/leaflet-omnivore.min.js',\
-              '/static/leaflet/leaflet.draw.js',\
+        js = ('/static/vendor/leaflet/dist/leaflet.js',\
+              '/static/js/leaflet-omnivore-master/leaflet-omnivore.min.js',\
+              '/static/vendor/leaflet-draw/dist/leaflet.draw.js',\
               '/geofield/%s/geofield.js' % geofield )
         css = {
-            'all':('/static/leaflet/leaflet.css',\
-                '/static/leaflet/leaflet.draw.css',)
+            'all':('/static/vendor/leaflet/dist/leaflet.css',\
+                '/static/vendor/leaflet-draw/dist/leaflet.draw.css',)
         }
 
 #
