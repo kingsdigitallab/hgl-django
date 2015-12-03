@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% load staticfiles compress require %}
 
+{% block extra_head %}
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+{% endcompress %}
+{% endblock %}
+
 {% block main %}
 <h1>Advanced search two</h1>
 <div class="rich-text"><p>Option 2 for the search page<br></p></div>
@@ -73,11 +79,6 @@
 
 {% block extra_footer %}
 
-{% compress css %}
-<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
-{% endcompress %}
-
-
 {% compress js %}
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
@@ -86,5 +87,3 @@
 {% endblock %}
 
 {% endblock %}
-
-

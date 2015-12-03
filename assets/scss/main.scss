@@ -52,7 +52,6 @@ Typography
 	}
 }
 
-
 /* Header */
 
 header {
@@ -104,6 +103,24 @@ nav {
 
 .main {
 	background: scale-color($tertiary-color, $lightness: 72%);
+
+	h1 {
+		border-bottom: 1px solid scale-color($secondary-color, $lightness: 50%);
+		margin: 1rem 0;
+	}
+
+	.side-menu {
+		background: scale-color($secondary-color, $lightness: 70%);
+		li {
+			border-bottom: 1px solid scale-color($tertiary-color, $lightness: 72%);
+		}
+	}
+
+	.menu > li > a {
+		&:hover {
+			background: scale-color($secondary-color, $lightness: 60%);
+		}
+	}
 }
 
 /* Maps */
