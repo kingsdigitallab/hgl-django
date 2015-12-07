@@ -7,14 +7,14 @@ class LocusIndex(indexes.SearchIndex, indexes.Indexable):
     name = indexes.CharField(model_attr='name')
     period = indexes.MultiValueField(faceted=True)
 
-    #def prepare_location_feature_type(self, object):
-    #    return [ ft.description for ft in object.featuretype_fk.all() ]
+    def prepare_location_feature_type(self, object):
+        return [ ft.description for ft in object.featuretype_fk.all() ]
     
-    def prepare_location_feature_type(self, obj):
-        ret = []
-        for f in obj.featuretype_fk.all():
-            ret.append(f.description)
-        return ret
+    #def prepare_location_feature_type(self, obj):
+    #    ret = []
+    #    for f in obj.featuretype_fk.all():
+    #        ret.append(f.description)
+    #    return ret
 
     def prepare_period(self, obj):
         ret = []
