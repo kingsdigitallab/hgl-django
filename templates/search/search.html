@@ -1,5 +1,8 @@
-{% extends 'base.html' %}
-{% load staticfiles compress require %}
+{% extends 'wagtailbase/base.html' %}
+{% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
+
+{# This should come from the template wagtailbase/base.html #}
+{% block meta_title %}Advanced search{% endblock %}
 
 {% block extra_head %}
 {% compress css %}
@@ -7,18 +10,21 @@
 {% endcompress %}
 {% endblock %}
 
+{# This should come from the template wagtailbase/base.html #}
+{% block title %}<h1>Advanced search</h1>{% endblock %}
+
 {% block main %}
-<h1>Advanced search two</h1>
-<div class="rich-text"><p>Option 2 for the search page<br></p></div>
+{# block.super It's not displaying the wagtail page content #}
+{{ block.super }}
 <div class="row">
 	<div class="large-3 columns">
 		<h3>Refine your search</h3>
                     
         <form method="get" action=".">
-		<ul class="menu">
-			<li><input id="id_q" name="q" type="search" placeholder="Search"></li>
-			<li><input type="submit" class="button" value="Search"></input></li>
-		</ul>
+			<ul class="menu">
+				<li><input id="id_q" name="q" type="search" placeholder="Search"></li>
+				<li><input type="submit" class="button" value="Search"></input></li>
+			</ul>
         </form>
         
 		<div class="facet-panel">
@@ -67,23 +73,12 @@
 		</div>
 	</div>
 </div>
-
-{% block related_links %}
-{% include "wagtailbase/includes/related_links.html" with related_links=self.related_links.all title="Related links" %}
-
-{% endblock %}
-
-{% block attachments %}
-{% include "wagtailbase/includes/attachments.html" with attachments=self.attachments.all title="Attachments" %}
 {% endblock %}
 
 {% block extra_footer %}
-
 {% compress js %}
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 {% endcompress %}
-{% endblock %}
-
 {% endblock %}

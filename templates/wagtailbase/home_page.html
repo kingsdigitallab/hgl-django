@@ -1,0 +1,34 @@
+{% extends "wagtailbase/base.html" %}
+{% load staticfiles compress require %}
+
+{% block extra_head %}
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block main %}
+<div class="row">
+	<div class="large-12 columns">
+		<form method="get" action="." class="search-form-on-map">
+			<ul class="menu float-right">
+				<li><input id="id_q" name="q" type="search" placeholder="Search"></li>
+				<li><input type="submit" class="button" value="Search"></input></li>
+			</ul>
+		</form>
+		<div id="map">
+		</div>
+	</div>
+</div>
+{{ block.super }}
+{% endblock %}
+
+{% block extra_footer %}
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endcompress %}
+{% endblock %}

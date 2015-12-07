@@ -131,7 +131,8 @@ nav {
 	display: block;
 	overflow: hidden;
 	background: $tertiary-color;
-	margin-bottom: 1rem;
+    border: 3px solid scale-color($tertiary-color, $lightness: 50%);
+	margin: 1rem 0;
 }
 
 /* Search */
@@ -160,6 +161,13 @@ nav {
 	h4 {
 		font-size: 1.125rem;
 	}
+}
+
+.search-form-on-map {
+	position: absolute;
+	z-index: 5;
+	top: 280px;
+	margin: 0 1rem 0 3.5rem;
 }
 
 /* Footer */

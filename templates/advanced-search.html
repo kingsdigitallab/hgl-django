@@ -115,3 +115,13 @@
 {% endblock %}
 
 {% endblock %}
+
+{% block extra_footer %}
+
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endcompress %}
+
+{% endblock %}
