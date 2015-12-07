@@ -68,7 +68,7 @@ header {
 		text-shadow: 0 0 5px #000;
 
 		a {
-			color: white;
+			color: $white;
 		}
 	}
 
@@ -83,10 +83,13 @@ nav {
 	background: $primary-color;
 
 	a {
-		color: white;
+		color: $white;
 		&:hover {
 			color: scale-color($primary-color, $lightness: 80%);
 			background: scale-color($primary-color, $lightness: 20%);
+		}
+		&:after {
+			border-color: transparent transparent transparent $white !important;
 		}
 	}
 
@@ -96,6 +99,11 @@ nav {
 
 	.title-bar {
 		background: $primary-color;
+	}
+
+	.menu,
+	.menu > * {
+		z-index: 9;
 	}
 }
 
