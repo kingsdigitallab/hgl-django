@@ -68,7 +68,7 @@ INSTALLED_APPS = (
     #'debug_toolbar',
     #'compressor',
     'require',
-    'haystack',
+    #'haystack',
 )
 
 INSTALLED_APPS += ws.INSTALLED_APPS
