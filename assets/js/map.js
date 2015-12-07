@@ -9,7 +9,3 @@ $(document).ready(function(){
     // and add tiles
     var awmc = new L.TileLayer("http://{s}.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png",{subdomains:'abcd'}).addTo(map)
 });
-
-
-
- 

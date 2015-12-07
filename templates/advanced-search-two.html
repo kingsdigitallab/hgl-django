@@ -6,12 +6,7 @@
 <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
 {% endcompress %}
 
-{% compress js %}
-<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
-{% endcompress %}
-{% endblock %}
-
-{% block main %} 
+{% block main %}
 {{ block.super }}
 <div class="row">
 	<div class="large-3 columns">
@@ -104,10 +99,10 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
 
 {% block related_links %}
 {% include "wagtailbase/includes/related_links.html" with related_links=self.related_links.all title="Related links" %}
-
 {% endblock %}
 
 {% block attachments %}
@@ -115,13 +110,9 @@
 {% endblock %}
 
 {% block extra_footer %}
-
 {% compress js %}
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 {% endcompress %}
-
-{% endblock %}
-
 {% endblock %}
