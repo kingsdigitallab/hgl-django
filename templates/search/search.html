@@ -85,11 +85,12 @@
             	{% endfor %}
             </ol>             
 		</div>
+
+        {% include 'wagtailbase/includes/pagination.html' %}
+        
         {% else %}
         {# Show some example queries to run, maybe query syntax, something else? #}
         {% endif %}
-
-        {% include 'wagtailbase/includes/pagination.html' %}
 	</div>
 </div>
 {% endblock %}
