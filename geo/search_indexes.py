@@ -1,16 +1,31 @@
 from haystack import indexes
-from geo.models import Locus
+from geo.models import *
 
 class LocusIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    #location_feature_type = indexes.MultiValueField(faceted=True)
-    name =  indexes.CharField(model_attr='name')
+    location_feature_type = indexes.MultiValueField(faceted=True)
+    name = indexes.CharField(model_attr='name')
     period = indexes.MultiValueField(faceted=True)
 
     #def prepare_location_feature_type(self, object):
     #    return [ ft.description for ft in object.featuretype_fk.all() ]
+    
+    def prepare_location_feature_type(self, obj):
+        ret = []
+        for f in obj.featuretype_fk.all():
+            ret.append(f.description)
+        return ret
 
-#    def prepare_period(self, obj):
+    def prepare_period(self, obj):
+        ret = []
+        try:
+            rls = Related_Locus.objects.filter(obj=obj)
+            for r in rls:
+                if r.period.description not in ret:
+                    ret.append(r.period.description)
+            return ret
+        except Exception:
+            return []
         
 
     def get_model(self):
