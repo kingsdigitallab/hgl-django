@@ -73,32 +73,23 @@
 		</div>
         
         {% if query %}
+		<p><em>Showing <strong>{{ page.start_index }}-{{ page.end_index }}</strong> results of <strong>{{ paginator.count }}</strong></em></p> 
+        {% include 'wagtailbase/includes/pagination.html' %}
+
 		<div id="list-results">
-			<p><em>Showing <strong>1-20</strong> results</em></p>
-
-            <ul class="pagination" role="navigation" aria-label="Pagination">
-                <li class="pagination-previous{% if not page.has_previous %} disabled{% endif %}">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}" aria-label="Previous page">{% endif %}Previous{% if page.has_previous %}</a>{% endif %}</li>
-                <span class="disabled">|</span>
-                <li class="pagination-next{% if not page.has_next %} disabled{% endif %}">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}" aria-label="Next page">{% endif %}Next{% if page.has_next %}</a>{% endif %}</li>
-            </ul>   
-
-            <ol start="{{page.start_index}}">
-            {% for result in page.object_list %}
+            <ol start="{{ page.start_index }}">
+            	{% for result in page.object_list %}
                 <li><a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a></li>
-            {% empty %}
+            	{% empty %}
             	<li>No results found.</li>
-            {% endfor %}
-            </ol>
-
-            <ul class="pagination" role="navigation" aria-label="Pagination">
-                <li class="pagination-previous{% if not page.has_previous %} disabled{% endif %}">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}" aria-label="Previous page">{% endif %}Previous{% if page.has_previous %}</a>{% endif %}</li>
-                <span class="disabled">|</span>
-                <li class="pagination-next{% if not page.has_next %} disabled{% endif %}">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}" aria-label="Next page">{% endif %}Next{% if page.has_next %}</a>{% endif %}</li>
-            </ul>    
+            	{% endfor %}
+            </ol>             
 		</div>
         {% else %}
         {# Show some example queries to run, maybe query syntax, something else? #}
-        {% endif %}    
+        {% endif %}
+
+        {% include 'wagtailbase/includes/pagination.html' %}
 	</div>
 </div>
 {% endblock %}
