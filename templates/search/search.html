@@ -29,20 +29,28 @@
 
         <!-- start facets -->
 		<div class="facet-panel">
-			<a href="#" class="expander"><h4><span class="badge secondary float-right">27</span><i class="fa fa-caret-right"></i> Filter by facet type 1</h4></a>
+			<a href="#" class="expander"><h4><!--<span class="badge secondary float-right">27</span><i class="fa fa-caret-right"></i>-->Apply Filters</h4></a>
+            
+
+            
 			<ul class="facet-list collapsible hide">
+                {% for key,value in facets.fields.items %}
 				<li>
-					<a href="#"><span class="badge secondary float-right">17</span>Facet 1.1</a>
-					<ul class="facet-list">
-						<li><a href="#"><span class="badge secondary float-right">8</span>Facet 1.1i</a></li>
-						<li><a href="#"><span class="badge secondary float-right">6</span>Facet 1.1ii</a></li>
-						<li><a href="#"><span class="badge secondary float-right">3</span>Facet 1.1iii</a></li>
+                <a href="#"><span class="badge secondary float-right">17</span>{{ key }}</a>
+					<ul class="facet-list" id="facet-locus">
+                        {% for k,v in value %}
+						<li><a href="#"><span class="badge secondary float-right">{{ v }}</span>{{ k }}</a></li>
+                        {% endfor %}
 					</ul>
-				</li>
+				</li>            
+                {% endfor %}                
+                <!--
 				<li><a href="#"><span class="badge secondary float-right">7</span>Facet 1.2</a></li>
 				<li><a href="#"><span class="badge secondary float-right">3</span>Facet 1.3</a></li>
+                -->
 			</ul>
 		</div>
+        <!--
 		<div class="facet-panel">
 			<a href="#" class="expander"><h4><span class="badge secondary float-right">8</span><i class="fa fa-caret-right"></i> Filter by facet type 2</h4></a>
 			<ul class="facet-list collapsible hide">
@@ -56,6 +64,7 @@
 				<li><a href="#"><span class="badge secondary float-right">7</span>Facet 3.1</a></li>
 			</ul>
 		</div>
+        -->
         <!-- end facets -->  
 	</div>        
  	<div class="large-9 columns">

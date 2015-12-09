@@ -13,7 +13,7 @@ admin.autodiscover()
 # ddhldap_register_signal_handlers()
 
 urlpatterns = patterns('',
-                       url(r'^haystack_search/', include('haystack.urls')),
+                       url(r'^haystack_search/$', include('hgl.haystackUrls')),
                        url(r'^grappelli/', include('grappelli.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^irt_geo/',include('geo.urls')),
