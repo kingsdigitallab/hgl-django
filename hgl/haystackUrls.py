@@ -56,6 +56,7 @@ class CustomSearchForm(FacetedSearchForm):
                 sqs = sqs.models( qmodel )
         else:
             sqs = SearchQuerySet()
+        print sqs.auto_query(self.cleaned_data.get('q') )
         return sqs.auto_query(self.cleaned_data.get('q') )
 
     def no_query_found(self):
@@ -65,7 +66,7 @@ class CustomSearchForm(FacetedSearchForm):
         ###
         # Use facets to narrow..! NB THIS amounts to an AND query... I think...
         if self.selected_facets or self.deselected_filters or self.selected_filters or self.date_range:
-            model = self.query_type
+            model = 'locus'
             # AHGG hacky alert!
             if model == None:
                 model = 'locus' #Stick any old crap in here, it'll work
@@ -100,6 +101,7 @@ class CustomSearchForm(FacetedSearchForm):
             # And filters to filter..!
                 print 'Narrowed: ' + str(sqs.count())
             if self.selected_filters:
+                print 'Got filters'
                 filterString = ''
                 for filter in self.selected_filters:
                     if ":" not in filter:
@@ -107,8 +109,11 @@ class CustomSearchForm(FacetedSearchForm):
                     field,value = filter.split(":",1)
                     if value:
                         value = value.replace('%20',' ')
-                        filterString += u'.filter(%s_exact=Exact("%s"))' % (field , sqs.query.clean(value)) 
+                        #filterString += u'.filter(%s_exact=Exact("%s"))' % (field , sqs.query.clean(value)) 
+                        filterString += u'.filter(%s_exact="%s")' % (field , sqs.query.clean(value)) 
                 filterString = 'sqs=sqs' + filterString
+                print filterString
+                print sqs
                 exec(filterString)
             # And filters to exclude..!
             if self.deselected_filters:
@@ -128,7 +133,7 @@ class CustomSearchForm(FacetedSearchForm):
                 end_date = int(self.date_range.split('-')[1])
                 sqs = sqs.filter(date_from__gte=datetime.date(start_date,1,1)).filter(date_to__lte=datetime.date(end_date,1,1))
             #return sqs.order_by('site_name')
-            sqs = sqs.order_by('site_name_sort_exact',)
+            #sqs = sqs.order_by('site_name_sort_exact',)
             return sqs
         
         # Otherwise return the entire set
@@ -191,7 +196,7 @@ class CustomSearchView(FacetedSearchView):
         Generates the actual HttpResponse to send back to the user.
         """
         (paginator, page) = self.build_page()
-        print self.request.GET.get("query_type")		
+        #print self.request.GET.get("query_type")		
         context = {
             'query': self.query,
             'form': self.form,
@@ -280,7 +285,7 @@ urlpatterns = patterns('',
     #url(r'^$', CustomSearchView(template='search/search_form.html',\
     #   form_class=CustomSearchForm,results_per_page=100000), name='haystack_search'),
     url(r'^$', CustomSearchView(template='search/search.html',\
-       form_class=CustomSearchForm,results_per_page=100000), name='haystack_search'),       
+       form_class=CustomSearchForm,results_per_page=40), name='haystack_search'),       
 	   
     url(r'^text/map/$', CustomTextSearchView(template='search/search_map_text_results.js',\
        form_class=SearchForm,results_per_page=10000), name='haystack_search'),	   

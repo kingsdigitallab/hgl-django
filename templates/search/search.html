@@ -81,7 +81,7 @@
 			</ul>
 		</div>
         
-        {% if query %}
+        {% if query or paginator.count > 0 %}
 		<p><em>Showing <strong>{{ page.start_index }}-{{ page.end_index }}</strong> results of <strong>{{ paginator.count }}</strong></em></p> 
         {% include 'wagtailbase/includes/pagination.html' %}
 
