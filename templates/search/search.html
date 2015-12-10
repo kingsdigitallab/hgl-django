@@ -16,9 +16,9 @@
 {% block main %}
 {# block.super It's not displaying the wagtail page content #}
 {{ block.super }}
+        <div class="row">DEBUG {{ request.META }}</div>
 <div class="row">
 	<div class="large-3 columns">
-        <div class="row">DEBUG {{ request.META.REQUEST_URI }}</div>
 		<h3>Refine your search</h3>
                     
         <form method="get" action=".">
@@ -40,7 +40,7 @@
                 <a href="#"><!--<span class="badge secondary float-right">+</span>-->{{ key }}</a>
 					<ul class="facet-list" id="facet-locus">
                         {% for k,v in value %}
-						<li><a href="{{ request.META.REQUEST_URI }}?{{ request.META.QUERY_STRING}}&selected_filters={{ key }}:{{ k }}"><span class="badge secondary float-right">{{ v }}</span>{{ k }}</a></li>
+						<li><a href="{{ request.META.SCRIPT_URL }}?{{ request.META.QUERY_STRING}}&selected_filters={{ key }}:{{ k }}"><span class="badge secondary float-right">{{ v }}</span>{{ k }}</a></li>
                         {% endfor %}
 					</ul>
 				</li>            
@@ -59,7 +59,8 @@
 			<h3><span class="float-right"><a href="/haystack_search">Clear all <i class="fa fa-trash"></i></a></span>Applied filters</h3>
 			<ul class="menu">
                 {% for f in selected_filters %}
-				<li><span class="label light">{{ f }} <a href="{{ request.META.REQUEST_URI }}?{% for s in selected_filters %}selected_filters={{ f }}{% endfor %}"><i class="fa fa-times-circle"></i></a></span></li>
+<li><span class="label light">{{ f }} <a href="{{ request.META.SCRIPT_URL }}?{% for s in selected_filters %}{% if s == f %}{% else %}&selected_filters={{ s }}{% endif %}{% endfor %}">
+				<i class="fa fa-times-circle"></i></a></span></li>
                 {% endfor %}
 			</ul>
 		</div>
