@@ -1,0 +1,117 @@
+{% extends 'wagtailbase/base.html' %}
+{% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
+
+{# This should come from the template wagtailbase/base.html #}
+{% block meta_title %}Advanced search{% endblock %}
+
+{% block extra_head %}
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{# This should come from the template wagtailbase/base.html #}
+{% block title %}<h1>Advanced search</h1>{% endblock %}
+
+{% block main %}
+{# block.super It's not displaying the wagtail page content #}
+{{ block.super }}
+<div class="row">
+	<div class="large-3 columns">
+		<h3>Refine your search</h3>
+                    
+        <form method="get" action=".">
+			<ul class="menu">
+				<li><input id="id_q" name="q" type="search" placeholder="Search"></li>
+				<li><input type="submit" class="button" value="Search"></input></li>
+			</ul>
+        </form>
+
+        <!-- start facets -->
+		<div class="facet-panel">
+			<a href="#" class="expander"><h4><!--<span class="badge secondary float-left">+</span>--><i class="fa fa-caret-right"></i> Apply Filters</h4></a>
+            
+
+            
+			<ul class="facet-list collapsible hide">
+                {% for key,value in facets.fields.items %}
+				<li>
+                <a href="#"><!--<span class="badge secondary float-right">+</span>-->{{ key }}</a>
+					<ul class="facet-list" id="facet-locus">
+                        {% for k,v in value %}
+						<li><a href="{{ request.META.SCRIPT_URL }}?{{ request.META.QUERY_STRING}}&selected_filters={{ key }}:{{ k }}"><span class="badge secondary float-right">{{ v }}</span>{{ k }}</a></li>
+                        {% endfor %}
+					</ul>
+				</li>            
+                {% endfor %}                
+			</ul>
+		</div>
+
+        <!-- end facets -->  
+	</div>        
+ 	<div class="large-9 columns">
+		<div id="map">Here be maps!</div>
+
+		<h2>Search results <span class="badge">{{ paginator.count }}</span></h2>
+
+		<div id="applied-filters">
+			<h3><span class="float-right"><a href="/haystack_search">Clear all <i class="fa fa-trash"></i></a></span>Applied filters</h3>
+			<ul class="menu">
+                {% for f in selected_filters %}
+<li><span class="label light">{{ f }} <a href="{{ request.META.SCRIPT_URL }}?{% for s in selected_filters %}{% if s == f %}{% else %}&selected_filters={{ s }}{% endif %}{% endfor %}">
+				<i class="fa fa-times-circle"></i></a></span></li>
+                {% endfor %}
+			</ul>
+		</div>
+        
+        {% if query or paginator.count > 0 %}
+		<p><em>Showing <strong>{{ page.start_index }}-{{ page.end_index }}</strong> results of <strong>{{ paginator.count }}</strong></em></p> 
+        {% include 'wagtailbase/includes/pagination.html' %}
+
+		<div id="list-results">
+            <ol start="{{ page.start_index }}">
+            	{% for result in page.object_list %}
+                <li><a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a></li>
+            	{% empty %}
+            	<li>No results found.</li>
+            	{% endfor %}
+            </ol>             
+		</div>
+
+        {% include 'wagtailbase/includes/pagination.html' %}
+        
+        {% else %}
+        {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_footer %}
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
+<script>
+
+
+$(document).ready(function(){
+        console.log('trying!');
+	$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}',
+		{ success:function(){
+				alert(data);
+		 	}
+		}
+	)
+})
+
+
+function mapResult(geojson){
+	map.addLayer(new L,geoJson(geojson));
+}
+
+
+
+</script>
+{% endcompress %}
+{% endblock %}
