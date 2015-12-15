@@ -16,7 +16,6 @@
 {% block main %}
 {# block.super It's not displaying the wagtail page content #}
 {{ block.super }}
-        <div class="row">DEBUG {{ request.META }}</div>
 <div class="row">
 	<div class="large-3 columns">
 		<h3>Refine your search</h3>
@@ -93,5 +92,26 @@
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
+<script>
+
+
+$(document).ready(function(){
+        console.log('trying!');
+	$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}',
+		{ success:function(){
+				alert(data);
+		 	}
+		}
+	)
+})
+
+
+function mapResult(geojson){
+	map.addLayer(new L,geoJson(geojson));
+}
+
+
+
+</script>
 {% endcompress %}
 {% endblock %}
