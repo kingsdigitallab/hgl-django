@@ -4,10 +4,14 @@
 /****
 
 Global styles
+	Eternal links
+	Responsive iframe
 Header
 Navigation
 Main content area
+	Notes
 Maps
+	Coordinates
 Search
 Footer
 Typography
@@ -30,6 +34,17 @@ Typography
 
 .off-canvas.position-left {
 	padding-right: 1rem;
+}
+
+// External links
+
+a.ext-links {
+	&:before {
+		content: "\f14c";
+		font-family: "FontAwesome";
+		font-size: .875em;
+		padding-right: 4px;
+	}
 }
 
 // Responsive iframe 
@@ -117,6 +132,15 @@ nav {
 		margin: 1rem 0;
 	}
 
+	h3 {
+		font-size: 1.5rem;
+	}
+
+	h4 {
+		font-size: 1.25rem;
+		color: scale-color($almost-black, $lightness: 15%);
+	}
+
 	.side-menu {
 		background: scale-color($secondary-color, $lightness: 70%);
 		li {
@@ -127,6 +151,17 @@ nav {
 	.menu > li > a {
 		&:hover {
 			background: scale-color($secondary-color, $lightness: 60%);
+		}
+	}
+
+	// Notes
+	.notes {
+		padding: .5rem 1rem;
+		background: scale-color($secondary-color, $lightness: 70%);
+		border-top: 1px solid $secondary-color;
+		font-size: .9375rem;
+		p {
+			line-height: 1.25rem;
 		}
 	}
 }
@@ -141,6 +176,22 @@ nav {
 	background: $tertiary-color;
     border: 3px solid scale-color($tertiary-color, $lightness: 50%);
 	margin: 1rem 0;
+}
+
+// Coordinates
+
+.coordinates {
+	font-size: .875em;
+	padding: .5rem 1rem;
+	background: scale-color($secondary-color, $lightness: 70%);
+	h3 {
+		font-size: 1.125rem;
+	}
+	p {
+		padding-left: .5rem;
+		margin-bottom: 0;
+		background: #fff;
+	}
 }
 
 /* Search */
