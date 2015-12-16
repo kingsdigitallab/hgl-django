@@ -9,6 +9,8 @@
         "leaflet": null,
         "leaflet.draw": null,
         "leaflet-dvf": null,
+        "leaflet-spin": null,
+        "spin.js": null,
         "r.js": null,
         "requirejs": null,
         "what-input": null
