@@ -87,26 +87,26 @@
 {% block extra_footer %}
 {% compress js %}
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/spin.js/spin.min.js' %}"></script>
+<script src="{% static 'vendor/leaflet-spin/leaflet.spin.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 <script>
 	$(document).ready(function(){
 	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
+        map.spin(true)
 		$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}&mime_type=application/text',
 			{ success:function(data){
 					eval(data);
 			 	}
-			 	//,dataType: "jsonp",
 			}
 		)
 	})
-
-
 	function mapResult(geojson){
 		for (g in geojson){
-			console.log(g)
 			map.addLayer(new L.geoJson(geojson[g]));
 		}
+        map.spin(false)
 	}
 </script>
 {% endcompress %}

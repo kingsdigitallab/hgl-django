@@ -139,7 +139,7 @@ class CustomSearchForm(FacetedSearchForm):
         # Otherwise return the entire set
         else:
             #return sqs.all()
-            return SearchQuerySet().none()
+            return SearchQuerySet()#.none()
 	
 class CustomSearchView(FacetedSearchView):
     def __init__(self, *args, **kwargs):
@@ -283,8 +283,6 @@ urlpatterns = patterns('',
     url(r'^csv/$', CustomSearchView(template='search/search_csv.txt',\
        form_class=CustomSearchForm,results_per_page=100000), name='haystack_search'),
 
-    #url(r'^$', CustomSearchView(template='search/search_form.html',\
-    #   form_class=CustomSearchForm,results_per_page=100000), name='haystack_search'),
     url(r'^$', CustomSearchView(template='search/search.html',\
        form_class=CustomSearchForm,results_per_page=40), name='haystack_search'),       
 	   
