@@ -91,17 +91,24 @@
 <script src="{% static 'js/map.js' %}"></script>
 <script>
 	$(document).ready(function(){
-	    console.log('trying!');
-		$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}',
-			{ success:function(){
-					alert(data);
+	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/' %}";
+		$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}&mime_type=application/text',
+			{ success:function(data){
+					mapResult(data);
 			 	}
+			 	//,dataType: "jsonp",
 			}
 		)
 	})
 
+	var neil;
+
 	function mapResult(geojson){
-		map.addLayer(new L,geoJson(geojson));
+		neil = geojson;
+		for (g in geojson){
+			console.log(g)
+			map.addLayer(new L.geoJson(geojson[g]));
+		}
 	}
 </script>
 {% endcompress %}
