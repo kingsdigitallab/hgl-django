@@ -1,4 +1,4 @@
-# from ddhldap-django.signal_handlers import register_signal_handlers as \
+# from ddhldapdjango.signal_handlers import register_signal_handlers as \
 #     ddhldap_register_signal_handlers
 
 from django.conf import settings
@@ -22,7 +22,7 @@ urlpatterns = patterns('',
 
 
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------
 # Django Debug Toolbar URLS
 # -----------------------------------------------------------------------------
 try:
@@ -46,7 +46,7 @@ except ImportError:
 urlpatterns += ws_urls.urlpatterns
 
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 # Static file DEBUGGING
 # -----------------------------------------------------------------------------
 if settings.DEBUG:
