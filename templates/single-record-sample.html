@@ -1,0 +1,30 @@
+{% extends 'wagtailbase/base.html' %}
+{% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
+
+{% block meta_title %}{{self.title}}{% endblock %}
+
+{% block extra_head %}
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block title %}<h1>{{self.title}}</h1>{% endblock %}
+
+{% block main %}
+<div class="row">
+	<div class="large-6 columns">
+		<div id="map">Here be maps!</div>
+	</div>
+	<div class="large-6 columns">
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_footer %}
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endcompress %}
+{% endblock %}
