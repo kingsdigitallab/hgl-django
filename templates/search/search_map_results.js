@@ -7,7 +7,8 @@ mapResult([
     "coordinates": [{% for coord in result.object.locus_coordinate.all %}[ {{ coord.point.x }}, {{ coord.point.y }}],{% endfor %}]
   },
   "properties": {
-    "name": "null island"
+    "name": "{{ result.object.name }}",
+    "id": {{ result.object.id }},
   }
 }{% if forloop.last %}{% else %},{% endif %}
 {% endfor %}

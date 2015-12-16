@@ -104,7 +104,20 @@
 	})
 	function mapResult(geojson){
 		for (g in geojson){
-			map.addLayer(new L.geoJson(geojson[g]));
+			map.addLayer(
+                new L.geoJson(geojson[g],{
+                    onEachFeature:function(f,l){
+                        //l.bindPopup(f.properties.name)
+                        l.on('click',function(){
+                            $.ajax('/irt_geo/popupcontent/?id='+f.properties.id,{
+                                success:function(data){
+                                    l.bindPopup(data).openPopup();
+                                }
+                            })
+                        })
+                    }
+                })
+            );
 		}
         map.spin(false)
 	}

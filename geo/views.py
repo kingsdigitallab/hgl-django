@@ -39,3 +39,10 @@ def convex_hull(request):
         geojson["geometry"]["coordinates"].append(coords)
     # Debuug responder
     return JsonResponse( geojson )
+
+def popupcontent(request):
+    id = request.GET.get('id','')
+    locus = Locus.objects.get(pk=id)
+    if Related_Locus.objects.filter(obj=locus).filter(related_locus_type__name='forms part of').count() > 0:
+        return HttpResponse('<div>' + locus.name + ' I have children! </div><div><a href="/irt_geo/convex-hull/?parent='+ locus.id.__str__() +'">Geojson hull</a></div>')
+    return HttpResponse('<div>' + locus.name + '</div>')
