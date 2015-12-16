@@ -91,20 +91,18 @@
 <script src="{% static 'js/map.js' %}"></script>
 <script>
 	$(document).ready(function(){
-	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/' %}";
+	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
 		$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}&mime_type=application/text',
 			{ success:function(data){
-					mapResult(data);
+					eval(data);
 			 	}
 			 	//,dataType: "jsonp",
 			}
 		)
 	})
 
-	var neil;
 
 	function mapResult(geojson){
-		neil = geojson;
 		for (g in geojson){
 			console.log(g)
 			map.addLayer(new L.geoJson(geojson[g]));
