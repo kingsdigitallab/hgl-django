@@ -67,7 +67,7 @@
 			<div id="list-results">
 	            <ol start="{{ page.start_index }}">
 	            	{% for result in page.object_list %}
-	                <li><a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a></li>
+	                <li><a href="/irt_geo/recordview/?id={{ result.object.id }}">{{ result.object.name }}</a></li>
 	            	{% empty %}
 	            	<li>No results found.</li>
 	            	{% endfor %}

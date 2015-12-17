@@ -3,7 +3,7 @@
 
 {% block meta_title %}{{self.title}}{% endblock %}
 
-{% block extra_head %}
+{% block extra_head %} 
 {% compress css %}
 <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
 {% endcompress %}
@@ -15,75 +15,72 @@
 <div class="row">
 	<div class="large-6 columns">
 		<div class="coordinates">
+			<h2>{{ record.name }}</h2>
+            <h1></h1>
 			<h3><i class="fa fa-map-marker"></i> Coordinates</h3>
+            {% for l in record.locus_coordinate.all %}            
 			<div class="row">
 				<div class="large-4 columns">
-					<p><strong>Latitude:</strong> 32.9010000</p>
+					<p><strong>Latitude:</strong> {{ l.point.y }}</p>
 				</div>
 				<div class="large-4 columns">
-					<p><strong>Longitude:</strong> 21.9710000</p>
+					<p><strong>Longitude:</strong> {{ l.point.x}}</p>
 				</div>
 				<div class="large-4 columns">
-					<p><strong>Height:</strong> 1.0000000</p>
+					<p><strong>Height:</strong> {{ l.height }}</p>
 				</div>
 			</div>
+            <h6>provenance: {{ l.heritage }}</h6>
+            <h1></h1>
+            {% endfor %}
 		</div>
 
 		<div id="map">Here be maps!</div>
 
+        {% if record.pleiades_uri %}
 		<h3>Pleiades URI</h3>
-		<p><a href="http://pleiades.stoa.org/places/373732" class="ext-links">http://pleiades.stoa.org/places/373732</a></p>
-
+		<p><a href="{{ record.pleiades_uri }}" class="ext-links">{{ record.pleiades_uri }}</a></p>
+        {% endif %}
+        {% if record.geonames_id %}
 		<h3>Geonames ID</h3>
-		<p>81584</p>
+        <p><a href="http://www.geonames.org/{{ record.geonames_id }}" class="ext-links">http://www.geonames.org/{{ record.geonames_id }}</a></p>
+        {% endif %}        
 	</div>
 	<div class="large-6 columns">
 		<h3>Feature type(s)</h3>
-		<p>Polis</p>
-
+        {% for f in record.featuretype_fk.all %}
+		<p>{{ f.description }}</p>
+        {% endfor %}
 		<h3>Variant names</h3>
 		<ol>
-			<li>سوسة</li>
-			<li>مرسى سوسة</li>
-			<li>Apollonia</li>
-			<li>Apollonie</li>
-			<li>Appolonia</li>
-			<li>M&agrave;rsa S&ugrave;sa</li>
-			<li>Mars&aacute; Sūsah</li>
-			<li>Marsa Susa</li>
-			<li>Marsa Susah</li>
-			<li>Marza-Souza</li>
-			<li>Port of Cyrene</li>
-			<li>Sūsah</li>
-			<li>Susa</li>
-			<li>Suza</li>
+            {% for v in record.variants.all %}
+			<li>{{ v.name }}{% if v.language %} ({{ v.language.en_name }}){% endif %}</li>
+            {% endfor %}
 		</ol>
 
 		<h3>Relationships with other locations <a href="#"><i class="fa fa-question-circle"></i></a></h3>
 
 		<h4>Related locations <a href="#"><i class="fa fa-question-circle"></i></a></h4>
 		<ul>
-			<li><em>Forms part of</em> <strong><a href="#">Cyrenaica</a></strong></li>
-			<li><em>Adjacent to</em> <strong><a href="#">Cyrene</a></strong></li>
+            {% for r in record.child.all %}
+			<li><em>{{ r.related_locus_type.name }}</em> <strong><a href="/irt_geo/recordview/?id={{ r.obj.id }}">{{ r.obj.name }}</a></strong></li>
+            {% endfor %}
 		</ul>
 
 		<h4>Inverted related locations <a href="#"><i class="fa fa-question-circle"></i></a></h4>
-		<p><strong>Form part of &lt;RECORD_NAME&gt;:</strong></p>
+		<p><strong>Form part of {{ record.name }}:</strong></p>
 		<ul>
-			<li><a href="#">Area west of East Church</a></li>
-			<li><a href="#">East Church</a></li>
-			<li>...</li>
+            {% for r in record.parent.all %}        
+            <li><a href="/irt_geo/recordview/?id={{ r.subject.id }}">{{ r.subject.name }}</a></li>            
+            {% endfor %}
 		</ul>
 
+        {% if record.note %}
 		<div class="notes">
 			<h3><i class="fa fa-edit"></i> Notes</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<p>{{ record.note }}</p>
 		</div>
+        {% endif %}
 	</div>
 </div>
 {% endblock %}
@@ -93,5 +90,37 @@
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
+
 {% endcompress %}
+<script>
+
+$(document).ready(function(){
+	L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
+    {% for l in record.locus_coordinate.all %}
+    {% if forloop.first %}
+        var m = L.marker([{{ l.point.y }},{{ l.point.x }}]).addTo(map);
+        map.setView([{{ l.point.y }},{{ l.point.x }}],6);
+
+    {% endif %}
+    {% endfor %}
+    {% if not record.locus_coordinate.all or record.parent.all %}
+            // Probably no coordinates, in which case, we can try to draw a convex hull
+        $.ajax('/irt_geo/convex-hull/?parent={{ record.id}}',
+            {
+            success:function(data){
+                var hull = new L.geoJson(data).addTo(map);
+                map.fitBounds(hull.getBounds());
+                map.setZoom( (map.getZoom() - 2 ) );
+                }
+                
+            }
+        )
+    {% endif %}
+    
+    
+    
+})
+
+</script>
+
 {% endblock %}
