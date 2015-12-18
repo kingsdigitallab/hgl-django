@@ -1,8 +1,12 @@
 {% load staticfiles %}
 
 <div class="row header">
-	<div class="large-12 columns">
+	<div class="large-12 columns">{{ user }}
+		{% if user.username %}
+                <a href="/logout/" class="button float-right">Log out</a>
+		{% else %}
 		<a href="/login/" class="button float-right">Log in</a>
+		{% endif %}
 		<h1><a href="/">Heritage Gazetteer of Libya</a></h1>
 	</div>
 </div>

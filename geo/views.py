@@ -1,9 +1,21 @@
 from geo.models import *
+from geo.forms import *
+
+
+
 from django.contrib.gis.geos import Point, MultiPoint
 from django.contrib.gis.geos import GEOSGeometry
 from django.template import RequestContext
-from django.shortcuts import get_object_or_404, render_to_response, HttpResponse
+from django.shortcuts import get_object_or_404, render_to_response, HttpResponse, render#,HttpResponseRedirect
 from django.http import JsonResponse
+
+
+
+from django.contrib.auth.models import User,Group
+from django.contrib.auth import authenticate, login, logout
+
+
+
 
 
 def kml(request):
@@ -65,3 +77,23 @@ def recordview(request):
     context = {}
     context['record'] = locus
     return render_to_response('../templates/single-record-sample.html',context,context_instance=RequestContext(request))
+
+
+def login_user(request):
+    username = password = ''
+    if request.POST: 
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/')
+    else:
+        form = LoginForm()
+        return render(request, 'login.html', {'form': form})
+
+def logout_user(request):
+    logout(request)
+    username = password = ''
+    return HttpResponseRedirect('/')

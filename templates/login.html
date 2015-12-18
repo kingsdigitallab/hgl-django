@@ -1,0 +1,27 @@
+{% extends 'wagtailbase/base.html' %}
+{% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
+
+{% block meta_title %}{{self.title}}{% endblock %}
+
+{% block extra_head %} 
+{% endblock %}
+
+{% block title %}<h1>Login</h1>{% endblock %}
+
+{% block main %}
+<div class="row">
+	<div class="large-3 columns">
+		<form id="login_form" action="/" method="post">
+                {% csrf_token %}
+		{{ form.as_p }}
+		 <input type="submit" value="Submit">
+		</form>
+	</div>
+	<div class="large-9 columns">
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_footer %}
+
+{% endblock %}
