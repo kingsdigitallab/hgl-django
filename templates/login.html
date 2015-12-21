@@ -11,7 +11,7 @@
 {% block main %}
 <div class="row">
 	<div class="large-3 columns">
-		<form id="login_form" action="/" method="post">
+		<form id="login_form" action="/login/" method="post">
                 {% csrf_token %}
 		{{ form.as_p }}
 		 <input type="submit" value="Submit">

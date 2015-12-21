@@ -18,7 +18,7 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^irt_geo/',include('geo.urls')),
                        url(r'^login/','geo.views.login_user'),
-                       #url(r'^logout/','geo.views.logout_user'),
+                       url(r'^logout/','geo.views.logout_user'),
                        url(r'^geofield/(\w+)/geofield.js','geofield.views.geofield_js'),
                        )
 
