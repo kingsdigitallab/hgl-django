@@ -56,8 +56,19 @@ class CustomSearchForm(FacetedSearchForm):
                 sqs = sqs.models( qmodel )
         else:
             sqs = SearchQuerySet()
-        print sqs.auto_query(self.cleaned_data.get('q') )
-        return sqs.auto_query(self.cleaned_data.get('q') )
+            sqs = sqs.auto_query(self.cleaned_data.get('q') )
+            if self.selected_filters:
+                filterString = ''
+                for filter in self.selected_filters:
+                    if ":" not in filter:
+                        continue
+                    field,value = filter.split(":",1)
+                    if value:
+                        value = value.replace('%20',' ')
+                        filterString += u'.filter(%s_exact="%s")' % (field , sqs.query.clean(value)) 
+                filterString = 'sqs=sqs' + filterString
+                exec(filterString)
+            return sqs
 
     def no_query_found(self):
         #NB Moving the sqs to gather results ONLY if a facet has been selected...

@@ -1,0 +1,136 @@
+{% extends 'wagtailbase/base.html' %}
+{% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
+
+{% block meta_title %}{{self.title}}{% endblock %}
+
+{% block extra_head %} 
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+
+{% endcompress %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/leaflet-draw/dist/leaflet.draw.css' %}">
+{% endblock %}
+
+{% block title %}<h1>Add new record</h1>{% endblock %}
+
+
+
+
+
+{% block main %}
+<div class="row">
+	<div class="large-3 columns">
+		<form id="login_form" action="/add/" method="post">
+        {% csrf_token %}
+		{{ form.as_p }}
+		 <input type="submit" value="Submit">
+		</form>
+	</div>
+	<div class="large-9 columns">
+        <div id="map">
+            <div class="leaflet-top leaflet-right">
+                <div class="leaflet-control">
+                    <form id="geosearch-form" method="get">
+                        <ul id="geoname-list" class="menu float-right">
+                            <li><input id="id_q" name="q" onsumbit="" type="search" placeholder="..."></li>
+                            <li><input type="submit" class="button" value="Search GeoNames"></li>
+                        </ul>
+                    </form>
+                </div>    
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block extra_footer %}
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/spin.js/spin.min.js' %}"></script>
+<script src="{% static 'vendor/leaflet-spin/leaflet.spin.js' %}"></script>
+<script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
+<script>
+
+	$(document).ready(function(){
+	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
+        
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        
+        var drawControl = new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems
+            },
+            draw: { polyline:false,
+                    polygon:false,
+                    rectangle:false,
+                    circle:false
+            }
+            
+        }).addTo(map);
+        
+        map.on('draw:created', function (e) {
+            var type = e.layerType,
+            layer = e.layer;
+
+            if (type === 'marker') {
+                // Do marker specific actions
+                $("#id_point").val( 'POINT('+ 
+                    e.layer._latlng.lat.toString() 
+                    +' '+ 
+                    e.layer._latlng.lng.toString() 
+                    +')')
+            }
+
+            // Do whatever else you need to. (save to db, add to map etc)
+            drawnItems.addLayer(layer);
+        });
+        
+        map.on('draw:drawstart', function(e){
+            drawnItems.clearLayers();
+        })
+        
+        $('#geosearch-form').on('submit',function(){
+            if ($('#id_q').val().length > 3 ){
+                getGeoNames( $('#id_q').val() )
+            }
+            else {
+                // pass
+                alert('Please enter more than 3 characters for search');
+            }
+        })
+        
+        $('#geosearch-form').submit(function(e){
+            return false;
+        });        
+        
+	})
+    
+
+function getGeoNames(searchText){    
+        var searchUrl = 'http://api.geonames.org/searchJSON?formatted=false&country=LY&maxRows=10&lang=en&username=hergazlib';
+        $.ajax({
+            dataType:"jsonp",
+            url:searchUrl + '&q=' + encodeURIComponent( searchText ),
+            success: function(data){
+                var options = "";
+                for (g in data.geonames){
+                    options += '<div data-lng="'+ data.geonames[g].lng +'" data-lat="'+ data.geonames[g].lat +'">'+ data.geonames[g].name +'</div>'
+                }
+                $('#results').remove();
+                $('#geoname-list').after('<div id="results"></div>');
+                $('#results').html(options);
+                
+                
+            }
+        });
+};
+    
+    
+
+</script>
+{% endcompress %}
+{% endblock %}
+
