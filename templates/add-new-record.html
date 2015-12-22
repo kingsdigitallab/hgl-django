@@ -9,6 +9,7 @@
 
 {% endcompress %}
 <link rel="stylesheet" type="text/css" href="{% static 'vendor/leaflet-draw/dist/leaflet.draw.css' %}">
+
 {% endblock %}
 
 {% block title %}<h1>Add new record</h1>{% endblock %}
@@ -53,10 +54,12 @@
 <script src="{% static 'js/map.js' %}"></script>
 <script>
 
+var drawnItems = new L.FeatureGroup();
+
 	$(document).ready(function(){
 	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
         
-        var drawnItems = new L.FeatureGroup();
+
         map.addLayer(drawnItems);
         
         var drawControl = new L.Control.Draw({
@@ -76,17 +79,17 @@
             layer = e.layer;
 
             if (type === 'marker') {
-                // Do marker specific actions
-                $("#id_point").val( 'POINT('+ 
-                    e.layer._latlng.lat.toString() 
-                    +' '+ 
-                    e.layer._latlng.lng.toString() 
-                    +')')
+                recordMarkerLocation(e.layer)    
             }
 
             // Do whatever else you need to. (save to db, add to map etc)
             drawnItems.addLayer(layer);
         });
+        
+        
+        map.on('draw:deleted', function (e) {
+            $("#id_point").val('');        
+        });        
         
         map.on('draw:drawstart', function(e){
             drawnItems.clearLayers();
@@ -117,17 +120,42 @@ function getGeoNames(searchText){
             success: function(data){
                 var options = "";
                 for (g in data.geonames){
-                    options += '<div data-lng="'+ data.geonames[g].lng +'" data-lat="'+ data.geonames[g].lat +'">'+ data.geonames[g].name +'</div>'
+                    options += '<div class="geonames-choice" data-lng="'+ data.geonames[g].lng +'" data-lat="'+ data.geonames[g].lat +'"><span>'+ data.geonames[g].name +'</span></div>'
                 }
                 $('#results').remove();
                 $('#geoname-list').after('<div id="results"></div>');
                 $('#results').html(options);
                 
-                
+                initialiseSelection();
             }
         });
 };
+
+
+var neil;
+
+function initialiseSelection(){
+    $('.geonames-choice').on('click',function(){
+        drawnItems.clearLayers();
+        var marker = new L.marker([$(this).data('lat'),$(this).data('lng')],{
+            draggable:true
+        }).on('dragend',function(e){
+            recordMarkerLocation(e.target) 
+        });
+        
+        drawnItems.addLayer(marker);
+        recordMarkerLocation(marker)
+
+    })
+};
     
+function recordMarkerLocation(m){
+    $("#id_point").val( 'POINT('+ 
+        m._latlng.lat.toString() 
+        +' '+ 
+        m._latlng.lng.toString() 
+    +')');
+};
     
 
 </script>
