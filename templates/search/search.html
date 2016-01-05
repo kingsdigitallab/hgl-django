@@ -26,23 +26,19 @@
 				</ul>
 	        </form>
 
+	        <h3>Apply filters</h3>
+
 	        <!-- start facets -->
+	        {% for key,value in facets.fields.items %}
 			<div class="facet-panel">
-				<a href="#" class="expander"><h4><i class="fa fa-caret-right"></i> Apply Filters</h4></a>
-	            
-				<ul class="facet-list collapsible hide">
-	                {% for key,value in facets.fields.items %}
-					<li>
-	                <a href="#">{{ key }}</a>
-						<ul class="facet-list" id="facet-locus">
-	                        {% for k,v in value %}
-							<li><a href="{{ request.META.SCRIPT_URL }}?{{ request.META.QUERY_STRING}}&selected_filters={{ key }}:{{ k }}"><span class="badge secondary float-right">{{ v }}</span>{{ k }}</a></li>
-	                        {% endfor %}
-						</ul>
-					</li>            
-	                {% endfor %}                
+				<a href="#" class="expander"><h4><i class="fa fa-caret-right"></i> {{ key }}</h4></a>
+				<ul class="facet-list collapsible hide" id="facet-locus">
+					{% for k,v in value %}
+					<li><a href="{{ request.META.SCRIPT_URL }}?{{ request.META.QUERY_STRING}}&selected_filters={{ key }}:{{ k }}"><span class="badge secondary float-right">{{ v }}</span>{{ k }}</a></li>
+					{% endfor %}
 				</ul>
 			</div>
+			{% endfor %}
 	        <!-- end facets -->
 	    </div>
 		<div class="off-canvas-content" data-off-canvas-content>
