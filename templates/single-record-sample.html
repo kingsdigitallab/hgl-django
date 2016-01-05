@@ -1,7 +1,7 @@
 {% extends 'wagtailbase/base.html' %}
 {% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
 
-{% block meta_title %}{{self.title}}{% endblock %}
+{% block meta_title %}{{record.name}}{% endblock %}
 
 {% block extra_head %} 
 {% compress css %}
@@ -9,14 +9,12 @@
 {% endcompress %}
 {% endblock %}
 
-{% block title %}<h1>{{self.title}}</h1>{% endblock %}
+{% block title %}<h1>{{record.name}}</h1>{% endblock %}
 
 {% block main %}
 <div class="row">
 	<div class="large-6 columns">
 		<div class="coordinates">
-			<h2>{{ record.name }}</h2>
-            <h1></h1>
 			<h3><i class="fa fa-map-marker"></i> Coordinates</h3>
             {% for l in record.locus_coordinate.all %}            
 			<div class="row">
@@ -30,8 +28,7 @@
 					<p><strong>Height:</strong> {{ l.height }}</p>
 				</div>
 			</div>
-            <h6>provenance: {{ l.heritage }}</h6>
-            <h1></h1>
+			<p><strong>Provencance:</strong> {{ l.heritage }}</p>
             {% endfor %}
 		</div>
 
@@ -93,7 +90,6 @@
 
 {% endcompress %}
 <script>
-
 $(document).ready(function(){
 	L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
     {% for l in record.locus_coordinate.all %}
@@ -112,15 +108,9 @@ $(document).ready(function(){
                 map.fitBounds(hull.getBounds());
                 map.setZoom( (map.getZoom() - 2 ) );
                 }
-                
             }
         )
-    {% endif %}
-    
-    
-    
+    {% endif %}  
 })
-
 </script>
-
 {% endblock %}
