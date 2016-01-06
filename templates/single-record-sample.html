@@ -55,16 +55,28 @@
             {% endfor %}
 		</ol>
 
-		<h3>Relationships with other locations <a href="#"><i class="fa fa-question-circle"></i></a></h3>
+		<h3>Relationships with other locations <button data-toggle="relationships-dropdown"><i class="fa fa-question-circle"></i></button></h3>
+		<div class="dropdown-pane" id="relationships-dropdown" data-dropdown data-auto-focus="true">
+			<h4><i class="fa fa-question-circle"></i> Relationships with other locations</h4>
+			Provide info to explain how <strong>relationships with other locations work</strong>.
+		</div>
 
-		<h4>Related locations <a href="#"><i class="fa fa-question-circle"></i></a></h4>
+		<h4>Related locations <button data-toggle="rel-locations-dropdown"><i class="fa fa-question-circle"></i></button></h4>
+		<div class="dropdown-pane" id="rel-locations-dropdown" data-dropdown data-auto-focus="true">
+			<h4><i class="fa fa-question-circle"></i> Related locations</h4>
+			Provide info to explain how <strong>related locations work</strong>.
+		</div>
 		<ul>
             {% for r in record.child.all %}
 			<li><em>{{ r.related_locus_type.name }}</em> <strong><a href="/irt_geo/recordview/?id={{ r.obj.id }}">{{ r.obj.name }}</a></strong></li>
             {% endfor %}
 		</ul>
 
-		<h4>Inverted related locations <a href="#"><i class="fa fa-question-circle"></i></a></h4>
+		<h4>Inverted related locations <button data-toggle="inverted-rel-locations-dropdown"><i class="fa fa-question-circle"></i></button></h4>
+		<div class="dropdown-pane" id="inverted-rel-locations-dropdown" data-dropdown data-auto-focus="true">
+			<h4><i class="fa fa-question-circle"></i> Inverted related locations</h4>
+			Provide info to explain how <strong>inverted related locations work</strong>.
+		</div>
 		<p><strong>Form part of {{ record.name }}:</strong></p>
 		<ul>
             {% for r in record.parent.all %}
