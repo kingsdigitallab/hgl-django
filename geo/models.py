@@ -55,7 +55,7 @@ class Locus(models.Model):
         (2, 'polygon'),
     )
     #add column 'featuretype' for table 'geo_locus'
-    featuretype = models.IntegerField(choices=FEATURE_FIELD_TYPE,verbose_name='Geometry type')
+    featuretype = models.IntegerField(choices=FEATURE_FIELD_TYPE,verbose_name='Geometry type',null=True,blank=True)
     featuretype_fk = models.ManyToManyField('FeatureTypes',null=True,blank=True)
     note = models.TextField(blank = True, null = True,verbose_name='Notes',help_text='Use sparingly!')
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
