@@ -1,30 +1,33 @@
 {% extends 'wagtailbase/base.html' %}
 {% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
 
-{% block meta_title %}{{self.title}}{% endblock %}
+{% block meta_title %}Add new record{% endblock %}
 
 {% block extra_head %} 
 {% compress css %}
 <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
-
-{% endcompress %}
 <link rel="stylesheet" type="text/css" href="{% static 'vendor/leaflet-draw/dist/leaflet.draw.css' %}">
-
+{% endcompress %}
 {% endblock %}
 
 {% block title %}<h1>Add new record</h1>{% endblock %}
 
-
-
-
-
 {% block main %}
+<div class="row">
+    <div class="large-12 columns">
+        <div class="quick-tips">
+            <h3>Quick tips and/or Disclaimer?</h3>
+            <p>Some help text to help users adding records correctly and <strong>Dos and Don'ts</strong>.</p>
+        </div>
+    </div>
+</div>
+
 <div class="row">
 	<div class="large-3 columns">
 		<form id="login_form" action="/add/" method="post">
-        {% csrf_token %}
-		{{ form.as_p }}
-		 <input type="submit" value="Submit">
+            {% csrf_token %}
+    		{{ form.as_p }}
+    		<input class="button" type="submit" value="Submit">
 		</form>
 	</div>
 	<div class="large-9 columns">
@@ -33,7 +36,7 @@
                 <div class="leaflet-control">
                     <form id="geosearch-form" method="get">
                         <ul id="geoname-list" class="menu float-right">
-                            <li><input id="id_q" name="q" onsumbit="" type="search" placeholder="..."></li>
+                            <li><input id="id_q" name="q" onsumbit="" type="search" placeholder="Geoname..."></li>
                             <li><input type="submit" class="button" value="Search GeoNames"></li>
                         </ul>
                     </form>
@@ -44,7 +47,6 @@
 </div>
 {% endblock %}
 
-
 {% block extra_footer %}
 {% compress js %}
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
@@ -53,12 +55,10 @@
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 <script>
-
 var drawnItems = new L.FeatureGroup();
 
 	$(document).ready(function(){
 	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
-        
 
         map.addLayer(drawnItems);
         
@@ -107,11 +107,9 @@ var drawnItems = new L.FeatureGroup();
         
         $('#geosearch-form').submit(function(e){
             return false;
-        });        
-        
+        });          
 	})
     
-
 function getGeoNames(searchText){    
         var searchUrl = 'http://api.geonames.org/searchJSON?formatted=false&country=LY&maxRows=10&lang=en&username=hergazlib';
         $.ajax({
@@ -130,7 +128,6 @@ function getGeoNames(searchText){
             }
         });
 };
-
 
 var neil;
 
@@ -156,9 +153,6 @@ function recordMarkerLocation(m){
         m._latlng.lng.toString() 
     +')');
 };
-    
-
 </script>
 {% endcompress %}
 {% endblock %}
-

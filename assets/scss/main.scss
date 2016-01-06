@@ -4,12 +4,13 @@
 /****
 
 Global styles
-	Eternal links
+	External links
 	Responsive iframe
 Header
 Navigation
 Main content area
 	Notes
+	Quick tips or Disclaimer
 Maps
 	Coordinates
 Search
@@ -47,7 +48,8 @@ a.ext-links {
 	}
 }
 
-// Responsive iframe 
+// Responsive iframe
+
 .iframe-container {
 
     position: relative;
@@ -155,6 +157,7 @@ nav {
 	}
 
 	// Notes
+
 	.notes {
 		padding: .5rem 1rem;
 		background: scale-color($secondary-color, $lightness: 70%);
@@ -162,6 +165,18 @@ nav {
 		font-size: .9375rem;
 		p {
 			line-height: 1.25rem;
+		}
+	}
+
+	// Quick tips or Disclaimer
+	
+	.quick-tips {
+		font-size: .875em;
+		padding: .5rem 1rem;
+		background: scale-color($secondary-color, $lightness: 70%);
+		margin-bottom: .5rem;
+		h3 {
+			font-size: 1.125rem;
 		}
 	}
 }
