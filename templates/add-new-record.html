@@ -21,11 +21,16 @@
 {% block main %}
 <div class="row">
 	<div class="large-3 columns">
-		<form id="login_form" action="/add/" method="post">
-        {% csrf_token %}
-		{{ form.as_p }}
+        <form id="new_record_form" method="post" action="/add/">
+                {% if form.errors %}
+                    {% for error in field.errors %}
+                        <div>{{ error|escape }}</div>
+                    {% endfor %}
+                {% endif %}
+		        {{ form.as_p }}
+                {% csrf_token %}
 		 <input type="submit" value="Submit">
-		</form>
+        </form>
 	</div>
 	<div class="large-9 columns">
         <div id="map">
@@ -151,9 +156,9 @@ function initialiseSelection(){
     
 function recordMarkerLocation(m){
     $("#id_point").val( 'POINT('+ 
-        m._latlng.lat.toString() 
-        +' '+ 
         m._latlng.lng.toString() 
+        +' '+ 
+        m._latlng.lat.toString() 
     +')');
 };
     

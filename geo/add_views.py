@@ -12,8 +12,33 @@ from django.contrib.auth.models import User,Group
 from django.contrib.auth import authenticate,login, logout
 
 def add(request):
-    if request.POST: 
-        pass
+    if request.method == 'POST': 
+        form = NewRecordForm(request.POST)
+        # New record
+        l = Locus()
+        if form.is_valid():
+            l.name = form.cleaned_data['descriptor']
+            l.save()
+            if form.cleaned_data['feature_types']:
+        	    for ft in form.cleaned_data['feature_types']:
+        		    l.featuretype_fk.add(ft)
+        		    l.save()
+            if form.cleaned_data['notes']:
+        	    l.notes = form.cleaned_data['notes']
+            c = Coordinate()
+            c.point = GEOSGeometry(form.cleaned_data['point'])
+            c.latitude = c.point.y
+            c.longitude = c.point.x
+            c.locus = l
+        	# default to first just to get it working
+            c.heritage = Heritage.objects.all()[0]
+            c.save()
+            l.save()
+            record = l
+            return render(request, 'single-record-sample.html',{'record':record})
+        else:
+            return render(request, 'add-new-record.html', {'form': form})
+
     else:
         form = NewRecordForm()
         return render(request, 'add-new-record.html', {'form': form})

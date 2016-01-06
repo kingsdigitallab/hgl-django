@@ -94,8 +94,8 @@ $(document).ready(function(){
 	L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
     {% for l in record.locus_coordinate.all %}
     {% if forloop.first %}
-        var m = L.marker([{{ l.point.y }},{{ l.point.x }}]).addTo(map);
-        map.setView([{{ l.point.y }},{{ l.point.x }}],6);
+        var m = L.marker([{{ l.point.x }},{{ l.point.y }}]).addTo(map);
+        map.setView([{{ l.point.x }},{{ l.point.y }}],6);
 
     {% endif %}
     {% endfor %}
