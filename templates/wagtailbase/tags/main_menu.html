@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailbase_tags staticfiles %}
+{% load wagtailcore_tags wagtailbase_tags %}
 
 <ul class="vertical medium-horizontal menu dropdown" data-dropdown-menu>
     <li{% if current_page and root.url == current_page.url %} class="active"{% endif %}>
@@ -16,10 +16,9 @@
     		{% endfor %}
     	</ul>
     	{% endif %}
-
     </li>
     {% endfor %}
-    {% if user.username %}
+    {% if request.user.is_authenticated %}
     <li{% if request.get_full_path == '/add/' %} class="active"{% endif %}>
         <a href="/add/">Add new record</a>
     </li>
