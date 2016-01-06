@@ -67,7 +67,7 @@
 		<h4>Inverted related locations <a href="#"><i class="fa fa-question-circle"></i></a></h4>
 		<p><strong>Form part of {{ record.name }}:</strong></p>
 		<ul>
-            {% for r in record.parent.all %}        
+            {% for r in record.parent.all %}
             <li><a href="/irt_geo/recordview/?id={{ r.subject.id }}">{{ r.subject.name }}</a></li>            
             {% endfor %}
 		</ul>
@@ -110,7 +110,7 @@ $(document).ready(function(){
                 }
             }
         )
-    {% endif %}  
+    {% endif %}
 })
 </script>
 {% endblock %}

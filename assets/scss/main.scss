@@ -196,6 +196,24 @@ nav {
 
 /* Search */
 
+.filter-options {
+	h3 {
+		margin-top: 1rem;
+	}
+
+	.facet-list {
+		margin-left: .9375rem;
+		li {
+			list-style: none;
+			border-bottom: 1px solid scale-color($secondary-color, $lightness: 50%);
+			margin-bottom: .25rem;
+		}
+		li:last-child {
+			border-bottom: none;
+		}
+	}
+}
+
 #applied-filters {
 	background: scale-color($secondary-color, $lightness: 70%);
 	padding: 1rem;
@@ -219,6 +237,9 @@ nav {
 	border-bottom: 1px solid scale-color($secondary-color, $lightness: 50%);
 	h4 {
 		font-size: 1.125rem;
+	}
+	a:focus {
+		outline: 0;
 	}
 }
 
