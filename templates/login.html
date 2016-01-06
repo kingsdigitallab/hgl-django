@@ -1,7 +1,7 @@
 {% extends 'wagtailbase/base.html' %}
 {% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
 
-{% block meta_title %}{{self.title}}{% endblock %}
+{% block meta_title %}Log in{% endblock %}
 
 {% block extra_head %} 
 {% endblock %}
@@ -10,14 +10,12 @@
 
 {% block main %}
 <div class="row">
-	<div class="large-3 columns">
+	<div class="large-4 large-offset-4 columns">
 		<form id="login_form" action="/login/" method="post">
-                {% csrf_token %}
-		{{ form.as_p }}
-		 <input type="submit" value="Submit">
+	        {% csrf_token %}
+			{{ form.as_p }}
+			<input class="button expanded" type="submit" value="Log in">
 		</form>
-	</div>
-	<div class="large-9 columns">
 	</div>
 </div>
 {% endblock %}

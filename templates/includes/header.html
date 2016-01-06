@@ -3,7 +3,7 @@
 <div class="row header">
 	<div class="large-12 columns">
 		{% if user.username %}
-                <a href="/logout/" class="button float-right">Log out</a>
+        <a href="/logout/" class="button float-right"><i class="fa fa-user"></i> {{ user }} / <strong>Log out</strong></a>
 		{% else %}
 		<a href="/login/" class="button float-right">Log in</a>
 		{% endif %}
