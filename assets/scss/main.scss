@@ -4,12 +4,13 @@
 /****
 
 Global styles
-	Eternal links
+	External links
 	Responsive iframe
 Header
 Navigation
 Main content area
 	Notes
+	Quick tips or Disclaimer
 Maps
 	Coordinates
 Search
@@ -47,7 +48,8 @@ a.ext-links {
 	}
 }
 
-// Responsive iframe 
+// Responsive iframe
+
 .iframe-container {
 
     position: relative;
@@ -155,6 +157,7 @@ nav {
 	}
 
 	// Notes
+
 	.notes {
 		padding: .5rem 1rem;
 		background: scale-color($secondary-color, $lightness: 70%);
@@ -162,6 +165,18 @@ nav {
 		font-size: .9375rem;
 		p {
 			line-height: 1.25rem;
+		}
+	}
+
+	// Quick tips or Disclaimer
+	
+	.quick-tips {
+		font-size: .875em;
+		padding: .5rem 1rem;
+		background: scale-color($secondary-color, $lightness: 70%);
+		margin-bottom: .5rem;
+		h3 {
+			font-size: 1.125rem;
 		}
 	}
 }
@@ -196,6 +211,24 @@ nav {
 
 /* Search */
 
+.filter-options {
+	h3 {
+		margin-top: 1rem;
+	}
+
+	.facet-list {
+		margin-left: .9375rem;
+		li {
+			list-style: none;
+			border-bottom: 1px solid scale-color($secondary-color, $lightness: 50%);
+			margin-bottom: .25rem;
+		}
+		li:last-child {
+			border-bottom: none;
+		}
+	}
+}
+
 #applied-filters {
 	background: scale-color($secondary-color, $lightness: 70%);
 	padding: 1rem;
@@ -219,6 +252,9 @@ nav {
 	border-bottom: 1px solid scale-color($secondary-color, $lightness: 50%);
 	h4 {
 		font-size: 1.125rem;
+	}
+	a:focus {
+		outline: 0;
 	}
 }
 
