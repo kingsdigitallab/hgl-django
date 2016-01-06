@@ -68,7 +68,7 @@
 		</div>
 		<ul>
             {% for r in record.child.all %}
-			<li><em>{{ r.related_locus_type.name }}</em> <strong><a href="/irt_geo/recordview/?id={{ r.obj.id }}">{{ r.obj.name }}</a></strong></li>
+			<li>{{record.name}} <em>{{ r.related_locus_type.name }}</em> <strong><a href="/irt_geo/recordview/?id={{ r.obj.id }}">{{ r.obj.name }}</a></strong></li>
             {% endfor %}
 		</ul>
 
@@ -77,7 +77,7 @@
 			<h4><i class="fa fa-question-circle"></i> Inverted related locations</h4>
 			Provide info to explain how <strong>inverted related locations work</strong>.
 		</div>
-		<p><strong>Form part of {{ record.name }}:</strong></p>
+		<p><em>The locations below form part of</em> <strong>{{ record.name }}</strong></p>
 		<ul>
             {% for r in record.parent.all %}
             <li><a href="/irt_geo/recordview/?id={{ r.subject.id }}">{{ r.subject.name }}</a></li>            
