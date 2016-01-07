@@ -35,7 +35,7 @@ def add(request):
             c.save()
             l.save()
             record = l
-            return render(request, 'single-record-sample.html',{'record':record})
+            return render(request, 'single-record.html',{'record':record})
         else:
             return render(request, 'add-new-record.html', {'form': form})
 

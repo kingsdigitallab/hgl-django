@@ -76,7 +76,7 @@ def recordview(request):
     locus = Locus.objects.get(pk=id)    
     context = {}
     context['record'] = locus
-    return render_to_response('../templates/single-record-sample.html',context,context_instance=RequestContext(request))
+    return render_to_response('../templates/single-record.html',context,context_instance=RequestContext(request))
 
 
 def login_user(request):
