@@ -20,6 +20,7 @@ urlpatterns = patterns('',
                        url(r'^login/','geo.views.login_user'),
                        url(r'^logout/','geo.views.logout_user'),
                        url(r'^add/',include('geo.add_urls')),
+                       url(r'^get/',include('geo.get_urls')),
                        url(r'^geofield/(\w+)/geofield.js','geofield.views.geofield_js'),
                        )
 

@@ -1,7 +1,8 @@
 from django import forms
-from geo.models import FeatureTypes
+from geo.models import FeatureTypes,Locus
 
 feature_types =  FeatureTypes.objects.all()
+loci = Locus.objects.all()
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Your name', max_length=100)
@@ -15,6 +16,6 @@ class NewRecordForm(forms.Form):
     point = forms.CharField(max_length=500,widget=forms.HiddenInput())
 
 
-
-
-
+class LocationSelection(forms.Form):
+	locations = forms.ModelMultipleChoiceField(label='Feature types',\
+        queryset=loci)
