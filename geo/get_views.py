@@ -10,5 +10,10 @@ from django.contrib.auth import authenticate,login, logout
 
 def get_children(request,id):
     form = LocationSelection()
-    return render(request, 'locations.html', {'form': form})
+    rel_type =  'children'
+    return render(request, 'locations.html', {'form': form,'rel_type': rel_type,'id':id })
 
+def get_parent(request,id):
+    form = LocationSelection()
+    rel_type =  'parent'
+    return render(request, 'locations.html', {'form': form,'rel_type': rel_type,'id':id })

@@ -17,5 +17,5 @@ class NewRecordForm(forms.Form):
 
 
 class LocationSelection(forms.Form):
-	locations = forms.ModelMultipleChoiceField(label='Feature types',\
+	locations = forms.ModelMultipleChoiceField(label='Select related locations:',\
         queryset=loci)

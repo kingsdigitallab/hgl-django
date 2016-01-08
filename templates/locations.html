@@ -1,3 +1,5 @@
-<form>
+<form method="POST" action="/add/{{ rel_type }}/{{ id }}/">
+{% csrf_token %}
 {{ form.as_p}}
+<input type="submit"></input>
 </form>
