@@ -1,7 +1,6 @@
 from geo.models import *
 from geo.forms import *
 
-
 from django.contrib.gis.geos import Point, MultiPoint
 from django.contrib.gis.geos import GEOSGeometry
 from django.template import RequestContext

@@ -1,7 +1,5 @@
 {% load i18n %}
 
-
-
 $(document).ready(function(){
 	formHTML = 
 	'<div id="geo-wrapper" style="float:left;display:block;width:10%,margin-left:20px;">'+
@@ -31,10 +29,6 @@ $(document).ready(function(){
 	};
 });
 
-
-
-
-
 function getPoints(){
     //Clear the list
 	$('#geocode_select').html('');
@@ -57,7 +51,6 @@ function getPoints(){
 		});
 }
 
-
 function listPoints(locations){
 	locationList = locations.geonames;
 	$('#geocode_select').append('<option value="">...</option>');
@@ -67,9 +60,6 @@ function listPoints(locations){
 		$('#geocode_select').append('<option value='+l+'>'+str+'</option>');
 	}
 }
-
-
-
 
 function centreMap(l){
 	// First reproject the point
@@ -91,9 +81,6 @@ function centreMap(l){
 
 }
 
-
-
-
 function wgs84toWebmerc(lon,lat){
 	var world = new Proj4js.Proj('EPSG:4326');
 	var webmerc = new Proj4js.Proj('EPSG:900913');
@@ -101,5 +88,3 @@ function wgs84toWebmerc(lon,lat){
 	Proj4js.transform(world,webmerc,p);
 	return p;
 }
-
-
