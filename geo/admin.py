@@ -35,6 +35,9 @@ class BasicAdmin(admin.ModelAdmin):
 class AttestationInline(admin.StackedInline):
     model = VariantAttestation
 
+class ExternalURIAdmin(admin.StackedInline):
+    model = ExternalURI
+
 
 class HeritageAdmin(admin.ModelAdmin):
     model = Heritage
@@ -97,7 +100,7 @@ class Related_LocusInverseInline(admin.TabularInline):
 #
 class Locus_VariantInline(admin.TabularInline):
     model = Locus_Variant
-    fields = ['name','language']
+    fields = ['name','language','attestation']
     extra = 1
 
 #
@@ -118,7 +121,7 @@ class LocusAdmin(admin.ModelAdmin):
     ordering = ['name', 'id', 'modified']
     search_fields = ['name']
     
-    inlines = [CoordinateInline,Related_LocusInline, Locus_VariantInline, Related_LocusInverseInline]
+    inlines = [CoordinateInline,ExternalURIAdmin,Related_LocusInline, Locus_VariantInline, Related_LocusInverseInline]
 
     class Media:
         geofield = 'coordinate'
@@ -215,6 +218,9 @@ class Inscription_LocusAdmin(admin.ModelAdmin):
     ordering = []
 
 
+class FeatureTypesAdmin(admin.ModelAdmin):
+    list_display = ['id','description',]
+    
 #
 admin.site.register(Heritage, HeritageAdmin)
 admin.site.register(Locus_Type, Locus_TypeAdmin)
@@ -231,7 +237,7 @@ admin.site.register(VariantAttestation,BasicAdmin)
 admin.site.register(Author,BasicAdmin)
 admin.site.register(Publication,BasicAdmin)
 admin.site.register(PublicationType,BasicAdmin)
-admin.site.register(FeatureTypes,BasicAdmin)
+admin.site.register(FeatureTypes,FeatureTypesAdmin)
 admin.site.register(Period,BasicAdmin)
 admin.site.register(Language,BasicAdmin)
 admin.site.register(Related_Locus,BasicAdmin)

@@ -10,6 +10,9 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User,Group
 from django.contrib.auth import authenticate,login, logout
 
+from dal import autocomplete
+
+
 def kml(request):
     polis_list= Locus.objects.filter(locus_type__name='Polis').filter(related_locus__name='Cyrenaica')
     return render_to_response('../templates/geo/kml.xml',{'polis_list':polis_list},content_type='text/xml')
@@ -88,3 +91,25 @@ def logout_user(request):
     logout(request)
     username = password = ''
     return HttpResponseRedirect('/')
+
+
+
+class autocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Locus.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs
+
+
+def json_dump(request):
+    dumpJson = dumpEmptyClass()
+    for ae in Monument.objects.all():
+        f = create_geojson_monument(ae)
+        dumpJson.featureDict["features"].append( f )
+    for ae in HistoricalUnit.objects.all():
+        f = create_geojson_hu(ae)
+        dumpJson.featureDict["features"].append( f )
+    return HttpResponse(simplejson.dumps(dumpJson.featureDict),mimetype='application/json')

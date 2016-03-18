@@ -17,3 +17,13 @@ def get_parent(request,id):
     form = LocationSelection()
     rel_type =  'parent'
     return render(request, 'locations.html', {'form': form,'rel_type': rel_type,'id':id })
+    
+def get_features(request,id):
+    form = FeatureSelection()
+    rel_type =  'feature'
+    return render(request, 'locations.html', {'form': form,'rel_type': rel_type,'id':id })    
+    
+def get_variant(request,id):
+    form = VariantAdd()
+    rel_type = 'variant'
+    return render(request, 'locations.html', {'form': form,'rel_type': rel_type,'id':id })    

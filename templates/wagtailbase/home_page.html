@@ -4,6 +4,7 @@
 {% block extra_head %}
 {% compress css %}
 <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+<link rel="stylesheet" type="text/x-scss" href="{% static 'js/jquery-ui.min.css' %}">
 {% endcompress %}
 {% endblock %}
 
@@ -26,9 +27,65 @@
 {% endblock %}
 
 {% block extra_footer %}
+
+<div class='autocomplete-suggestions'>"
+</div>
+
+
 {% compress js %}
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+
 <script src="{% static 'js/map.js' %}"></script>
+<script>
+        
+        
+        
+        $('#id_q').on('keyup',function(){
+                if ( $(this).val().length < 3 ){
+                    var str = ''
+                    $('.autocomplete-suggestions').html(str);
+                }
+                else {
+                    $.ajax('/autocomplete/?q=' + $(this).val(),
+                        {
+                            success: function(data){
+                                str = ''
+                                for (s in data["results"] ){
+                                    str += "<div class='autocomplete-suggestion'>" + data["results"][s]["text"] + "</div>"
+                                }
+                                
+                                $('.autocomplete-suggestions').html(str);
+                                
+                                $('.autocomplete-suggestion').on('click', function() {
+                                        var url = '/haystack_search/?q=' + $(this).text() ;
+                                        console.log(url)
+                                        window.location.href = url;
+                                })
+
+                                
+                                
+                                var left = $('#id_q').offset()['left']
+                                var top = $('#id_q').offset()['top']  +  ( $('#id_q').height() * 2 )
+                                //var width = $('#id_q').width()
+                                
+                                $('.autocomplete-suggestion').css('width','300px')
+                                
+                                $('.autocomplete-suggestions').css('position','absolute');
+                                $('.autocomplete-suggestions').css('top',top);
+                                $('.autocomplete-suggestions').css('left',left);
+                                $('.autocomplete-suggestions').css('width',width);
+                                //position: absolute; top: 242.688px; left: 370px; width: 198px; max-height: 300px; z-index: 9999; display: block;
+                            }
+                        }
+                    )
+                }
+            }
+        )
+
+
+
+
+</script>
 {% endcompress %}
 {% endblock %}

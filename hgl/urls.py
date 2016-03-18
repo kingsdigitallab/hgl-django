@@ -7,6 +7,10 @@ from django.contrib import admin
 
 import haystack
 
+#for autocomplete
+
+from geo.views import *
+
 from wagtailbase import urls as ws_urls
 
 admin.autodiscover()
@@ -22,6 +26,7 @@ urlpatterns = patterns('',
                        url(r'^add/',include('geo.add_urls')),
                        url(r'^get/',include('geo.get_urls')),
                        url(r'^geofield/(\w+)/geofield.js','geofield.views.geofield_js'),
+                       url(r'^autocomplete/$',autocomplete.as_view(),name='location-autocomplete'),
                        )
 
 

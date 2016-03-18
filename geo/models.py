@@ -45,6 +45,7 @@ class Locus_Type(models.Model):
 class Locus(models.Model):
     # Changing display name of field to fit new regime from name to descriptor
     name = models.CharField(blank = False, max_length = 200, null = False, unique = True,verbose_name='Descriptor')
+    attestation = models.CharField(max_length=500,null=True,blank=True,help_text="(for default name, descriptor)")
     geonames_id = models.IntegerField(null=True,blank=True)
     pleiades_uri = models.URLField(blank = True, max_length = 200, null = True) #, verify_exists = True)
     locus_type = models.ForeignKey(Locus_Type, blank = True, null = True)
@@ -207,6 +208,7 @@ class Locus_Variant(models.Model):
     locus = models.ForeignKey(Locus,related_name = 'variants')
     language = models.ForeignKey('Language',null=True,blank=True)
     note = models.TextField(blank = True, null = True)
+    attestation = models.CharField(max_length=500,blank=True,null=True)
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
     created = models.DateTimeField(auto_now_add = True, blank = False, null = False)
     
@@ -313,3 +315,9 @@ class Inscription_Locus(models.Model):
 
 
    
+class ExternalURI(models.Model):
+    uri = models.TextField()
+    locus = models.ForeignKey(Locus)
+
+    def __unicode__(self):
+        return u'%s, %s' % ( self.locus.name , self.uri )

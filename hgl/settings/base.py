@@ -57,6 +57,8 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 INSTALLED_APPS = (
+    'dal',
+    'dal_select2',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -5,6 +5,7 @@ class LocusIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     Feature = indexes.MultiValueField(faceted=True)
     name = indexes.CharField(model_attr='name')
+    variant_names =  indexes.MultiValueField()   
     Period = indexes.MultiValueField(faceted=True)
 
     def prepare_Feature(self, object):
@@ -15,6 +16,12 @@ class LocusIndex(indexes.SearchIndex, indexes.Indexable):
     #    for f in obj.featuretype_fk.all():
     #        ret.append(f.description)
     #    return ret
+    
+    def prepare_variant_names(self,obj):
+        ret = []
+        for v in obj.variants.all():
+            ret.append(v.name)
+        return ret
 
     def prepare_Period(self, obj):
         ret = []

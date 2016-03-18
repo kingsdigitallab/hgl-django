@@ -34,7 +34,6 @@ def add(request):
             c.save()
             l.save()
             record = l
-            #return render(request, 'single-record.html',{'record':record})
             return redirect('/irt_geo/recordview/?id='+ str(l.pk) )
         else:
             return render(request, 'add-new-record.html', {'form': form})
@@ -73,3 +72,33 @@ def add_children(request,id):
             return redirect('/irt_geo/recordview/?id=' + str(id) )
         else:
             return redirect('/irt_geo/recordview/?id=' + str(id) )
+
+            
+def add_feature(request,id):
+    if request.method == 'POST':
+        form = FeatureSelection(request.POST)    
+        l = Locus.objects.get(pk=id)        
+        if form.is_valid():
+            for r in form.cleaned_data['features']:        
+                l.featuretype_fk.add(r)
+                l.save()
+            return redirect('/irt_geo/recordview/?id=' + str(id) )
+        else:
+            return redirect('/irt_geo/recordview/?id=' + str(id) )
+            
+def add_variant(request,id):
+    if request.method == 'POST':
+        form = VariantAdd(request.POST)    
+        l = Locus.objects.get(pk=id)        
+        if form.is_valid():
+            nv = Locus_Variant()
+            nv.name = form.cleaned_data['variant_name']       
+            nv.locus = l
+            nv.language = form.cleaned_data['language']
+            if form.cleaned_data['attestation']:
+                nv.attestation = form.cleaned_data['attestation']
+            nv.save()
+            return redirect('/irt_geo/recordview/?id=' + str(id) )
+        else:
+            return redirect('/irt_geo/recordview/?id=' + str(id) )
+          

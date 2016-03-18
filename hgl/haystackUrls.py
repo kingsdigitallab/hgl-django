@@ -56,7 +56,9 @@ class CustomSearchForm(FacetedSearchForm):
                 sqs = sqs.models( qmodel )
         else:
             sqs = SearchQuerySet()
-            sqs = sqs.auto_query(self.cleaned_data.get('q') )
+            #sqs = sqs.auto_query(self.cleaned_data.get('q') )
+            q = self.cleaned_data.get('q')
+            sqs = sqs.filter_or(content=q).filter_or(variant_names=q)
             if self.selected_filters:
                 filterString = ''
                 for filter in self.selected_filters:
@@ -66,8 +68,10 @@ class CustomSearchForm(FacetedSearchForm):
                     if value:
                         value = value.replace('%20',' ')
                         filterString += u'.filter(%s_exact="%s")' % (field , sqs.query.clean(value)) 
+                        #filterString += u'.filter_or(%s_exact="%s").filter_or(variant_names="%s")' % (field , sqs.query.clean(value),sqs.query.clean(value)) 
                 filterString = 'sqs=sqs' + filterString
                 exec(filterString)
+                sqs = sqs.filter
             return sqs
 
     def no_query_found(self):
