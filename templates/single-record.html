@@ -56,14 +56,11 @@
 		<p>{{ f.description }}</p>
         {% endfor %}
 		<h3>Variant names</h3>
-		    {% if request.user.is_authenticated %}
-		    <a id="add-variant" data-open="add-variant-modal" class="button">Add variant name</a>
-
-			<div class="reveal" id="add-variant-modal" data-reveal>
-				<div id="variant-selections"></div>
-			</div>
-
-		    {% endif %}        
+        
+                            {% if request.user.is_authenticated %}
+                            <a id="add-variant" data-open="add-variant-modal" class="button">Add variant name</a>
+                            {% endif %}        
+            
 		<ol class="long-list">
             {% for v in record.variants.all %}
 			<li>{{ v.name }}{% if v.language %} ({{ v.language.en_name }}){% endif %}</li>
@@ -133,6 +130,12 @@
         {% endif %}
 	</div>
 </div>
+
+
+			<div class="reveal" id="add-variant-modal" data-reveal>
+				
+			</div>
+
 {% endblock %}
 
 {% block extra_footer %}
@@ -161,7 +164,7 @@ $(document).ready(function(){
                 map.setZoom( (map.getZoom() - 2 ) );
                 }
             }
-        )
+        );
     {% endif %}
 
     $("#add-child").on('click',function(){
@@ -170,7 +173,7 @@ $(document).ready(function(){
     			$('#add-child-modal').html(data);
     		}
     	})
-    })
+    });
 
     $("#add-parent").on('click',function(){
     	$.ajax('/get/locus-parent/{{ record.id }}',{
@@ -178,7 +181,7 @@ $(document).ready(function(){
     			$('#add-parent-modal').html(data);
     		}
     	})
-    })
+    });
     
     $("#add-feature").on('click',function(){
     	$.ajax('/get/features/{{ record.id }}',{
@@ -186,16 +189,43 @@ $(document).ready(function(){
     			$('#add-feature-modal').html(data);
     		}
     	})
-    })    
+    });    
     
+    
+    /*
     $("#add-variant").on('click',function(){
     	$.ajax('/get/variant/{{ record.id }}',{
     		success:function(data){
     			$('#add-variant-modal').html(data);
     		}
     	})
-    })     
+    });     
+    */
     
+    /*
+    $("#add-variant").on('click',function(){
+    	$.ajax('/get/variant/{{ record.id }}').done(function(data){ $('#add-variant-modal').html(data);})
+
+    });        
+    */
+    
+    $("#add-variant").on('click',function(){    
+        
+        var $variantModal = $('#add-variant-modal');
+    
+        $.ajax('/get/variant/{{ record.id }}').done(function(data){
+            $variantModal.html(data).foundation('open')
+        });
+    });    
+    
+    
+    
+            
 });
+
+
+var neil = 'neil';
+
+
 </script>
 {% endblock %}

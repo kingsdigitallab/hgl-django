@@ -48,14 +48,17 @@ def convex_hull(request):
             return JsonResponse( geojson )            
         # We need to convert this intoa dict object
         coords = []
-        for css in mp.convex_hull.coords[0]:
-            coords.append( [css[0],css[1]] )
-        geojson = {}
-        geojson["type"] = "Feature"
-        geojson["geometry"] = {}
-        geojson["geometry"]["type"] = "Polygon"
-        geojson["geometry"]["coordinates"] = []
-        geojson["geometry"]["coordinates"].append(coords)
+        try:
+            for css in mp.convex_hull.coords[0]:
+                coords.append( [css[0],css[1]] )
+            geojson = {}
+            geojson["type"] = "Feature"
+            geojson["geometry"] = {}
+            geojson["geometry"]["type"] = "Polygon"
+            geojson["geometry"]["coordinates"] = []
+            geojson["geometry"]["coordinates"].append(coords)
+        except Exception:
+            return JsonResponse({'Records':'None'})
     # Debug responder
     return JsonResponse( geojson )
 
