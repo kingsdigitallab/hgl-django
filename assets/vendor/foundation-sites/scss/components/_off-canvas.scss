@@ -53,7 +53,7 @@ $maincontent-shadow: 0 0 10px rgba($black, 0.5) !default;
     overflow-x: hidden;
     position: relative;
     backface-visibility: hidden;
-    -webkit-overflow-scrolling: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .off-canvas-wrapper-inner {
@@ -64,14 +64,12 @@ $maincontent-shadow: 0 0 10px rgba($black, 0.5) !default;
   }
 
   // Container for page content
-  .off-canvas-content,
-  .#{$maincontent-class} {
+  .off-canvas-content {
     min-height: 100%;
     background: $body-background;
     transition: transform $offcanvas-transition-length $offcanvas-transition-timing;
     backface-visibility: hidden;
     z-index: 1;
-    padding-bottom: 0.1px; // Prevents margin collapsing, which would reveal the box shadow of the wrapper
 
     @if has-value($maincontent-shadow) {
       box-shadow: $maincontent-shadow;
@@ -89,6 +87,10 @@ $maincontent-shadow: 0 0 10px rgba($black, 0.5) !default;
     background: $offcanvas-exit-background;
     cursor: pointer;
     transition: background $offcanvas-transition-length $offcanvas-transition-timing;
+
+    .is-off-canvas-open & {
+      display: block;
+    }
   }
 }
 
@@ -100,7 +102,7 @@ $maincontent-shadow: 0 0 10px rgba($black, 0.5) !default;
   z-index: $offcanvas-zindex;
   max-height: 100%;
   overflow-y: auto;
-  transform: translateX(0);
+  transform: translateX(0px);
 }
 
 @mixin off-canvas-position(
@@ -167,7 +169,6 @@ $maincontent-shadow: 0 0 10px rgba($black, 0.5) !default;
         .position-left.reveal-for-#{$name} {
           @include off-canvas-reveal(left);
         }
-
         .position-right.reveal-for-#{$name} {
           @include off-canvas-reveal(right);
         }

@@ -8,133 +8,120 @@
 /// @group table
 ////
 
-/// Default color for table background.
+/// Defualt color for table background.
 /// @type Color
 $table-background: $white  !default;
 
-/// Default scale for darkening the striped table rows and the table border.
+/// Defualt scale for darkening the striped table rows and the table border.
 /// @type Number
 $table-color-scale: 5% !default;
 
-/// Default style for table border.
+/// Defualt style for table border.
 /// @type List
 $table-border: 1px solid smart-scale($table-background, $table-color-scale) !default;
 
-/// Default padding for table.
+/// Defualt padding for table.
 /// @type Number
 $table-padding: rem-calc(8 10 10) !default;
 
-/// Default scale for darkening the table rows on hover.
+/// Defualt scale for darkening the table rows on hover.
 /// @type Number
 $table-hover-scale: 2% !default;
 
-/// Default color of standard rows on hover.
+/// Defualt color of standard rows on hover.
 /// @type List
 $table-row-hover: darken($table-background, $table-hover-scale) !default;
 
-/// Default color of striped rows on hover.
+/// Defualt color of striped rows on hover.
 /// @type List
 $table-row-stripe-hover: darken($table-background, $table-color-scale + $table-hover-scale) !default;
 
-/// Default background color for striped rows.
+/// Defualt background color for striped rows.
 /// @type Color
 $table-striped-background: smart-scale($table-background, $table-color-scale) !default;
 
-/// Default value for showing the stripe on rows of the tables, excluding the header and footer If even, the even rows will have a background color. If odd, the odd rows will have a background color. If empty, or anyother value, the table rows will have no striping.
+/// Defualt value for showing the stripe on rows of the tables, excluding the header and footer If even, the even rows will have a background color. If odd, the odd rows will have a background color. If empty, or anyother value, the table rows will have no striping.
 /// @type Keyoword
 $table-stripe: even !default;
 
-/// Default color for header background.
+/// Defualt color for header background.
 /// @type Color
 $table-head-background: smart-scale($table-background, $table-color-scale / 2) !default;
 
-/// Default color for footer background.
+/// Defualt color for footer background.
 /// @type Color
 $table-foot-background: smart-scale($table-background, $table-color-scale) !default;
 
-/// Default font color for header.
+/// Defualt font color for header.
 /// @type Color
 $table-head-font-color: $body-font-color !default;
 
-/// Default value for showing the header when using stacked tables.
+/// Defualt value for showing the header when using stacked tables.
 /// @type Boolean
 $show-header-for-stacked: false !default;
 
-@mixin -zf-table-children-styles($stripe: $table-stripe) {
-  thead,
-  tbody,
-  tfoot {
-    border: $table-border;
-    background-color: $table-background;
-  }
-
-  // Caption
-  caption {
-    font-weight: $global-weight-bold;
-    padding: $table-padding;
-  }
-
-  // Table head and foot
-  thead,
-  tfoot {
-    background: $table-head-background;
-    color: $table-head-font-color;
-
-    // Rows within head and foot
-    tr {
-      background: transparent;
-    }
-
-    // Cells within head and foot
-    th,
-    td {
-      padding: $table-padding;
-      font-weight: $global-weight-bold;
-      text-align: #{$global-left};
-    }
-  }
-
-  // Table rows
-  tbody {
-    tr {
-      // If stripe is set to even, darken the even rows.
-      @if $stripe == even {
-        &:nth-child(even) {
-          background-color: $table-striped-background;
-        }
-      }
-
-      // If stripe is set to odd, darken the odd rows.
-      @else if $stripe == odd {
-        &:nth-child(odd) {
-          background-color: $table-striped-background;
-        }
-      }
-    }
-
-    th,
-    td {
-      padding: $table-padding;
-    }
-  }
-}
-
 /// Adds the general styles for tables.
-/// @param {Keyword} $stripe [$table-stripe] - Uses keywords even, odd, or none to darken rows of the table. The default value is even.
-@mixin table(
-  $stripe: $table-stripe,
-  $nest: false
-) {
-  width: 100%;
+/// @param {Keyword} $stripe [$table-stripe] - Uses kewords even, odd, or none to darken rows of the table. The defualt value is even.
+@mixin table($stripe: $table-stripe) {
   margin-bottom: $global-margin;
   border-radius: $global-radius;
 
-  @if $nest {
-    @include -zf-table-children-styles($stripe);
-  }
-  @else {
-    @at-root {
-      @include -zf-table-children-styles($stripe);
+  @at-root {
+    thead,
+    tbody,
+    tfoot {
+      border: $table-border;
+      background-color: $table-background;
+    }
+
+    // Caption
+    caption {
+      font-weight: $global-weight-bold;
+      padding: $table-padding;
+    }
+
+    // Table head and foot
+    thead,
+    tfoot {
+      background: $table-head-background;
+      color: $table-head-font-color;
+
+      // Rows within head and foot
+      tr {
+        background: transparent;
+      }
+
+      // Cells within head and foot
+      th,
+      td {
+        padding: $table-padding;
+        font-weight: $global-weight-bold;
+        text-align: #{$global-left};
+      }
+    }
+
+    // Table rows
+    tbody {
+      tr {
+        // If stripe is set to even, darken the even rows.
+        @if $stripe == even {
+          &:nth-child(even) {
+            background-color: $table-striped-background;
+          }
+        }
+
+        // If stripe is set to odd, darken the odd rows.
+        @else if $stripe == odd {
+          &:nth-child(odd) {
+            background-color: $table-striped-background;
+          }
+        }
+      }
+
+      th,
+      td {
+        padding: $table-padding;
+      }
     }
   }
 }
@@ -143,7 +130,7 @@ $show-header-for-stacked: false !default;
 @mixin table-scroll {
   display: block;
   width: 100%;
-  overflow-x: auto;
+  overflow-y: scroll;
 }
 
 /// Slightly darkens the table rows on hover.
@@ -183,8 +170,7 @@ $show-header-for-stacked: false !default;
         display: none;
       }
     }
-  }
-  @else {
+  } @else {
     thead {
       display: none;
     }
@@ -205,9 +191,9 @@ $show-header-for-stacked: false !default;
   }
 }
 
-@mixin foundation-table($nest: false) {
+@mixin foundation-table {
   table {
-    @include table($nest: $nest);
+    @include table;
   }
 
   table.stack {
@@ -222,13 +208,5 @@ $show-header-for-stacked: false !default;
 
   table.hover {
     @include table-hover;
-  }
-
-  .table-scroll {
-    overflow-x: auto;
-
-    table {
-      width: auto;
-    }
   }
 }
