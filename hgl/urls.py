@@ -25,6 +25,7 @@ urlpatterns = patterns('',
                        url(r'^logout/','geo.views.logout_user'),
                        url(r'^add/',include('geo.add_urls')),
                        url(r'^get/',include('geo.get_urls')),
+                       url(r'^export/',include('geo.export_urls')),                       
                        url(r'^geofield/(\w+)/geofield.js','geofield.views.geofield_js'),
                        url(r'^autocomplete/$',autocomplete.as_view(),name='location-autocomplete'),
                        )

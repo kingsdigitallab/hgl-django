@@ -118,10 +118,13 @@ function getGeoNames(searchText){
             success: function(data){
                 var options = "";
                 for (g in data.geonames){
-                    options += '<div class="geonames-choice" data-lng="'+ data.geonames[g].lng +'" data-lat="'+ data.geonames[g].lat +'"><span>'+ data.geonames[g].name +'</span></div>'
+                    //options += '<div class="geonames-choice" data-lng="'+ data.geonames[g].lng +'" data-lat="'+ data.geonames[g].lat +'"><span>'+ data.geonames[g].name +'</span></div>'
+                    options += '<div class=" geonames-choice autocomplete-suggestion" data-lng="'+ data.geonames[g].lng +'" data-lat="'+ data.geonames[g].lat +'"><span>'+ data.geonames[g].name +'</span></div>'
                 }
                 $('#results').remove();
+                
                 $('#geoname-list').after('<div id="results"></div>');
+                
                 $('#results').html(options);
                 
                 initialiseSelection();
