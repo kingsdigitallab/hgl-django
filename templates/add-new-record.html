@@ -58,6 +58,16 @@
 var drawnItems = new L.FeatureGroup();
 
 	$(document).ready(function(){
+        // Stop event propogation on input box
+    
+        $('#id_q').dblclick(function(event) {
+            event.stopPropagation();
+        });
+        
+        $('#id_q').mousedown(function(event) {
+            event.stopPropagation();
+        });        
+    
 	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
 
         map.addLayer(drawnItems);
