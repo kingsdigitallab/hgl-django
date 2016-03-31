@@ -10,3 +10,5 @@ mysql-python
 pillow
 redis
 south
+django-autocomplete-light==3.0.4
+
