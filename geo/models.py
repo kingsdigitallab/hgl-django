@@ -80,19 +80,20 @@ class Locus(models.Model):
                 vn = Locus_Variant()
                 vn.name = n['name']
                 vn.locus = l
-            # Try to record language code if possible
-                try:
-                    code = n['lang']
-                    if code == 'link':
+                if Locus_Variant.objects.filter(name=n['name']).count() == 0:
+                # Try to record language code if possible
+                    try:
+                        code = n['lang']
+                        if code == 'link':
+                            pass
+                        else:
+                            try:
+                                vn.language = Language.objects.get(code=code)
+                            except Exception:
+                                pass                    
+                    except Exception:
                         pass
-                    else:
-                        try:
-                            vn.language = Language.objects.get(code=code)
-                        except Exception:
-                            pass                    
-                except Exception:
-                    pass
-                vn.save()
+                    vn.save()
 
         
                 
@@ -318,6 +319,15 @@ class Inscription_Locus(models.Model):
 class ExternalURI(models.Model):
     uri = models.TextField()
     locus = models.ForeignKey(Locus)
+    authority = models.ForeignKey('Authority')
 
     def __unicode__(self):
         return u'%s, %s' % ( self.locus.name , self.uri )
+
+class Authority(models.Model):
+    name = models.CharField(max_length=75)
+    base_uri = models.CharField(max_length=100,null=True,blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.name
+
