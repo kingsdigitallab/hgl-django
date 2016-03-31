@@ -80,6 +80,7 @@ class Locus(models.Model):
                 vn = Locus_Variant()
                 vn.name = n['name']
                 vn.locus = l
+                # Check that we don't already that name...
                 if Locus_Variant.objects.filter(name=n['name']).count() == 0:
                 # Try to record language code if possible
                     try:
