@@ -100,7 +100,7 @@ class Related_LocusInverseInline(admin.TabularInline):
 #
 class Locus_VariantInline(admin.TabularInline):
     model = Locus_Variant
-    fields = ['name','language','attestation']
+    fields = ['name','language','attestation','provenance']
     extra = 1
 
 #
@@ -242,3 +242,5 @@ admin.site.register(Period,BasicAdmin)
 admin.site.register(Language,BasicAdmin)
 admin.site.register(Related_Locus,BasicAdmin)
 admin.site.register(Authority,BasicAdmin)
+admin.site.register(FeatureCategory,BasicAdmin)
+

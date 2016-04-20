@@ -112,11 +112,23 @@ class Locus(models.Model):
     #    return self.featuretype
 class FeatureTypes(models.Model):
     description =  models.CharField(max_length=50)
+    category = models.ForeignKey('FeatureCategory',null=True,blank=True)
     def __unicode__(self):
         return u'%s' % self.description
 
     class Meta:
         ordering = ('description',)
+        verbose_name_plural = "Feature types"
+
+class FeatureCategory(models.Model):
+    description =  models.CharField(max_length=50)
+    def __unicode__(self):
+        return u'%s' % self.description
+
+    class Meta:
+        ordering = ('description',)
+        verbose_name_plural = "Feature categories"    
+
 
 #
 class Coordinate(models.Model):
@@ -166,6 +178,7 @@ class Related_Locus_Type(models.Model):
     class Meta:
         verbose_name = 'Related Location Type'
         verbose_name_plural = 'Related Location Types'
+        ordering = ['name','reciprocal_name',]
     
     def __unicode__(self):
         return self.name
@@ -190,6 +203,7 @@ class Related_Locus(models.Model):
         unique_together = ['subject', 'obj', 'related_locus_type']
         verbose_name = 'Related Location'
         verbose_name_plural = 'Related Locations'
+        ordering = ["subject","obj"]
         
     def __unicode__(self):
         return self.subject.name + ": " + self.related_locus_type.name + ": " + self.obj.name
@@ -213,11 +227,13 @@ class Locus_Variant(models.Model):
     attestation = models.CharField(max_length=500,blank=True,null=True)
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
     created = models.DateTimeField(auto_now_add = True, blank = False, null = False)
+    provenance = models.ForeignKey('Heritage',null=True,blank=True)
     
     class Meta:
         verbose_name = 'Variant Name'
         verbose_name_plural = 'Variant Names'
-        
+        ordering = ["name",]        
+
     def __unicode__(self):
         return self.name
 
@@ -332,3 +348,5 @@ class Authority(models.Model):
     def __unicode__(self):
         return u'%s' % self.name
 
+    class Meta:
+        verbose_name_plural = "Authorities"
