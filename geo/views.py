@@ -34,10 +34,16 @@ def convex_hull(request):
         rels = Related_Locus.objects\
             .filter(obj=locus)\
             .filter(related_locus_type__name='forms part of')
-        points = []    
+        points = []
+        # Try to recover convex hull for poly withi poly    
+        polys = []
         for r in rels:
             for c in r.subject.locus_coordinate.all():
                 points.append(c.point)
+        
+        #for r in rels:
+            
+            
         mp = MultiPoint(points)
         if rels.__len__() < 3:
             #Not enough coords for a hull?

@@ -12,8 +12,15 @@
 {% block title %}<h1>{{record.name}}</h1>
 <h4><a id="show-uri-modal" href="#" data-reveal-id="show-uri-modal">URI<i class="fa fa-share"></i></a></h4>
 
+               <h3>External URIs</h3>
+ <ul class="long-list">
+{% for u in record.externaluri_set.all %}
+
+<li><a href="{{ u.uri }}">{{ u.uri }}</a></li>
 
 
+{% endfor %}
+</ul>
 {% endblock %}
 
 
