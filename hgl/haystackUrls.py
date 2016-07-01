@@ -72,7 +72,7 @@ class CustomSearchForm(FacetedSearchForm):
                 filterString = 'sqs=sqs' + filterString
                 exec(filterString)
                 sqs = sqs.filter
-            return sqs
+            return sqs.order_by('-name')
 
     def no_query_found(self):
         #NB Moving the sqs to gather results ONLY if a facet has been selected...
@@ -148,13 +148,13 @@ class CustomSearchForm(FacetedSearchForm):
                 end_date = int(self.date_range.split('-')[1])
                 sqs = sqs.filter(date_from__gte=datetime.date(start_date,1,1)).filter(date_to__lte=datetime.date(end_date,1,1))
             #return sqs.order_by('site_name')
-            #sqs = sqs.order_by('site_name_sort_exact',)
+            sqs = sqs.order_by('-name')
             return sqs
         
         # Otherwise return the entire set
         else:
             #return sqs.all()
-            return SearchQuerySet()#.none()
+            return SearchQuerySet().order_by('-name')#.none()
 	
 class CustomSearchView(FacetedSearchView):
     def __init__(self, *args, **kwargs):

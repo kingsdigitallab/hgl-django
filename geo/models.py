@@ -46,8 +46,10 @@ class Locus(models.Model):
     # Changing display name of field to fit new regime from name to descriptor
     name = models.CharField(blank = False, max_length = 200, null = False, unique = True,verbose_name='Descriptor')
     attestation = models.CharField(max_length=500,null=True,blank=True,help_text="(for default name, descriptor)")
-    geonames_id = models.IntegerField(null=True,blank=True)
-    pleiades_uri = models.URLField(blank = True, max_length = 200, null = True) #, verify_exists = True)
+    geonames_id = models.IntegerField(null=True,blank=True,\
+        help_text='Redundant field, see external URI below')
+    pleiades_uri = models.URLField(blank = True, max_length = 200, null = True,\
+        help_text='Redundant field, see external URI below')
     locus_type = models.ForeignKey(Locus_Type, blank = True, null = True)
     related_locus = models.ManyToManyField('self', symmetrical = False, through = 'Related_Locus')
     FEATURE_FIELD_TYPE = (
@@ -336,7 +338,9 @@ class Inscription_Locus(models.Model):
 class ExternalURI(models.Model):
     uri = models.TextField()
     locus = models.ForeignKey(Locus)
-    authority = models.ForeignKey('Authority')
+    authority = models.ForeignKey('Authority',null=True,blank=True,help_text=\
+        "Redundant - use Provenance below")    
+    provenance = models.ForeignKey('Heritage',null=True,blank=True)    
 
     def __unicode__(self):
         return u'%s, %s' % ( self.locus.name , self.uri )

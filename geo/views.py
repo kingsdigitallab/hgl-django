@@ -1,7 +1,7 @@
 from geo.models import *
 from geo.forms import *
 
-from django.contrib.gis.geos import Point, MultiPoint
+from django.contrib.gis.geos import Point, MultiPoint, LineString
 from django.contrib.gis.geos import GEOSGeometry
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response, HttpResponse, render,HttpResponseRedirect
@@ -11,6 +11,10 @@ from django.contrib.auth.models import User,Group
 from django.contrib.auth import authenticate,login, logout
 
 from dal import autocomplete
+
+
+def getKey(item):
+    return item[0]
 
 
 def kml(request):
@@ -61,6 +65,34 @@ def convex_hull(request):
             return JsonResponse({'Records':'None'})
     # Debug responder
     return JsonResponse( geojson )
+
+def line(request):
+    # Return a JSON line response when line type feature
+    parent_id = request.GET.get('parent','')
+    locus = Locus.objects.get(pk=parent_id)
+    points = []
+    if locus:
+        rels = Related_Locus.objects.filter(obj=locus).filter(related_locus_type=3)
+        for r in rels:
+            for c in r.subject.locus_coordinate.all():
+                points.append(c.point)
+        pl = LineString(points)
+        pl = pl.geojson
+        
+        coords = []
+        for p in points:
+            coords.append( [p.x, p.y] )
+
+        coords_sort = sorted(coords, key=getKey)
+
+        geojson = {}
+        geojson["type"] = "Feature"
+        geojson["geometry"] = {}
+        geojson["geometry"]["type"] = "LineString"
+        geojson["geometry"]["coordinates"] = coords_sort
+        #geojson["geometry"]["coordinates"].append(coords)
+    
+    return JsonResponse(geojson)
 
 def popupcontent(request):
     id = request.GET.get('id','')

@@ -223,14 +223,14 @@ class FeatureTypesAdmin(admin.ModelAdmin):
     
 #
 admin.site.register(Heritage, HeritageAdmin)
-admin.site.register(Locus_Type, Locus_TypeAdmin)
+#admin.site.register(Locus_Type, Locus_TypeAdmin)
 admin.site.register(Locus, LocusAdmin)
 admin.site.register(Coordinate, CoordinateAdmin)
 admin.site.register(Related_Locus_Type, Related_Locus_TypeAdmin)
 admin.site.register(Locus_Variant, Locus_VariantAdmin)
-admin.site.register(Inscription, InscriptionAdmin)
-admin.site.register(Inscription_Locus_Type, Inscription_Locus_TypeAdmin)
-admin.site.register(Inscription_Locus, Inscription_LocusAdmin)
+#admin.site.register(Inscription, InscriptionAdmin)
+#admin.site.register(Inscription_Locus_Type, Inscription_Locus_TypeAdmin)
+#admin.site.register(Inscription_Locus, Inscription_LocusAdmin)
 
 
 admin.site.register(VariantAttestation,BasicAdmin)

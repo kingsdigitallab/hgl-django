@@ -5,6 +5,7 @@ class LocusIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     Feature = indexes.MultiValueField(faceted=True)
     name = indexes.CharField(model_attr='name')
+    sort_name = indexes.CharField(indexed=False, stored=True)
     variant_names =  indexes.MultiValueField()   
     Period = indexes.MultiValueField(faceted=True)
 

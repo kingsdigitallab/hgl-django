@@ -203,6 +203,23 @@ $(document).ready(function(){
                 }
             }
         );
+
+	{% if record.featuretype = 1 %}
+        
+        var line;
+
+	$.ajax('/irt_geo/line/?parent={{ record.id }}',
+	    {
+	     success:function(data){
+		line = new L.geoJson(data).addTo(map);
+		map.fitBounds(line.getBounds());
+                map.setZoom( (map.getZoom() -2 ));	
+		}
+
+	     }
+	);
+	{% endif %}
+
     {% endif %}
 
     $("#add-child").on('click',function(){
