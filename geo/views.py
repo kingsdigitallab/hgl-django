@@ -1,8 +1,8 @@
 from geo.models import *
 from geo.forms import *
 
-from django.contrib.gis.geos import Point, MultiPoint, LineString
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import Point, MultiPoint, LineString, MultiPolygon
+from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response, HttpResponse, render,HttpResponseRedirect
 from django.http import JsonResponse
@@ -35,18 +35,39 @@ def convex_hull(request):
             .filter(obj=locus)\
             .filter(related_locus_type__name='forms part of')
         points = []
-        # Try to recover convex hull for poly withi poly    
-        polys = []
+        # Try to recover convex hull for poly within poly    
+        # polys = []
+
         for r in rels:
             for c in r.subject.locus_coordinate.all():
                 points.append(c.point)
-        
-        #for r in rels:
-            
-            
+                subrels = Related_Locus.objects\
+                    .filter(obj=r.subject)\
+                    .filter(related_locus_type__name='forms part of')
+                for sr in subrels:
+                    for cc in sr.subject.locus_coordinate.all():
+                        points.append(cc.point)                    
+                        subsubrels = Related_Locus.objects\
+                            .filter(obj=sr.subject)\
+                            .filter(related_locus_type__name='forms part of')                        
+                        for ssr in subsubrels:
+                            for ccc in ssr.subject.locus_coordinate.all():
+                                points.append(ccc.point)                         
+            #polys.append(convex_hull_children(r.subject.id))
+
+        #Maybe going about this wrongly Neil
+
         mp = MultiPoint(points)
-        if rels.__len__() < 3:
+
+        #return HttpResponse(polys[0].__str__())
+
+        #if polys.__len__() > 0:
+        #    cx = MultiPolygon(polys)
+        #    cnvx = cx.convex_hull
+
+        if rels.__len__() < 3: #and polys.__len__() > 0 :
             #Not enough coords for a hull?
+            
             coords = []
             for p in points:
                 coords.append( [p.x, p.y ])
@@ -61,6 +82,11 @@ def convex_hull(request):
         try:
             for css in mp.convex_hull.coords[0]:
                 coords.append( [css[0],css[1]] )
+            # If polys exist the add their coords to the array
+            #if polys.__len__() < 0:
+            #    cnvx = MultiPolygon([cnvx,mp]).convex_hull
+            #    for i in cnvx.coords[0]:
+            #        coords.append( [i[0],i[1]] )
             geojson = {}
             geojson["type"] = "Feature"
             geojson["geometry"] = {}
@@ -71,6 +97,45 @@ def convex_hull(request):
             return JsonResponse({'Records':'None'})
     # Debug responder
     return JsonResponse( geojson )
+
+
+
+def convex_hull_children(id):
+    try:
+        locus = Locus.objects.get(pk=id)
+    except Exception:
+        locus = None
+    if locus:
+        rels = Related_Locus.objects\
+            .filter(obj=locus)\
+            .filter(related_locus_type__name='forms part of')
+        points = []
+        for r in rels:
+            for c in r.subject.locus_coordinate.all():
+                points.append(c.point)
+        #for r in rels:
+        mp = MultiPoint(points)
+        if rels.__len__() < 3:
+            #Not enough coords for a hull?  
+            pass
+        else:            
+        # We need to convert this in to a dict object
+            coords = []
+            try:
+                for css in mp.convex_hull.coords[0]:
+                    coords.append( [css[0],css[1]] )
+                geojson = {}
+                geojson["type"] = "Feature"
+                geojson["geometry"] = {}  
+                geojson["geometry"]["type"] = "Polygon"
+                geojson["geometry"]["coordinates"] = []
+                geojson["geometry"]["coordinates"].append(coords)
+            except Exception:
+                pass
+    # Debug responder
+        return mp.convex_hull
+
+
 
 def line(request):
     # Return a JSON line response when line type feature

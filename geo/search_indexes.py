@@ -34,7 +34,12 @@ class LocusIndex(indexes.SearchIndex, indexes.Indexable):
             return ret
         except Exception:
             return []
-        
+
+    def prepare_sort_name(self,obj):
+        ret = obj.name.lower()
+        ret = ret.replace(':',' ')
+        ret = ret.replace(',',' ')
+        return ret
 
     def get_model(self):
         return Locus

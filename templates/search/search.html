@@ -91,7 +91,7 @@
 	$(document).ready(function(){
 	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
         map.spin(true)
-		$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}&mime_type=application/text',
+		$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}&page=1&mime_type=application/text',
 			{ success:function(data){
 					eval(data);
 			 	}
