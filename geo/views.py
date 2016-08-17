@@ -31,72 +31,78 @@ def convex_hull(request):
     else:
         locus = None
     if locus:
-        rels = Related_Locus.objects\
-            .filter(obj=locus)\
-            .filter(related_locus_type__name='forms part of')
-        points = []
-        # Try to recover convex hull for poly within poly    
-        # polys = []
+        geom = locus.getConvexHull()
 
-        for r in rels:
-            for c in r.subject.locus_coordinate.all():
-                points.append(c.point)
-                subrels = Related_Locus.objects\
-                    .filter(obj=r.subject)\
-                    .filter(related_locus_type__name='forms part of')
-                for sr in subrels:
-                    for cc in sr.subject.locus_coordinate.all():
-                        points.append(cc.point)                    
-                        subsubrels = Related_Locus.objects\
-                            .filter(obj=sr.subject)\
-                            .filter(related_locus_type__name='forms part of')                        
-                        for ssr in subsubrels:
-                            for ccc in ssr.subject.locus_coordinate.all():
-                                points.append(ccc.point)                         
-            #polys.append(convex_hull_children(r.subject.id))
+        return JsonResponse( geom )
+    else:
+        return JsonResponse({'Records':'None'})
 
-        #Maybe going about this wrongly Neil
+    #     rels = Related_Locus.objects\
+    #         .filter(obj=locus)\
+    #         .filter(related_locus_type__name='forms part of')
+    #     points = []
+    #     # Try to recover convex hull for poly within poly    
+    #     # polys = []
 
-        mp = MultiPoint(points)
+    #     for r in rels:
+    #         for c in r.subject.locus_coordinate.all():
+    #             points.append(c.point)
+    #             subrels = Related_Locus.objects\
+    #                  .filter(obj=r.subject)\
+    #                  .filter(related_locus_type__name='forms part of')
+    #             for sr in subrels:
+    #                 for cc in sr.subject.locus_coordinate.all():
+    #                     points.append(cc.point)                    
+    #                     subsubrels = Related_Locus.objects\
+    #                         .filter(obj=sr.subject)\
+    #                         .filter(related_locus_type__name='forms part of')                        
+    #                     for ssr in subsubrels:
+    #                         for ccc in ssr.subject.locus_coordinate.all():
+    #                             points.append(ccc.point)                         
+    #         #polys.append(convex_hull_children(r.subject.id))
 
-        #return HttpResponse(polys[0].__str__())
+    #     #Maybe going about this wrongly Neil
 
-        #if polys.__len__() > 0:
-        #    cx = MultiPolygon(polys)
-        #    cnvx = cx.convex_hull
+    #     mp = MultiPoint(points)
 
-        if rels.__len__() < 3: #and polys.__len__() > 0 :
-            #Not enough coords for a hull?
+    #     #return HttpResponse(polys[0].__str__())
+
+    #     #if polys.__len__() > 0:
+    #     #    cx = MultiPolygon(polys)
+    #     #    cnvx = cx.convex_hull
+
+    #     if rels.__len__() < 3: #and polys.__len__() > 0 :
+    #         #Not enough coords for a hull?
             
-            coords = []
-            for p in points:
-                coords.append( [p.x, p.y ])
-            geojson = {}
-            geojson["type"] = "Feature"
-            geojson["geometry"] = {}
-            geojson["geometry"]["type"] = "MultiPoint"
-            geojson["geometry"]["coordinates"] = coords            
-            return JsonResponse( geojson )            
-        # We need to convert this intoa dict object
-        coords = []
-        try:
-            for css in mp.convex_hull.coords[0]:
-                coords.append( [css[0],css[1]] )
-            # If polys exist the add their coords to the array
-            #if polys.__len__() < 0:
-            #    cnvx = MultiPolygon([cnvx,mp]).convex_hull
-            #    for i in cnvx.coords[0]:
-            #        coords.append( [i[0],i[1]] )
-            geojson = {}
-            geojson["type"] = "Feature"
-            geojson["geometry"] = {}
-            geojson["geometry"]["type"] = "Polygon"
-            geojson["geometry"]["coordinates"] = []
-            geojson["geometry"]["coordinates"].append(coords)
-        except Exception:
-            return JsonResponse({'Records':'None'})
-    # Debug responder
-    return JsonResponse( geojson )
+    #         coords = []
+    #         for p in points:
+    #             coords.append( [p.x, p.y ])
+    #         geojson = {}
+    #         geojson["type"] = "Feature"
+    #         geojson["geometry"] = {}
+    #         geojson["geometry"]["type"] = "MultiPoint"
+    #         geojson["geometry"]["coordinates"] = coords            
+    #         return JsonResponse( geojson )            
+    #     # We need to convert this intoa dict object
+    #     coords = []
+    #     try:
+    #         for css in mp.convex_hull.coords[0]:
+    #             coords.append( [css[0],css[1]] )
+    #         # If polys exist the add their coords to the array
+    #         #if polys.__len__() < 0:
+    #         #    cnvx = MultiPolygon([cnvx,mp]).convex_hull
+    #         #    for i in cnvx.coords[0]:
+    #         #        coords.append( [i[0],i[1]] )
+    #         geojson = {}
+    #         geojson["type"] = "Feature"
+    #         geojson["geometry"] = {}
+    #         geojson["geometry"]["type"] = "Polygon"
+    #         geojson["geometry"]["coordinates"] = []
+    #         geojson["geometry"]["coordinates"].append(coords)
+    #     except Exception:
+    #         return JsonResponse({'Records':'None'})
+    # # Debug responder
+    # return JsonResponse( geojson )
 
 
 

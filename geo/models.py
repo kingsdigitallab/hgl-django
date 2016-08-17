@@ -2,6 +2,8 @@ from django.contrib.contenttypes.models import ContentType
 #from django.db import models
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import Point, MultiPoint, LineString, MultiPolygon
+from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
 
 import requests
 
@@ -97,9 +99,43 @@ class Locus(models.Model):
                     except Exception:
                         pass
                     vn.save()
+   
+    def getDescendants(self):
+        related_loci = []
+        for rel in Related_Locus.objects.filter(obj=self).filter(related_locus_type__name='forms part of'):
+            related_loci.append(rel.subject)
+        return related_loci
 
+    def getConvexHull(self):
+        # Find all points that descendants of this Locus
+        descendants = self.getDescendants()
+        i = 0
+        while i < 5:
+            i = i + 1 
+            for d in descendants:
+                for ds in d.getDescendants():
+                    if ds not in descendants:
+                        descendants.append(ds)
+        points = []
+        for c in descendants:
+            for p in c.locus_coordinate.all():
+                points.append(p.point)
+
+        coords = []
+        mp = MultiPoint(points)
+        for css in mp.convex_hull.coords[0]:
+            coords.append( [css[0],css[1]] )
+        geojson = {}
+        geojson["type"] = "Feature"
+        geojson["geometry"] = {}
+        geojson["geometry"]["type"] = "Polygon"
+        geojson["geometry"]["coordinates"] = []
+        geojson["geometry"]["coordinates"].append(coords)
+
+    # Debug responder
+        return geojson
         
-                
+        #return points
 
     class Meta:
         verbose_name = 'Location'
