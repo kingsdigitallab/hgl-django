@@ -61,13 +61,13 @@
 	        {% include 'wagtailbase/includes/pagination.html' %}
 
 			<div id="list-results">
-	            <ol start="{{ page.start_index }}">
+	            <ul start="{{ page.start_index }}">
 	            	{% for result in page.object_list %}
 	                <li><a href="/irt_geo/recordview/?id={{ result.object.id }}">{{ result.object.name }}</a></li>
 	            	{% empty %}
 	            	<li>No results found.</li>
 	            	{% endfor %}
-	            </ol>             
+	            </ul>             
 			</div>
 
 	        {% include 'wagtailbase/includes/pagination.html' %}
