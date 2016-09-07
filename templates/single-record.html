@@ -35,12 +35,13 @@
 	<div class="large-6 columns">
 		<div class="coordinates">
 			<h3><i class="fa fa-map-marker"></i> Coordinates</h3>
-            <a href="/export/locus/{{ record.id }}" target="_blank" class="button tiny radius">GeoJSON</a>            
+            <!--<a href="/export/locus/{{ record.id }}" target="_blank" class="button tiny radius">GeoJSON</a>-->            
             {% for l in record.locus_coordinate.all %}
 			<div class="row">
             	<div class="row">
 				<div class="large-8 columns">
-					<p><strong>Latitude:</strong> {{ l.point.y }}, <strong>Longitude:</strong> {{ l.point.x}}</p>
+					<p><strong>Latitude:</strong> {{ l.point.y }}, <strong>Longitude:</strong> {{ l.point.x}}{% if l.height %}
+					, <strong>Altitude:</strong> {{ l.height|floatformat }}m{% endif%}</p>
                     <!--<p><strong>Longitude:</strong> {{ l.point.x}}</p>-->
 				</div>
                 <!--
@@ -135,6 +136,8 @@
 		</ul>
 		<button class="button secondary show-more">Show more</button>
 
+		{% if record.parent.all %}
+
 		<h4>Child features <button data-toggle="inverted-rel-locations-dropdown"><i class="fa fa-question-circle"></i></button></h4>
 		<div class="dropdown-pane" id="inverted-rel-locations-dropdown" data-dropdown data-auto-focus="true">
 			<h4><i class="fa fa-question-circle"></i> Inverted related locations</h4>
@@ -160,6 +163,8 @@
             {% endfor %}
 		</ul>
 		<button class="button secondary show-more">Show more</button>
+
+	{% endif %}
 
         {% if record.note %}
 		<div class="notes">
@@ -190,16 +195,20 @@
 {% compress js %}
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+<script src="{% static 'vendor/spin.js/spin.min.js' %}"></script>
+<script src="{% static 'vendor/leaflet-spin/leaflet.spin.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 
 {% endcompress %}
 <script>
 $(document).ready(function(){
+	map.spin(true)
 	L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
     {% for l in record.locus_coordinate.all %}
     {% if forloop.first %}
         var m = L.marker([{{ l.point.y }},{{ l.point.x }}]).addTo(map);
         map.setView([{{ l.point.y }},{{ l.point.x }}],6);
+	map.spin(false)
     {% endif %}
     {% endfor %}
     {% if not record.locus_coordinate.all or record.parent.all %}
@@ -207,10 +216,16 @@ $(document).ready(function(){
         $.ajax('/irt_geo/convex-hull/?parent={{ record.id}}',
             {
             success:function(data){
-                var hull = new L.geoJson(data).addTo(map);
-                
-                map.fitBounds(hull.getBounds());
-                map.setZoom( (map.getZoom() - 2 ) );
+		if (typeof data.properties !== "undefined"){
+                	//var hull = new L.geoJson(data).addTo(map);
+                	//map.fitBounds(hull.getBounds());
+                }
+		else {
+			var hull = new L.geoJson(data).addTo(map);
+                        map.fitBounds(hull.getBounds());
+		}
+		map.setZoom( (map.getZoom() - 2 ) );
+		map.spin(false)
                 }
             }
         );
@@ -225,6 +240,7 @@ $(document).ready(function(){
 		line = new L.geoJson(data).addTo(map);
 		map.fitBounds(line.getBounds());
                 map.setZoom( (map.getZoom() -2 ));	
+ 		map.spin(false);
 		}
 
 	     }

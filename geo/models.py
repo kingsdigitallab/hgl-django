@@ -123,9 +123,15 @@ class Locus(models.Model):
 
         coords = []
         mp = MultiPoint(points)
-        for css in mp.convex_hull.coords[0]:
-            coords.append( [css[0],css[1]] )
         geojson = {}
+        if mp.convex_hull.coords.__len__() > 0:
+            for css in mp.convex_hull.coords[0]:
+                coords.append( [css[0],css[1]] )
+        else:
+            coords.append([18.018,30.449])
+	    geojson["properties"]={}
+            geojson["properties"]["bad"] = "bad"
+        #geojson = {}
         geojson["type"] = "Feature"
         geojson["geometry"] = {}
         geojson["geometry"]["type"] = "Polygon"
@@ -174,7 +180,7 @@ class Coordinate(models.Model):
     latitude = models.DecimalField(blank = False, decimal_places = 7, max_digits = 10, null = False)
     longitude = models.DecimalField(blank = False, decimal_places = 7, max_digits = 10, null = False)
     #add column 'height' for table 'geo_coordinate'
-    height = models.DecimalField(blank = True, decimal_places = 7, max_digits = 10, null = True)
+    height = models.DecimalField(blank = True, decimal_places = 7, max_digits = 11, null = True)
     heritage = models.ForeignKey(Heritage)
     third_party_uri = models.CharField(max_length=500,null=True,blank=True)
     feature = models.CharField(blank = True, max_length = 200, null = True)
