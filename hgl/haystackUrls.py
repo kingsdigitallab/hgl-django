@@ -21,7 +21,9 @@ import datetime
 import settings
 
 
-locus_facets = ['Period','Feature',]
+#locus_facets = ['Period','Feature',]
+
+locus_facets = ['Feature',]
 
 facet_groups = {Locus:locus_facets,}
 
@@ -67,7 +69,7 @@ class CustomSearchForm(FacetedSearchForm):
                     field,value = filter.split(":",1)
                     if value:
                         value = value.replace('%20',' ')
-                        filterString += u'.filter(%s_exact="%s")' % (field , sqs.query.clean(value)) 
+                        filterString += u'.filter(%s="%s")' % (field , sqs.query.clean(value)) 
                         #filterString += u'.filter_or(%s_exact="%s").filter_or(variant_names="%s")' % (field , sqs.query.clean(value),sqs.query.clean(value)) 
                 filterString = 'sqs=sqs' + filterString
                 exec(filterString)
@@ -108,7 +110,7 @@ class CustomSearchForm(FacetedSearchForm):
                         value = value.replace('%20',' ')
                         print sqs.query.clean(value)
                         #sqs = sqs.narrow(u'%s_exact:"%s"' % (field,sqs.query.clean(value)))
-                        facetString += u'.filter_or(%s_exact=Exact("%s"))' % (field , sqs.query.clean(value))
+                        facetString += u'.filter_or(%s=Exact("%s"))' % (field , sqs.query.clean(value))
                         print facetString
                 facetString = 'sqs=sqs' + facetString
                 exec(facetString)
@@ -125,7 +127,7 @@ class CustomSearchForm(FacetedSearchForm):
                     if value:
                         value = value.replace('%20',' ')
                         #filterString += u'.filter(%s_exact=Exact("%s"))' % (field , sqs.query.clean(value)) 
-                        filterString += u'.filter(%s_exact="%s")' % (field , sqs.query.clean(value)) 
+                        filterString += u'.filter(%s="%s")' % (field , sqs.query.clean(value)) 
                 filterString = 'sqs=sqs' + filterString
                 print filterString
                 print sqs
@@ -179,13 +181,17 @@ class CustomSearchView(FacetedSearchView):
             #TO DO - Replace this facet string with a constant from somewhere else that is called based on the model being faceted ???
             sqs = SearchQuerySet().models(model)
             for facet in facet_groups.get(model):
-                sqs = sqs.facet(facet)  
-            extra['facets'] = sqs.facet_counts()
+                sqs = sqs.facet(facet)
+                fqs = sqs.facet_counts()
+                fqs['fields']['Feature'] =  sorted(fqs['fields']['Feature'])  
+            extra['facets'] = fqs#sqs.facet_counts()
         else:
             sqs = self.results
             for facet in facet_groups.get(model):
                 sqs = sqs.facet(facet)
-            extra['facets'] = sqs.facet_counts()
+                fqs = sqs.facet_counts()
+                fqs['fields']['Feature'] =  sorted(fqs['fields']['Feature'])
+            extra['facets'] = fqs#sqs.facet_counts()
         return extra   
     def build_form(self, form_kwargs=None):
         if form_kwargs is None:
