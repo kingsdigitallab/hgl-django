@@ -7,5 +7,6 @@ $(document).ready(function(){
         zoom: 5
     });
     // and add tiles
-    var awmc = new L.TileLayer("http://{s}.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png",{subdomains:'abcd'}).addTo(map)
+    var awmc = new L.TileLayer("http://{s}.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png",{subdomains:'abcd',
+     attribution:'<a href="http://awmc.unc.edu/wordpress/">AWMC</a>'}).addTo(map)
 });
