@@ -113,13 +113,15 @@
 		<h3>Relationships with other locations <button data-toggle="relationships-dropdown"><i class="fa fa-question-circle"></i></button></h3>
 		<div class="dropdown-pane" id="relationships-dropdown" data-dropdown data-auto-focus="true">
 			<h4><i class="fa fa-question-circle"></i> Relationships with other locations</h4>
-			Provide info to explain how <strong>relationships with other locations</strong> work.
+
+			This displays relationships with locations within which the item falls, and relationships which it contains. We only display the immediate relationships, not a full series. If a location falls within Cyrene, we do not also display its relationship to Cyrenaica; similarly, if Cyrene contains the Agora, we do not also display the items within the Agora at the same level.
+
 		</div>
 
 		<h4>Parent features <button data-toggle="rel-locations-dropdown"><i class="fa fa-question-circle"></i></button></h4>
 		<div class="dropdown-pane" id="rel-locations-dropdown" data-dropdown data-auto-focus="true">
 			<h4><i class="fa fa-question-circle"></i> Related locations</h4>
-			Provide info to explain how <strong>related locations</strong> work.
+This is a location within which a location falls. Most of these are conceptual – for example a Roman Province, a Hellenistic Kingdom or the chapter of a book – so many locations have multiple parent locations.
 		</div>
 		    {% if request.user.is_authenticated %}
 
@@ -143,7 +145,7 @@
 		<h4>Child features <button data-toggle="inverted-rel-locations-dropdown"><i class="fa fa-question-circle"></i></button></h4>
 		<div class="dropdown-pane" id="inverted-rel-locations-dropdown" data-dropdown data-auto-focus="true">
 			<h4><i class="fa fa-question-circle"></i> Inverted related locations</h4>
-			Provide info to explain how <strong>inverted related locations</strong> work.
+These are locations contained within the location – these may, for example be monuments within a settlement, or zones within a city
 		</div>
 
 		{% if request.user.is_authenticated %}
