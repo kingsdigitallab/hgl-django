@@ -73,7 +73,7 @@ class CustomSearchForm(FacetedSearchForm):
                         #filterString += u'.filter_or(%s_exact="%s").filter_or(variant_names="%s")' % (field , sqs.query.clean(value),sqs.query.clean(value)) 
                 filterString = 'sqs=sqs' + filterString
                 exec(filterString)
-                sqs = sqs.filter
+                #sqs = sqs.filter
             return sqs.order_by('sort_name')
 
     def no_query_found(self):
