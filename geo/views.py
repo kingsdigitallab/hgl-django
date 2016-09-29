@@ -167,8 +167,8 @@ def line(request):
         geojson["geometry"] = {}
         geojson["geometry"]["type"] = "LineString"
         geojson["geometry"]["coordinates"] = coords_sort
-        #geojson["geometry"]["coordinates"].append(coords)
-    
+        geojson["geometry"]["coordinates"].append(coords)
+    return HttpResponse(points)
     return JsonResponse(geojson)
 
 def popupcontent(request):
@@ -195,6 +195,9 @@ def login_user(request):
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect('/')
+        else:
+            form = LoginForm()
+            return render(request, 'login.html', {'form': form})
     else:
         form = LoginForm()
         return render(request, 'login.html', {'form': form})

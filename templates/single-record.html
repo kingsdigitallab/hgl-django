@@ -82,9 +82,25 @@
                             {% endif %}        
             
 		<ul class="long-list">
-            {% for v in record.variants.all %}
+	    	    
+        
+            {% for v in record.variants.all|dictsort:"language" %}
+			{% if v.language.en_name = "Arabic"%}
 			<li>{{ v.name }}{% if v.language %} ({{ v.language.en_name }}){% endif %}</li>
+			{% else %}
+			{% endif %}
             {% endfor %}
+
+            {% for v in record.variants.all|dictsort:"language" %}
+                        {% if v.language.en_name = "Arabic"%}
+                        {% else %}
+			<li>{{ v.name }}{% if v.language %} ({{ v.language.en_name }}){% endif %}</li>
+			{% endif %}
+            {% endfor %}
+
+
+
+
 		</ul>
 		<button class="button secondary show-more">Show more</button>    
     
