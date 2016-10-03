@@ -153,6 +153,11 @@ def line(request):
         for r in rels:
             for c in r.subject.locus_coordinate.all():
                 points.append(c.point)
+            subrels = Related_Locus.objects.filter(obj=r.obj).filter(related_locus_type=3)
+            for sr in subrels:
+                for sc in sr.subject.locus_coordinate.all():
+                    points.append(sc.point)
+        #return HttpResponse(points)
         pl = LineString(points)
         pl = pl.geojson
         
@@ -168,6 +173,7 @@ def line(request):
         geojson["geometry"]["type"] = "LineString"
         geojson["geometry"]["coordinates"] = coords_sort
         geojson["geometry"]["coordinates"].append(coords)
+    #return HttpResponse(points)
     return JsonResponse(geojson)
 
 def popupcontent(request):
