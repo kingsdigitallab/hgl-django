@@ -168,7 +168,6 @@ def line(request):
         geojson["geometry"]["type"] = "LineString"
         geojson["geometry"]["coordinates"] = coords_sort
         geojson["geometry"]["coordinates"].append(coords)
-    return HttpResponse(points)
     return JsonResponse(geojson)
 
 def popupcontent(request):
