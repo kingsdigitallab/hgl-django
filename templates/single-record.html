@@ -219,7 +219,7 @@ $(document).ready(function(){
     {% for l in record.locus_coordinate.all %}
     {% if forloop.first %}
         var m = L.marker([{{ l.point.y }},{{ l.point.x }}]).addTo(map);
-        map.setView([{{ l.point.y }},{{ l.point.x }}],6);
+        map.setView([{{ l.point.y }},{{ l.point.x }}],9);
 	map.spin(false)
     {% endif %}
     {% endfor %}

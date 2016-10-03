@@ -147,16 +147,29 @@ def line(request):
     # Return a JSON line response when line type feature
     parent_id = request.GET.get('parent','')
     locus = Locus.objects.get(pk=parent_id)
+    debug = []
     points = []
     if locus:
-        rels = Related_Locus.objects.filter(obj=locus).filter(related_locus_type=3)
+        rels = Related_Locus.objects.filter(obj=locus)#.filter(related_locus_type=3)
         for r in rels:
             for c in r.subject.locus_coordinate.all():
                 points.append(c.point)
-            subrels = Related_Locus.objects.filter(obj=r.obj).filter(related_locus_type=3)
+                debug.append(r.subject.id)
+                debug.append("-")
+            subrels = Related_Locus.objects.filter(obj=r.subject)#.filter(related_locus_type=3)
+            
             for sr in subrels:
                 for sc in sr.subject.locus_coordinate.all():
                     points.append(sc.point)
+                    debug.append(sr.subject.id)
+                    debug.append("+")
+
+                subsubrels = Related_Locus.objects.filter(obj=sr.subject)
+                for ssr in subsubrels:
+                    for ssc in ssr.subject.locus_coordinate.all():
+                        points.append(ssc.point)
+                        debug.append("++") 
+
         #return HttpResponse(points)
         pl = LineString(points)
         pl = pl.geojson
@@ -172,7 +185,7 @@ def line(request):
         geojson["geometry"] = {}
         geojson["geometry"]["type"] = "LineString"
         geojson["geometry"]["coordinates"] = coords_sort
-        geojson["geometry"]["coordinates"].append(coords)
+        #geojson["geometry"]["coordinates"].append(coords)
     #return HttpResponse(points)
     return JsonResponse(geojson)
 
