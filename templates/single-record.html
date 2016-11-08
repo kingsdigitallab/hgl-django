@@ -289,13 +289,21 @@ $(document).ready(function(){
     
     $("#add-variant").on('click',function(){    
         
-        var $variantModal = $('#add-variant-modal');
-    
-        $.ajax('/get/variant/{{ record.id }}').done(function(data){
-            $variantModal.html(data).foundation('open')
-        });
+        $.ajax('/get/variant/{{ record.id }}',{
+		success:function(data){
+			$('#add-variant-modal').html(data);
+
+			$('#add-variant-modal').foundation('close');
+			                        $('#add-variant-modal').foundation('open');
+		}
+	})
+
+	
+
+
     });    
     
+
     $('#show-uri-modal').on('click',function(){
     
         var $uriModal = $('#uri-modal');
