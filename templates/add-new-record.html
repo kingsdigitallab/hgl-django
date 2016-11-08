@@ -168,6 +168,24 @@ function recordMarkerLocation(m){
         m._latlng.lat.toString() 
     +')');
 };
+
+
+
+if ( $('#id_point').val() != ""   ) {
+	
+        var pnt = $('#id_point').val()
+	x = pnt.substr(6, (pnt.length - 6 - pnt.indexOf(' ')))
+        y = pnt.substr(pnt.indexOf(' ') + 1, pnt.length - pnt.indexOf(' ') - 2)
+        x = parseFloat(x)
+	y = parseFloat(y)
+	l = new L.marker([y,x] )
+
+	drawnItems.addLayer(l);	
+
+}
+
+
+
 </script>
 {% endcompress %}
 {% endblock %}
