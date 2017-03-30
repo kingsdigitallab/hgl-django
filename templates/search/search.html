@@ -6,6 +6,8 @@
 {% block extra_head %}
 {% compress css %}
 <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/markercluster/MarkerCluster.Default.css' %}">
 {% endcompress %}
 {% endblock %}
 
@@ -87,38 +89,48 @@
 <script src="{% static 'vendor/spin.js/spin.min.js' %}"></script>
 <script src="{% static 'vendor/leaflet-spin/leaflet.spin.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+
+<script src="{% static 'vendor/markercluster/leaflet.markercluster.js' %}"></script>
+
+
+
 <script src="{% static 'vendor/Google.js'%}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 <script>
+        var clusterLayer;
 	$(document).ready(function(){
 	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
         map.spin(true)
 		$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}&page=1&mime_type=application/text',
 			{ success:function(data){
-					eval(data);
+					mapResult(eval(data));
 			 	}
 			}
 		)
+		clusterLayer = new L.markerClusterGroup()
 	})
+
+
 	function mapResult(geojson){
-		for (g in geojson){
-			map.addLayer(
-                new L.geoJson(geojson[g],{
-                    onEachFeature:function(f,l){
-                        //l.bindPopup(f.properties.name)
-                        l.on('click',function(){
-                            $.ajax('/irt_geo/popupcontent/?id='+f.properties.id,{
-                                success:function(data){
-                                    l.bindPopup(data).openPopup();
-                                }
-                            })
-                        })
-                    }
-                })
-            );
-		}
-        map.spin(false)
-	}
+		g = new L.geoJson(geojson,{
+		        pointToLayer(f,ll){
+                            var mkr = new L.marker(ll);
+                            mkr.on('click',function(){
+                                $.ajax('/irt_geo/popupcontent/?id='+f.properties.id,{
+                                    success:function(data){
+                                        mkr.bindPopup(data).openPopup();
+                                    }
+                                }) // end ajax
+			    });
+			    clusterLayer.addLayer(mkr)
+                            return mkr;
+                    	 }
+		})//.addTo(map);
+		map.addLayer(clusterLayer);
+		map.spin(false);	
+	};
+
+
 </script>
 {% endcompress %}
 {% endblock %}
