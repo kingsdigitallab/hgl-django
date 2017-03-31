@@ -28,6 +28,7 @@ urlpatterns = patterns('',
                        url(r'^export/',include('geo.export_urls')),                       
                        url(r'^geofield/(\w+)/geofield.js','geofield.views.geofield_js'),
                        url(r'^autocomplete/$',autocomplete.as_view(),name='location-autocomplete'),
+                       url(r'^(\d+)/','geo.views.recordview_simple'),
                        )
 
 

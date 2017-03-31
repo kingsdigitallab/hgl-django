@@ -142,7 +142,7 @@ This is a location within which a location falls. Most of these are conceptual �
 
 		<ul class="long-list">
             {% for r in record.child.all %}
-			<li>{{record.name}} <em>{{ r.related_locus_type.name }}</em> <strong><a href="/irt_geo/recordview/?id={{ r.obj.id }}">{{ r.obj.name }}</a></strong></li>
+			<li>{{record.name}} <em>{{ r.related_locus_type.name }}</em> <strong><a href="/{{ r.obj.id }}">{{ r.obj.name }}</a></strong></li>
             {% endfor %}
 		</ul>
 		<button class="button secondary show-more">Show more</button>
@@ -170,7 +170,7 @@ These are locations contained within the location – these may, for example be 
 		<p><em>The locations below are contained within</em> <strong>{{ record.name }}</strong></p>
 		<ul class="long-list">
             {% for r in record.parent.all %}
-            <li><a href="/irt_geo/recordview/?id={{ r.subject.id }}">{{ r.subject.name }}</a></li>            
+            <li><a href="/{{ r.subject.id }}">{{ r.subject.name }}</a></li>            
             {% endfor %}
 		</ul>
 		<button class="button secondary show-more">Show more</button>
@@ -197,7 +197,8 @@ These are locations contained within the location – these may, for example be 
             
             <div class="reveal" id="uri-modal" style="position:relative;" data-reveal>
                 <h3>Copy URI to clipboard</h3>
-                <input id="uri-input" type="text" value="www.slsgazetteer.org/irt_geo/recordview/?id={{ record.id }}"></input>
+                <!--<input id="uri-input" type="text" value="www.slsgazetteer.org/irt_geo/recordview/?id={{ record.id }}"></input>-->
+                <input id="uri-input" type="text" value="www.slsgazetteer.org/{{ record.id }}"></input>
             </div>
 
 {% endblock %}

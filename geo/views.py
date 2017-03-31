@@ -203,6 +203,15 @@ def recordview(request):
     context['record'] = locus
     return render_to_response('../templates/single-record.html',context,context_instance=RequestContext(request))
 
+
+def recordview_simple(request,record_id):
+    id = record_id
+    locus = Locus.objects.get(pk=id)
+    context = {}
+    context['record'] = locus
+    return render_to_response('../templates/single-record.html',context,context_instance=RequestContext(request))
+
+
 def login_user(request):
     username = password = ''
     if request.POST: 
