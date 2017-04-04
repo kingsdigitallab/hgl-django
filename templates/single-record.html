@@ -65,12 +65,20 @@
 {% if record.externaluri_set.all %}
 <h4>External URIs</h4>
 {% for u in record.externaluri_set.all %}
-
-
 <p><a href="{{ u.uri }}" class="ext-links">{{ u.uri }}</a></p>
 
 {% endfor %}
 {% endif %}
+
+                    {% if request.user.is_authenticated %}
+
+                    <a id="add-uri" data-open="add-uri-modal" class="button">Add external URI</a>
+
+                        <div class="reveal" id="add-uri-modal"  style="position:relative;" data-reveal>
+                                <div id="parent-selections"></div>
+                        </div>
+
+                    {% endif %}
 
 
 	</div><!-- end map -->
@@ -147,7 +155,7 @@ This is a location within which a location falls. Most of these are conceptual �
 		</ul>
 		<button class="button secondary show-more">Show more</button>
 
-		{% if record.parent.all %}
+	    {# if record.parent.all #}
 
 		<h4>Child features <button data-toggle="inverted-rel-locations-dropdown"><i class="fa fa-question-circle"></i></button></h4>
 		<div class="dropdown-pane" id="inverted-rel-locations-dropdown" data-dropdown data-auto-focus="true">
@@ -164,9 +172,9 @@ These are locations contained within the location – these may, for example be 
 			<div id="child-selections"></div>
 		</div>
 
-	    {% endif %}
-
-
+	    {# endif #}
+		
+             {% if record.parent.all %}
 		<p><em>The locations below are contained within</em> <strong>{{ record.name }}</strong></p>
 		<ul class="long-list">
             {% for r in record.parent.all %}
@@ -174,7 +182,7 @@ These are locations contained within the location – these may, for example be 
             {% endfor %}
 		</ul>
 		<button class="button secondary show-more">Show more</button>
-
+              {% endif %}
 	{% endif %}
 
         {% if record.note %}
@@ -286,6 +294,17 @@ $(document).ready(function(){
     	})
     });    
     
+
+    $("#add-uri").on('click',function(){
+        $.ajax('/get/uri/{{ record.id }}',{
+                success:function(data){
+                        $('#add-uri-modal').html(data);
+                        $('#add-uri-modal').foundation('close');
+                                                $('#add-uri-modal').foundation('open');
+                }
+        })
+    });
+
     
     
     $("#add-variant").on('click',function(){    

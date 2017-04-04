@@ -102,3 +102,17 @@ def add_variant(request,id):
         else:
             return redirect('/irt_geo/recordview/?id=' + str(id) )
           
+
+def add_uri(request,id):
+    if request.method == 'POST':
+        form = UrlAdd(request.POST)
+        l = Locus.objects.get(pk=id)
+        if form.is_valid():
+            nv = ExternalURI()
+            nv.uri = form.cleaned_data['uri']
+            nv.locus = l
+            nv.provenance = form.cleaned_data['provenance']
+            nv.save()
+            return redirect('/irt_geo/recordview/?id=' + str(id) )
+        else:
+            return redirect('/irt_geo/recordview/?id=' + str(id) )

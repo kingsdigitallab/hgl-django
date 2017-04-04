@@ -27,3 +27,8 @@ def get_variant(request,id):
     form = VariantAdd()
     rel_type = 'variant'
     return render(request, 'locations.html', {'form': form,'rel_type': rel_type,'id':id })    
+
+def get_uri(request,id):
+    form = UrlAdd()
+    rel_type = 'uri'
+    return render(request, 'locations.html', {'form': form,'rel_type': rel_type,'id':id })

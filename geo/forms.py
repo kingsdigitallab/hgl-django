@@ -1,10 +1,10 @@
 from django import forms
-from geo.models import FeatureTypes,Locus,Language
+from geo.models import FeatureTypes,Locus,Language,Heritage
 
 feature_types =  FeatureTypes.objects.all()
 loci = Locus.objects.all()
 languages =  Language.objects.all()
-
+heritage = Heritage.objects.all()
 
 
 class LoginForm(forms.Form):
@@ -31,3 +31,9 @@ class VariantAdd(forms.Form):
     variant_name = forms.CharField(label='Variant name')
     language = forms.ModelChoiceField(label='Language',queryset=languages)
     attestation = forms.CharField(label='Optional attestation',required=False)    
+
+class UrlAdd(forms.Form):
+    uri = forms.URLField(label='URI')
+    provenance = forms.ModelChoiceField(label='Optional provenance',queryset=heritage,required=False)
+
+
