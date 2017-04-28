@@ -172,7 +172,7 @@ These are locations contained within the location – these may, for example be 
 			<div id="child-selections"></div>
 		</div>
 
-	    {# endif #}
+	    {% endif %}
 		
              {% if record.parent.all %}
 		<p><em>The locations below are contained within</em> <strong>{{ record.name }}</strong></p>
@@ -183,7 +183,7 @@ These are locations contained within the location – these may, for example be 
 		</ul>
 		<button class="button secondary show-more">Show more</button>
               {% endif %}
-	{% endif %}
+	{# endif #}
 
         {% if record.note %}
 		<div class="notes">
