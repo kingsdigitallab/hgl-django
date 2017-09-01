@@ -29,6 +29,7 @@ urlpatterns = patterns('',
                        url(r'^geofield/(\w+)/geofield.js','geofield.views.geofield_js'),
                        url(r'^autocomplete/$',autocomplete.as_view(),name='location-autocomplete'),
                        url(r'^(\d+)/','geo.views.recordview_simple'),
+                       url(r'^data/', include('geo.pelagiosUrls')),
                        )
 
 
