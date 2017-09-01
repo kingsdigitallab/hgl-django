@@ -46,7 +46,7 @@ def create_json_record(loc):
     ret.featureDict["id"] = loc.pk
     for t in loc.featuretype_fk.all():
         ret.featureDict["properties"]["types"].append(t.description)    
-    ret.featureDict["uri"] =  "http://slsgazetteer.org/" + str(loc.id)
+    ret.featureDict["uri"] =  "http://www.slsgazetteer.org/" + str(loc.id)
     for ln in loc.externaluri_set.all():
         ret.featureDict["links"]["close_matches"].append(ln.uri)
     for n in loc.variants.all():
