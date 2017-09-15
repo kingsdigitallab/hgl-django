@@ -83,6 +83,8 @@
 
 	</div><!-- end map -->
 	<div class="large-6 columns">
+            <div id="thumbs" class="row">
+            </div>
 		<h3>Variant names</h3>
         
                             {% if request.user.is_authenticated %}
@@ -209,6 +211,12 @@ These are locations contained within the location – these may, for example be 
                 <input id="uri-input" type="text" value="www.slsgazetteer.org/{{ record.id }}"></input>
             </div>
 
+
+
+            <div class="reveal photo-modal" id="photo-modal" style="position:relative;" data-reveal>
+                
+            </div>
+
 {% endblock %}
 
 {% block extra_footer %}
@@ -222,7 +230,53 @@ These are locations contained within the location – these may, for example be 
 <script src="{% static 'js/map.js' %}"></script>
 {% endcompress %}
 <script>
+
+var flickR;
+
+function jsonFlickrApi(flickrData){
+    if (flickrData.photos.total > 0){
+        photoUrls = []
+        //for (p in flickrData.photos.photo){
+        try{
+        for (p = 0; 2; p++ ){
+            id = flickrData.photos.photo[p]["id"]
+            farm = flickrData.photos.photo[p]["farm"]
+            secret = flickrData.photos.photo[p]["secret"]
+            server = flickrData.photos.photo[p]["server"]
+            title = flickrData.photos.photo[p]["title"]
+            photoURI = "https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret
+            $("#thumbs").prepend('<div class="large-4 columns"><a href="#" onclick="showPhotoModal(this' +  
+            '); return false;"  data="'+ photoURI + '.jpg" data-title="'+ title
+            +'"><span data-tooltip aria-haspopup="true" class="has-tip"' +
+            ' title="'+ title +'" data-disable-hover="false" tabindex="1"><img class="thumbnail" style="height:100px;" src="' + photoURI + '_t.jpg"></img></span></a>'
+            +'</br><a href="https://www.flickr.com/photos/' + flickrData.photos.photo[p]["owner"] + '/' + id +'">More details &raquo;</a>'
+	    + '</div>') 
+           
+	}}
+        catch(err){
+		// Probably not enough photos
+        }
+	// Add a title
+        $('#thumbs').before ('<h3>Images from the <strong><a href="https://www.flickr.com/groups/3033343@N24/" target="_blank">HGL Flickr Group</a></strong></h3>')
+        // And a little space
+        $('#thumbs').after('</br>');
+    }
+}
+
+
 $(document).ready(function(){
+    // New call to Flickr for JSONP
+    $.ajax({
+	url:"https://api.flickr.com/services/rest/?method=flickr.photos.search&"+
+            "api_key=aca0a85eae34a02fe012c315d5fa2d61&group_id=3033343@N24"+
+            "&tags=hgl:{{ record.pk }}&format=json&jsoncallback",
+        dataType: "jsonp"
+    });
+
+
+
+
+
 	map.spin(true)
 	L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
     {% for l in record.locus_coordinate.all %}
@@ -266,6 +320,7 @@ $(document).ready(function(){
 
 	     }
 	);
+
 	{% endif %}
 
     {% endif %}
@@ -338,6 +393,18 @@ $(document).ready(function(){
             
 });
 
+
+function showPhotoModal(photo){
+    modalHTML = '<div class="large-12 columns">'+
+    '<div class="row"><img src="' + $(photo).attr('data') + '"></img></div>' +
+    '<div class="row"><span>'+ $(photo).attr('data-title') +'</span></div>' +					
+    '</div>'
+    $('#photo-modal').html(modalHTML);
+    $photoModal = $('#photo-modal');
+  
+   $photoModal.foundation('open');
+
+}
 
 
 
