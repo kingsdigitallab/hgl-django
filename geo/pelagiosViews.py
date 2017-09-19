@@ -18,7 +18,7 @@ class templateClass:
             "type":"Feature",\
             "uri":"placeholder",\
             "properties":{"types":[]},\
-            "links":{"close_matches":[]},\
+            "links":{"broad_matches":[], "close_matches":[]},\
             "names":[],\
 
         }
@@ -40,15 +40,22 @@ def json_dump(request):
 def create_json_record(loc):
     ret = templateClass()
     for l in loc.locus_coordinate.all():
-       ret.featureDict["geometry"]["coordinates"].append([l.point.x,l.point.y])
-       ret.featureDict["geometry"]["properties"]["provenances"].append(l.heritage.name) 
+        ret.featureDict["geometry"]["coordinates"].append([l.point.x,l.point.y])
+        ret.featureDict["geometry"]["properties"]["provenances"].append(l.heritage.name)
+    if loc.locus_coordinate.all().__len__() == 0:
+        del ret.featureDict["geometry"]
+    if loc.locus_coordinate.all().__len__() == 1:
+        ret.featureDict["geometry"]["type"] = 'Point' 
     ret.featureDict["title"] = loc.name
     ret.featureDict["id"] = loc.pk
     for t in loc.featuretype_fk.all():
         ret.featureDict["properties"]["types"].append(t.description)    
     ret.featureDict["uri"] =  "http://www.slsgazetteer.org/" + str(loc.id)
     for ln in loc.externaluri_set.all():
-        ret.featureDict["links"]["close_matches"].append(ln.uri)
+        if "geoname" in ln.uri:
+            ret.featureDict["links"]["broad_matches"].append(ln.uri)
+        else:    
+            ret.featureDict["links"]["close_matches"].append(ln.uri)
     for n in loc.variants.all():
         ret.featureDict["names"].append({"name":n.name})        
     return ret.featureDict
