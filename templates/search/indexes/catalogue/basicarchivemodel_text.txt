@@ -1,0 +1,4 @@
+{{ object.scopecontent }}
+{{ object.arrangement }}
+{{ object.custodhist }}
+
