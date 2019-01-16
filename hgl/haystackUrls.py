@@ -156,7 +156,7 @@ class CustomSearchForm(FacetedSearchForm):
         # Otherwise return the entire set
         else:
             #return sqs.all()
-            return SearchQuerySet().order_by('sort_name')#.none()
+            return SearchQuerySet().models(Locus).order_by('sort_name')#.none()
 	
 class CustomSearchView(FacetedSearchView):
     def __init__(self, *args, **kwargs):
