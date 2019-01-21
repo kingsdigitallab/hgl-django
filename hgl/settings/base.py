@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     #'compressor',
     'require',
     'haystack',
+    'catalogue',
 )
 
 INSTALLED_APPS += ws.INSTALLED_APPS

@@ -55,9 +55,9 @@ class CustomSearchForm(FacetedSearchForm):
         if self.models:
             for m in self.models:        
                 qmodel = object_type_for_sqs.get( m )
-                sqs = sqs.models( qmodel )
+                sqs = sqs.models( Locus )
         else:
-            sqs = SearchQuerySet()
+            sqs = SearchQuerySet().models(Locus)
             #sqs = sqs.auto_query(self.cleaned_data.get('q') )
             q = self.cleaned_data.get('q')
             sqs = sqs.filter_or(content=q).filter_or(variant_names=q)
