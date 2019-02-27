@@ -36,7 +36,7 @@
   {% block extra_head %}
   {% endblock %}
 
-  <!-- define requirejs config settings. -->
+  <!-- define requirejs config settings please. -->
   <!-- 
   <script type="text/javascript">
     {# include 'includes/config.js' #}
@@ -72,6 +72,15 @@
 <script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
 <script src="{% static 'vendor/foundation-sites/dist/foundation.min.js' %}"></script>
 <!--<script src="{% static 'vendor/foundation-sites/dist/foundation.js' %}"></script>-->
+
+<script type="application/json" class="js-hypothesis-config">
+
+{"showHighlights": false}
+
+</script>
+
+<script src="https://hypothes.is/embed.js" async></script>
+
 
 {% compress js %}
 <script src="{% static 'js/app.js' %}"></script>

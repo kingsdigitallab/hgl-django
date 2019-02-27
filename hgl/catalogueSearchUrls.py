@@ -234,10 +234,14 @@ class CustomTextSearchView(SearchView):
         return render_to_response(self.template, context, context_instance=self.context_class(self.request))		
 		
 urlpatterns = patterns('',
-    url(r'^$', CustomSearchView(template='search/catalogue_search.html',\
-       form_class=CustomSearchForm,results_per_page=40), name='haystack_search'),       
+    # Disabling non text search briefly
+    #url(r'^$', CustomSearchView(template='search/catalogue_search.html',\
+    #   form_class=CustomSearchForm,results_per_page=40), name='haystack_search'),       
 	   
-    url(r'^text/$', CustomTextSearchView(template='search/catalogue_text_search.html',\
+    #url(r'^text/$', CustomTextSearchView(template='search/catalogue_text_search.html',\
+    #   form_class=SearchForm,results_per_page=15), name='haystack_search'),
+
+    url(r'^$', CustomTextSearchView(template='search/catalogue_text_search.html',\
        form_class=SearchForm,results_per_page=15), name='haystack_search'),
 
 )
