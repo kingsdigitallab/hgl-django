@@ -42,7 +42,7 @@
 			<div id="list-results">
 	            <ul start="{{ page.start_index }}">
 	            	{% for result in page.object_list %}
-	                <li><a href="/irt_geo/recordview/?id={{ result.object.id }}">{{ result.object.unittitle }}</a></li>
+	                <li><a href="/cat_item/recordview/?id={{ result.object.id }}">{{ result.object.unittitle }}</a></li>
 	            	{% empty %}
 	            	<li>No results found.</li>
 	            	{% endfor %}

@@ -1,0 +1,136 @@
+{% extends 'wagtailbase/base.html' %}
+{% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
+
+{% block meta_title %}Advanced search{% endblock %}
+
+{% block extra_head %}
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/markercluster/MarkerCluster.Default.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block title %}<h1>Advanced search</h1>{% endblock %}
+
+{% block main %}
+{{ block.super }}
+<div class="off-canvas-wrapper">
+	<button type="button" class="button" data-toggle="offCanvas"><i class="fa fa-cog"></i> Search options</button>
+	<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+		<div class="off-canvas position-left filter-options" id="offCanvas" data-off-canvas>
+			<h3>Refine your search</h3>
+	                    
+	        <form method="get" action=".">
+				<ul class="menu">
+					<li><input id="id_q" name="q" type="search" placeholder="Search"></li>
+					<li><input type="submit" class="button" value="Search"></input></li>
+				</ul>
+	        </form>
+
+	        <h3>Apply filters</h3>
+
+	        <!-- start facets -->
+	        {% for key,value in facets.fields.items %}
+			<div class="facet-panel">
+				<a href="#" class="expander"><h4><i class="fa fa-caret-right"></i> {{ key }}</h4></a>
+				<ul class="facet-list collapsible hide" id="facet-locus">
+					{% for k,v in value %}
+					<li><a href="{{ request.META.SCRIPT_URL }}?{{ request.META.QUERY_STRING}}&selected_filters={{ key }}:{{ k }}"><span class="badge secondary float-right">{{ v }}</span>{{ k }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% endfor %}
+	        <!-- end facets -->
+	    </div>
+		<div class="off-canvas-content" data-off-canvas-content>
+			<div id="map">Here be maps!</div>
+
+			<h2>Search results <span class="badge">{{ paginator.count }}</span></h2>
+
+			<div id="applied-filters">
+				<h3><span class="float-right"><a href="/haystack_search">Clear all <i class="fa fa-trash"></i></a></span>Applied filters</h3>
+				<ul class="menu">
+	                {% for f in selected_filters %}
+	                <li><span class="label light">{{ f }} <a href="{{ request.META.SCRIPT_URL }}?{% for s in selected_filters %}{% if s == f %}{% else %}&selected_filters={{ s }}{% endif %}{% endfor %}">
+					<i class="fa fa-times-circle"></i></a></span></li>
+	                {% endfor %}
+				</ul>
+			</div>
+	        
+	        {% if query or paginator.count > 0 %}
+			<p><em>Showing <strong>{{ page.start_index }}-{{ page.end_index }}</strong> results of <strong>{{ paginator.count }}</strong></em></p> 
+	        {% include 'wagtailbase/includes/pagination.html' %}
+
+			<div id="list-results">
+	            <ul start="{{ page.start_index }}">
+	            	{% for result in page.object_list %}
+	                <li><a href="/irt_geo/recordview/?id={{ result.object.id }}">{{ result.object.name }}</a></li>
+	            	{% empty %}
+	            	<li>No results found.</li>
+	            	{% endfor %}
+	            </ul>             
+			</div>
+
+	        {% include 'wagtailbase/includes/pagination.html' %}
+	        
+	        {% else %}
+	        {# Show some example queries to run, maybe query syntax, something else? #}
+	        {% endif %}
+	    </div>
+	</div><!-- /.off-canvas-wrapper-inner -->
+</div><!-- /.off-canvas-wrapper -->
+{% endblock %}
+
+{% block extra_footer %}
+<script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyAtcVXdItN9K9_PCf6nAUQriPinrI97CSY"></script>
+{% compress js %}
+<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/spin.js/spin.min.js' %}"></script>
+<script src="{% static 'vendor/leaflet-spin/leaflet.spin.js' %}"></script>
+<script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
+
+<script src="{% static 'vendor/markercluster/leaflet.markercluster.js' %}"></script>
+
+
+
+<script src="{% static 'vendor/Google.js'%}"></script>
+<script src="{% static 'js/map.js' %}"></script>
+<script>
+        var clusterLayer;
+	$(document).ready(function(){
+	    L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}";
+        map.spin(true)
+		$.ajax( '{{ request.META.SCRIPT_URL }}map/?{{ request.META.QUERY_STRING|safe }}&page=1&mime_type=application/text',
+			{ success:function(data){
+					mapResult(eval(data));
+			 	}
+			}
+		)
+		clusterLayer = new L.markerClusterGroup()
+	})
+
+
+	function mapResult(geojson){
+		g = new L.geoJson(geojson,{
+		        pointToLayer(f,ll){
+                            var mkr = new L.marker(ll);
+                            mkr.on('click',function(){
+                                $.ajax('/irt_geo/popupcontent/?id='+f.properties.id,{
+                                    success:function(data){
+                                        mkr.bindPopup(data).openPopup();
+                                    }
+                                }) // end ajax
+			    });
+			    clusterLayer.addLayer(mkr)
+                            return mkr;
+                    	 }
+		})//.addTo(map);
+		map.addLayer(clusterLayer);
+		map.spin(false);	
+	};
+
+
+</script>
+{% endcompress %}
+{% endblock %}
