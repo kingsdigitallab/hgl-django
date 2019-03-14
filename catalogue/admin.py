@@ -17,7 +17,7 @@ class BasicAdmin(admin.ModelAdmin):
     raw_id_fields = ['parent',]
     fields = ['parent','level','unittitle','unitstart_date','unitend_date',
     'repository', 'scopecontent','arrangement','custodhist',\
-    'relatedmaterial','language',]
+    'relatedmaterial','language', 'bioghist']
     filter_horizontal = ["language",]
     inlines = [NoteInline,PhysDescInline,UnitIdInline]
 

@@ -1,0 +1,126 @@
+{% extends 'wagtailbase/base.html' %}
+{% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
+
+{% block meta_title %}Advanced search{% endblock %}
+
+{% block extra_head %}
+{% compress css %}
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/markercluster/MarkerCluster.Default.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block title %}<h1><a href="/browse">&laquo;</a> Browse collections</h1>{% endblock %}
+
+{% block main %}
+
+<div class="off-canvas-wrapper">
+
+	<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+		<div class="off-canvas-content" data-off-canvas-content> 
+
+			<div id="list-results">
+
+
+            <button class="accordion"><span style="font-style:normal;"><b>{{ cat.unittitle }}{%if cat.children.all %} ({{ cat.children.count }} items){% endif %}</b></span></br>
+              {{ cat.unitstart_date }} - {{ cat.unitend_date}}
+            </button>
+            <div  style="margin-bottom: 5px; display:block;" class="panel">
+              {% for l in cat.language.all %}<button style="margin-top:10px; margin-bottom:10px;" class="button" type="button">{{ l }}</button>{% endfor %}
+              {% if cat.item_note.all %}<p><b>Notes</b> - {% for n in cat.item_note.all %}{{ n.text }}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}{% endif%}
+              {% for ph in cat.item_physdesc.all %}<p><b>{{ ph.type.desc }}</b> - {{ ph.desc }}</p> {% endfor %}
+              {% for un in cat.unitid_set.all %}<p><b>{{ un.type.desc }}</b> - {{ un.desc }}</p> {% endfor %}
+              {% if cat.scopecontent %}<p><b>Scope</b></p><p> {{ cat.clean_scope }}</p>{% endif %}
+              {% if cat.arrangement %}<p><b>Arrangement</b></p><p>{{ cat.clean_arr }}</p> {% endif %}
+              {% if cat.custodhist %}<p><b>Custodian History</b></p><p> {{ cat.clean_cust }}</p>{% endif %}
+              {% if cat.bioghist %}<p><b>Biographical history</b></p><p> {{ cat.clean_bio }}</p>{% endif %}
+              {% if cat.relatedmaterial %}<p><b>Related materials</b></p><p> {{ cat.clean_rel }}</p>{% endif %}
+              {% if cat.children.all %}
+              <h4><em>Within this  {{ cat.level }}:</em></h4>
+              {% for item in cat.children.all %}
+              <p>{{ item.unittitle }} <a href="/cat_item/{{ item.id }}/"><em>  &raquo; see more </em></a></p>
+              {% endfor %}
+              {% endif %}
+            </div> 
+					
+
+
+
+
+			</div>
+	    </div>
+	</div><!-- /.off-canvas-wrapper-inner -->
+</div><!-- /.off-canvas-wrapper -->
+{% endblock %}
+
+{% block extra_footer  %}
+
+
+<style>
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+}
+
+button.accordion.active:after {
+    content: "\2212";
+}
+button.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+</style>
+
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+
+</script>
+
+
+{% endblock %}

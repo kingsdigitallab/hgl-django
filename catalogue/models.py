@@ -21,6 +21,33 @@ class BasicArchiveModel(models.Model):
     def __unicode__(self):
         return self.unittitle
 
+
+    def clean_scope(self):
+        str = self.scopecontent.replace(" u'", " ").replace("None,", "")\
+            .replace("[u","").replace("]","")
+        return str
+
+    def clean_arr(self):
+        str = self.arrangement.replace(" u'", " ").replace("None,", "")\
+            .replace("[u","").replace("]","")
+        return str
+
+    def clean_cust(self):
+        str = self.custodhist.replace(" u'", " ").replace("None,", "")\
+            .replace("[u","").replace("]","")
+        return str
+
+    def clean_bio(self):
+        str = self.bioghist.replace(" u'", " ").replace("None,", "")\
+            .replace("[u","").replace("]","")
+        return str
+
+    def clean_rel(self):
+        str = self.relatedmaterial.replace(" u'", " ").replace("None,", "")\
+            .replace("[u","").replace("]","")
+        return str
+
+
 #mptt.register(BasicArchiveModel)
 
 class PhysDesc(models.Model):
