@@ -1,4 +1,5 @@
 from django.db import models
+from geo.models import Locus
 import mptt
 
 # Create your models here.
@@ -22,9 +23,11 @@ class BasicArchiveModel(models.Model):
     relatedmaterial = models.TextField(null=True, blank=True)
     bioghist = models.TextField(null=True, blank=True)
     language = models.ManyToManyField("Language", null=True, blank=True)
+    #gaz_link = models.ManyToManyField("Locus", null=True, blank=True)
     # Fields above basic req. for Archive level desc.
     parent =  models.ForeignKey('self', null=True, blank=True,\
                                 related_name="children")
+
     def __unicode__(self):
         return self.unittitle
 
@@ -62,6 +65,14 @@ class BasicArchiveModel(models.Model):
 
 #mptt.register(BasicArchiveModel)
 
+class cat_to_gaz_link(models.Model):
+    item =  models.ForeignKey("BasicArchiveModel")
+    locus = models.ForeignKey("geo.Locus")
+    detail = models.TextField(null=True, blank=True)
+
+    def __unicode__(self):
+        return '%s to %s' % (self.item.unittitle, self.locus.id.__str__()) 
+
 class PhysDesc(models.Model):
     type = models.ForeignKey("PhysDescType")
     desc = models.TextField(null=True, blank=True)
@@ -79,6 +90,23 @@ class Repository(models.Model):
     desc = models.CharField(max_length=100)
     def __unicode__(self):
         return self.desc
+		
+class Person(models.Model):
+    surname = models.CharField(max_length=50)
+    firstNames = models.CharField(max_length=60, null=True, blank=True)
+    item = models.ManyToManyField(BasicArchiveModel, null=True, blank=True,\
+	                              related_name='person')
+    details =  models.TextField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.surname
+		
+class BibliographicReference(models.Model):
+    item = models.ManyToManyField(BasicArchiveModel, null=True, blank=True,\
+	                              related_name='biblio_ref')
+    url = models.CharField(max_length=100, null=True, blank=True)
+    details =  models.TextField(null=True, blank=True)
+
 
 class UnitId(models.Model):
     type = models.ForeignKey("UnitIdType")
