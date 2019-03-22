@@ -3,6 +3,13 @@ import mptt
 
 # Create your models here.
 
+
+def get_parent(x):
+    if not x.parent:
+        return x
+    return get_parent(x.parent)
+
+
 class BasicArchiveModel(models.Model):
     level = models.ForeignKey("Level")
     unittitle = models.CharField(max_length=100)
@@ -21,6 +28,11 @@ class BasicArchiveModel(models.Model):
     def __unicode__(self):
         return self.unittitle
 
+    def get_top_parent(self):
+        if get_parent(self) == self:
+           return None
+        else:
+           return get_parent(self)
 
     def clean_scope(self):
         str = self.scopecontent.replace(" u'", " ").replace("None,", "")\

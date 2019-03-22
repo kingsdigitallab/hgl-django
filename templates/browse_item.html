@@ -24,8 +24,9 @@
 			<div id="list-results">
 
 
-            <button class="accordion"><span style="font-style:normal;"><b>{{ cat.unittitle }}{%if cat.children.all %} ({{ cat.children.count }} items){% endif %}</b></span></br>
-              {{ cat.unitstart_date }} - {{ cat.unitend_date}}
+            <button class="accordion"><span style="font-style:normal;"><h4>{{ cat.unittitle }}</h4> </br>           {{ cat.unitstart_date }} - {{ cat.unitend_date}}</br>{% if cat.get_top_parent %}</br> <em>from <a href="/cat_item/{{ cat.get_top_parent.id }}">{{ cat.get_top_parent.unittitle }} &raquo;</a>{% endif %}</em></span></br></br>
+
+			  {%if cat.children.all %} (Contains {{ cat.children.count }} further items){% endif %}
             </button>
             <div  style="margin-bottom: 5px; display:block;" class="panel">
               {% for l in cat.language.all %}<button style="margin-top:10px; margin-bottom:10px;" class="button" type="button">{{ l }}</button>{% endfor %}
