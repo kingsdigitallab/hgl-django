@@ -9,6 +9,8 @@ class PersonAdmin(admin.ModelAdmin):
 class BibRefAdmin(admin.ModelAdmin):
     filter_horizontal = ['item',]
 
+class PersonInline(admin.StackedInline):
+    model = Person.item.through
 
 class NoteInline(admin.StackedInline):
     model = Note
@@ -29,7 +31,7 @@ class BasicAdmin(admin.ModelAdmin):
     'repository', 'scopecontent','arrangement','custodhist',\
     'relatedmaterial','language', 'bioghist']
     filter_horizontal = ["language",]
-    inlines = [NoteInline,PhysDescInline,UnitIdInline,GazLinkInline]
+    inlines = [NoteInline,PhysDescInline,UnitIdInline,GazLinkInline,PersonInline]
 
 class SimpleAdmin(admin.ModelAdmin):
     pass
