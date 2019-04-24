@@ -252,6 +252,29 @@ function hypothesisCitations(data){
 }
 
 
+var hypWikimedia = "test"
+
+function hypothesisWikimedia(data){
+    hypWikimedia = data;
+    if (hypWikimedia.total > 0){
+        html = '<h4>Images from wikimedia commons</h4>'
+        for (i in hypWikimedia.rows){
+            html += '<p><a href="' + 
+            hypWikimedia.rows[i].target[0]["source"] + '">' + 
+            // Get second element of URI as image source
+            '<img src="https://commons.wikimedia.org/wiki/Special:FilePath/'+ (hypWikimedia.rows[i].uri).split('File:')[1] +
+            '?width=200' +
+            '"></img>'+
+            '</a></p>'
+        }
+
+    }
+
+    $("#map").after(html);    
+
+}
+
+
 $(document).ready(function(){
 
 
@@ -260,6 +283,14 @@ $(document).ready(function(){
         url:"https://hypothes.is/api/search?tag=HGL:{{ record.pk }}",
         success: hypothesisCitations
     });
+
+
+    $.ajax({    
+        url:"https://hypothes.is/api/search?tag=HGLimage:{{ record.pk }}",
+        success: hypothesisWikimedia
+    });
+
+
 
 
 	map.spin(true)
