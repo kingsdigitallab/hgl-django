@@ -16,14 +16,14 @@
 {% block main %}
 {{ block.super }}
 <div class="off-canvas-wrapper">
-	<button type="button" class="button" data-toggle="offCanvas"><i class="fa fa-cog"></i> Search options</button>
-	<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+	<!--<button type="button" class="button" data-toggle="offCanvas"><i class="fa fa-cog"></i> Search options</button>-->
+	<div class="off-canvas-wrapper-inner off-canvas-wrapper-inner is-off-canvas-open is-open-left" data-off-canvas-wrapper>
 		<div class="off-canvas position-left filter-options" id="offCanvas" data-off-canvas>
 			<h3>Refine your search</h3>
 	                    
 	        <form method="get" action=".">
 				<ul class="menu">
-					<li><input id="id_q" name="q" type="search" placeholder="Search"></li>
+					<li><input id="id_q" name="q" type="search" placeholder="Text ..."></li>
 					<li><input type="submit" class="button" value="Search"></input></li>
 				</ul>
 	        </form>
@@ -34,7 +34,7 @@
 	        {% for key,value in facets.fields.items %}
 			<div class="facet-panel">
 				<a href="#" class="expander"><h4><i class="fa fa-caret-right"></i> {{ key }}</h4></a>
-				<ul class="facet-list collapsible hide" id="facet-locus">
+				<ul class="facet-list collapsible hide" id="facet-locus" style="display:block;">
 					{% for k,v in value %}
 					<li><a href="{{ request.META.SCRIPT_URL }}?{{ request.META.QUERY_STRING}}&selected_filters={{ key }}:{{ k }}"><span class="badge secondary float-right">{{ v }}</span>{{ k }}</a></li>
 					{% endfor %}
@@ -43,7 +43,7 @@
 			{% endfor %}
 	        <!-- end facets -->
 	    </div>
-		<div class="off-canvas-content" data-off-canvas-content>
+		<div><!-- class="off-canvas-content" data-off-canvas-content-->
 			<div id="map">Here be maps!</div>
 
 			<h2>Search results <span class="badge">{{ paginator.count }}</span></h2>

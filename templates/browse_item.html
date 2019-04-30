@@ -30,14 +30,16 @@
             </button>
             <div  style="margin-bottom: 5px; display:block;" class="panel">
               {% for l in cat.language.all %}<button style="margin-top:10px; margin-bottom:10px;" class="button" type="button">{{ l }}</button>{% endfor %}
-              {% if cat.item_note.all %}<p><b>Notes</b> - {% for n in cat.item_note.all %}{{ n.text }}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}{% endif%}
+              {% for un in cat.unitid_set.all %}{% if un.type.desc == "Reference" %}<p><b>{{ un.type.desc }}</b> - {{ un.desc }}</p>{% endif %}{% endfor %}              
               {% for ph in cat.item_physdesc.all %}<p><b>{{ ph.type.desc }}</b> - {{ ph.desc }}</p> {% endfor %}
-              {% for un in cat.unitid_set.all %}<p><b>{{ un.type.desc }}</b> - {{ un.desc }}</p> {% endfor %}
+
               {% if cat.scopecontent %}<p><b>Scope</b></p><p> {{ cat.clean_scope }}</p>{% endif %}
               {% if cat.arrangement %}<p><b>Arrangement</b></p><p>{{ cat.clean_arr }}</p> {% endif %}
               {% if cat.custodhist %}<p><b>Custodian History</b></p><p> {{ cat.clean_cust }}</p>{% endif %}
               {% if cat.bioghist %}<p><b>Biographical history</b></p><p> {{ cat.clean_bio }}</p>{% endif %}
               {% if cat.relatedmaterial %}<p><b>Related materials</b></p><p> {{ cat.clean_rel }}</p>{% endif %}
+			  {% if cat.item_note.all %}<p><b>Notes</b> - {% for n in cat.item_note.all %}{{ n.text }}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}{% endif%}
+              {% for un in cat.unitid_set.all %}{% if un.type.desc == "Former Reference" %}<p><b>{{ un.type.desc }}</b> - {{ un.desc }}</p>{% endif %}{% endfor %}			  
               {% if cat.children.all %}
               <h4><em>Within this  {{ cat.level }}:</em></h4>
               {% for item in cat.children.all %}
@@ -52,7 +54,11 @@
 
 			</div>
 	    </div>
+      <p></br></p>
+
 	</div><!-- /.off-canvas-wrapper-inner -->
+
+
 </div><!-- /.off-canvas-wrapper -->
 {% endblock %}
 

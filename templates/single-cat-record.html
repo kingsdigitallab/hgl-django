@@ -15,7 +15,11 @@
             <div id="thumbs" class="row">
             </div>
 		<h3>Unit title</h3>
-			<p>{{ record.unittitle|safe }}</p>
+			<p>{{ record.unittitle|safe }} {% if record.parent %}< {{ record.parent.unittitle }} {% endif %}
+			{% if record.parent.parent %}< {{ record.parent.parent.unittitle }} {% endif %}
+			{% if record.parent.parent.parent %}< {{ record.parent.parent.parent.unittitle }} {% endif %}
+			{% if record.parent.parent.parent.parent %}< {{ record.parent.parent.parent..parent.unittitle }} {% endif %}
+			</p>
     
 		<h3>Type</h3>
 			<p>
