@@ -28,9 +28,15 @@ def browse_item(request, id):
 def tag_search(request, id):
     context = {}
     searchurl = 'https://hypothes.is/api/search?tag=HGL:' + str(id)
-    print searchurl
     token = {'access_token': '6879-AHM93XsH2RBSu71vTSt6odLIFRPt35oFbmXYqpSn-5E', 'token_type': 'Bearer'}
     hyp = OAuth2Session(token=token)
     ret = hyp.get(searchurl).json()
     return HttpResponse(simplejson.dumps(ret),content_type='application/json')
 
+def image_search(request, id):
+    context = {}
+    searchurl = 'https://hypothes.is/api/search?tag=HGLimage:' + str(id)
+    token = {'access_token': '6879-AHM93XsH2RBSu71vTSt6odLIFRPt35oFbmXYqpSn-5E', 'token_type': 'Bearer'}
+    hyp = OAuth2Session(token=token)
+    ret = hyp.get(searchurl).json()
+    return HttpResponse(simplejson.dumps(ret),content_type='application/json')
