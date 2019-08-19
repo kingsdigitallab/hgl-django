@@ -94,7 +94,8 @@ def add_variant(request,id):
             nv = Locus_Variant()
             nv.name = form.cleaned_data['variant_name']       
             nv.locus = l
-            nv.language = form.cleaned_data['language']
+            if form.cleaned_data['language']:
+                nv.language = form.cleaned_data['language']
             if form.cleaned_data['attestation']:
                 nv.attestation = form.cleaned_data['attestation']
             nv.save()

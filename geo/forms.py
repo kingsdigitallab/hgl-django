@@ -29,7 +29,7 @@ class FeatureSelection(forms.Form):
         
 class VariantAdd(forms.Form):
     variant_name = forms.CharField(label='Variant name')
-    language = forms.ModelChoiceField(label='Language',queryset=languages)
+    language = forms.ModelChoiceField(label='Language',queryset=languages,required=False)
     attestation = forms.CharField(label='Optional attestation',required=False)    
 
 class UrlAdd(forms.Form):
