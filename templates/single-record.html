@@ -193,7 +193,14 @@ These are locations contained within the location – these may, for example be 
 		</div>
         {% endif %}
         
-        
+        {% if record.cat_to_gaz_link_set.all %}
+            <h4>Related catalogue entries</h4>
+            <ul class="long-list">
+		{% for c in record.cat_to_gaz_link_set.all %}
+                   <li><a href="/cat_item/{{ c.item.id}}/">{{ c.item.unittitle}}, {{ c.item.repository }}</li>
+                {% endfor %}
+            </ul>
+	{% endif %}
         
         
 	</div>
