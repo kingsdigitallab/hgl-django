@@ -226,7 +226,7 @@ These are locations contained within the location – these may, for example be 
 {% endblock %}
 
 {% block extra_footer %}
-<script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyAtcVXdItN9K9_PCf6nAUQriPinrI97CSY"></script>
+<script src="https://maps.google.com/maps/api/js?v=3&key={{ google_api }}"></script>
 {% compress js %}
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>

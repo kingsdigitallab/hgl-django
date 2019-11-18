@@ -1,5 +1,6 @@
 from geo.models import *
 from geo.forms import *
+from hgl.settings.local import GOOGLE_API
 
 from django.contrib.gis.geos import Point, MultiPoint, LineString, MultiPolygon
 from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
@@ -201,6 +202,7 @@ def recordview(request):
     locus = Locus.objects.get(pk=id)    
     context = {}
     context['record'] = locus
+    context['google_api'] = GOOGLE_API
     return render_to_response('../templates/single-record.html',context,context_instance=RequestContext(request))
 
 
