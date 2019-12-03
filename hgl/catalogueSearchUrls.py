@@ -102,7 +102,7 @@ class CustomSearchForm(FacetedSearchForm):
             return sqs
         # Otherwise return the entire set
         else:
-            return SearchQuerySet().order_by('sort_name')
+            return SearchQuerySet().models(object_type_for_sqs.get('archive')).order_by('sort_name')
 	
 class CustomSearchView(FacetedSearchView):
     def __init__(self, *args, **kwargs):
