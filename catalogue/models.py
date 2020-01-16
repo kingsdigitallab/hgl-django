@@ -118,6 +118,9 @@ class UnitId(models.Model):
 class UnitIdType(models.Model):
     desc = models.CharField(max_length=50)
 
+    def __unicode__(self):
+        return self.desc
+
 class Note(models.Model):
     audience = models.ForeignKey("NoteAudience")
     type = models.ForeignKey("NoteType")
