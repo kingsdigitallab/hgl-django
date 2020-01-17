@@ -34,6 +34,7 @@ class BasicAdmin(admin.ModelAdmin):
     'repository', 'scopecontent','arrangement','custodhist',\
     'relatedmaterial','language', 'bioghist']
     filter_horizontal = ["language",]
+    search_fields = ['unittitle',]
     inlines = [NoteInline,PhysDescInline,UnitIdInline,GazLinkInline,PersonInline,ImageInline]
 
 class SimpleAdmin(admin.ModelAdmin):
