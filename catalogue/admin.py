@@ -12,6 +12,9 @@ class BibRefAdmin(admin.ModelAdmin):
 class PersonInline(admin.StackedInline):
     model = Person.item.through
 
+class ImageInline(admin.StackedInline):
+    model = Image
+
 class NoteInline(admin.StackedInline):
     model = Note
 
@@ -31,7 +34,8 @@ class BasicAdmin(admin.ModelAdmin):
     'repository', 'scopecontent','arrangement','custodhist',\
     'relatedmaterial','language', 'bioghist']
     filter_horizontal = ["language",]
-    inlines = [NoteInline,PhysDescInline,UnitIdInline,GazLinkInline,PersonInline]
+    search_fields = ['unittitle',]
+    inlines = [NoteInline,PhysDescInline,UnitIdInline,GazLinkInline,PersonInline,ImageInline]
 
 class SimpleAdmin(admin.ModelAdmin):
     pass
@@ -42,3 +46,5 @@ admin.site.register(Note, SimpleAdmin)
 admin.site.register(PhysDesc, SimpleAdmin)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(BibliographicReference, BibRefAdmin)
+admin.site.register(Image, SimpleAdmin)
+admin.site.register(UnitIdType, SimpleAdmin)
