@@ -54,8 +54,21 @@
               {% for item in cat.children.all %}
               <p>{{ item.unittitle }} <a href="/cat_item/{{ item.id }}/"><em>  &raquo; see more </em></a></p>
               {% endfor %}
-              {% endif %}
-            </div> 
+	      {% endif %}
+
+        {% if cat.image_set %}
+		<p><b>Images</b></p>
+		<div class="row">
+		{% for img in cat.image_set.all %}
+			<div class="large-6 columns">
+                		<img src="https://loris.cch.kcl.ac.uk/libya/webroot/images/cat_{{ img.image.name }}/full/300,/0/default.jpg">
+				<p>{{ img.desc }}</p>
+			</div>
+		{% endfor %}
+		</div>
+        {% endif %}
+
+             </div> 
 					
 
 
