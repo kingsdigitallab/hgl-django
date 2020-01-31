@@ -56,7 +56,7 @@
               {% endfor %}
 	      {% endif %}
 
-        {% if cat.image_set %}
+        {% if cat.image_set.all %}
 		<p><b>Images</b></p>
 		<div class="row">
 		{% for img in cat.image_set.all %}
