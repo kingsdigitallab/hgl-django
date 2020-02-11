@@ -48,7 +48,7 @@
               {% if cat.bioghist %}<p><b>Biographical history</b></p><p> {{ cat.clean_bio }}</p>{% endif %}
               {% if cat.relatedmaterial %}<p><b>Related materials</b></p><p> {{ cat.clean_rel }}</p>{% endif %}
 			  {% if cat.item_note.all %}<p><b>Notes</b> - {% for n in cat.item_note.all %}{{ n.text }}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}{% endif%}
-              {% for un in cat.unitid_set.all %}{% if un.type.desc == "Former Reference" %}<p><b>{{ un.type.desc }}</b> - {{ un.desc }}</p>{% endif %}{% endfor %}			  
+              <p>{% for un in cat.unitid_set.all %}<b>{{ un.type.desc }}</b> - {{ un.desc }}{% if foorloop.last %}{% else %}; {% endif %}{% endfor %}</p>			  
               {% if cat.children.all %}
               <h4><em>Within this  {{ cat.level }}:</em></h4>
               {% for item in cat.children.all %}
