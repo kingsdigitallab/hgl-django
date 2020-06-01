@@ -65,6 +65,10 @@ class Locus(models.Model):
     note = models.TextField(blank = True, null = True,verbose_name='Notes',help_text='Use sparingly!')
     modified = models.DateTimeField(auto_now = True, blank = False, null = False)
     created = models.DateTimeField(auto_now_add = True, blank = False, null = False)
+    # Adding GeoJson storage
+    # JSON Field Postgres only so storing as unvalidated Text here
+    geojsion = models.TextField(blank = True, null = True)
+    geojson_provenance = models.TextField(blank = True, null = True)
 
     @staticmethod
     def autocomplete_search_fields():
