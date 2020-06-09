@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     (r'^line/$','geo.views.line'),
     (r'^popupcontent/$','geo.views.popupcontent'),
     (r'^recordview/$','geo.views.recordview'),
+    (r'^geojson/$','geo.views.geojson')
 )

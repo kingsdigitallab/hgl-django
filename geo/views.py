@@ -22,6 +22,13 @@ def kml(request):
     polis_list= Locus.objects.filter(locus_type__name='Polis').filter(related_locus__name='Cyrenaica')
     return render_to_response('../templates/geo/kml.xml',{'polis_list':polis_list},content_type='text/xml')
     
+def geojson(request):
+    id = request.GET.get('id','')
+    obj = Locus.objects.get(pk=id)
+    geojson = obj.geojsion
+    return JsonResponse(geojson, safe=False)
+
+
 def convex_hull(request):
     parent_id = request.GET.get('parent','')
     if parent_id != '':

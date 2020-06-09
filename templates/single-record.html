@@ -293,8 +293,8 @@ function hypothesisWikimedia(data){
 }
 
 
-$(document).ready(function(){
 
+$(document).ready(function(){
 
 
     $.ajax({    
@@ -355,6 +355,19 @@ $(document).ready(function(){
 	);
 
 	{% endif %}
+
+    {% endif %}
+
+    {% if record.geojsion %}
+
+        $.ajax('/irt_geo/geojson/?id={{ record.id }}',
+            {
+             success:function(data){
+                geojson = new L.geoJson( eval( "(" + data + ")" )).addTo(map);
+                }
+             }
+        );
+
 
     {% endif %}
 
