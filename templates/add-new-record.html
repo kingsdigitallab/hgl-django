@@ -124,7 +124,7 @@ var drawnItems = new L.FeatureGroup();
 	})
     
 function getGeoNames(searchText){    
-        var searchUrl = 'http://secure.geonames.org/searchJSON?formatted=false&country=LY&maxRows=10&lang=en&username=hergazlib';
+        var searchUrl = 'https://secure.geonames.org/searchJSON?formatted=false&country=LY&maxRows=10&lang=en&username=hergazlib';
         $.ajax({
             dataType:"jsonp",
             url:searchUrl + '&q=' + encodeURIComponent( searchText ),
