@@ -8,8 +8,10 @@ django-require
 elasticsearch>=5,<5.4
 django-mysql
 # mysql-python
+mysqlclient
 pillow
 redis
 south
-django-autocomplete-light==3.0.4
+django-autocomplete-light
 simplejson
+requests-oauthlib

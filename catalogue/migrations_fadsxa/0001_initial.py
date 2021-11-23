@@ -1,149 +1,258 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='BasicArchiveModel',
+            name="BasicArchiveModel",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('unittitle', models.CharField(max_length=100)),
-                ('unitstart_date', models.IntegerField()),
-                ('unitend_date', models.IntegerField()),
-                ('scopecontent', models.TextField(null=True, blank=True)),
-                ('arrangement', models.TextField(null=True, blank=True)),
-                ('custodhist', models.TextField(null=True, blank=True)),
-                ('relatedmaterial', models.TextField(null=True, blank=True)),
-                ('bioghist', models.TextField(null=True, blank=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("unittitle", models.CharField(max_length=100)),
+                ("unitstart_date", models.IntegerField()),
+                ("unitend_date", models.IntegerField()),
+                ("scopecontent", models.TextField(null=True, blank=True)),
+                ("arrangement", models.TextField(null=True, blank=True)),
+                ("custodhist", models.TextField(null=True, blank=True)),
+                ("relatedmaterial", models.TextField(null=True, blank=True)),
+                ("bioghist", models.TextField(null=True, blank=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Language',
+            name="Language",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='Level',
+            name="Level",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='Note',
+            name="Note",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('text', models.TextField(null=True, blank=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("text", models.TextField(null=True, blank=True)),
             ],
         ),
         migrations.CreateModel(
-            name='NoteAudience',
+            name="NoteAudience",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='NoteType',
+            name="NoteType",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='PhysDesc',
+            name="PhysDesc",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.TextField(null=True, blank=True)),
-                ('item', models.ForeignKey(blank=True, to='catalogue.BasicArchiveModel', null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.TextField(null=True, blank=True)),
+                (
+                    "item",
+                    models.ForeignKey(
+                        blank=True, to="catalogue.BasicArchiveModel", null=True
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PhysDescType',
+            name="PhysDescType",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='Repository',
+            name="Repository",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='UnitId',
+            name="UnitId",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.TextField(null=True, blank=True)),
-                ('item', models.ForeignKey(blank=True, to='catalogue.BasicArchiveModel', null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.TextField(null=True, blank=True)),
+                (
+                    "item",
+                    models.ForeignKey(
+                        blank=True, to="catalogue.BasicArchiveModel", null=True
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='UnitIdType',
+            name="UnitIdType",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('desc', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        verbose_name="ID",
+                        serialize=False,
+                        auto_created=True,
+                        primary_key=True,
+                    ),
+                ),
+                ("desc", models.CharField(max_length=50)),
             ],
         ),
         migrations.AddField(
-            model_name='unitid',
-            name='type',
-            field=models.ForeignKey(to='catalogue.UnitIdType'),
+            model_name="unitid",
+            name="type",
+            field=models.ForeignKey(to="catalogue.UnitIdType"),
         ),
         migrations.AddField(
-            model_name='physdesc',
-            name='type',
-            field=models.ForeignKey(to='catalogue.PhysDescType'),
+            model_name="physdesc",
+            name="type",
+            field=models.ForeignKey(to="catalogue.PhysDescType"),
         ),
         migrations.AddField(
-            model_name='note',
-            name='audience',
-            field=models.ForeignKey(to='catalogue.NoteAudience'),
+            model_name="note",
+            name="audience",
+            field=models.ForeignKey(to="catalogue.NoteAudience"),
         ),
         migrations.AddField(
-            model_name='note',
-            name='item',
-            field=models.ForeignKey(related_name='items', blank=True, to='catalogue.BasicArchiveModel', null=True),
+            model_name="note",
+            name="item",
+            field=models.ForeignKey(
+                related_name="items",
+                blank=True,
+                to="catalogue.BasicArchiveModel",
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='note',
-            name='type',
-            field=models.ForeignKey(to='catalogue.NoteType'),
+            model_name="note",
+            name="type",
+            field=models.ForeignKey(to="catalogue.NoteType"),
         ),
         migrations.AddField(
-            model_name='basicarchivemodel',
-            name='language',
-            field=models.ManyToManyField(to='catalogue.Language', null=True, blank=True),
+            model_name="basicarchivemodel",
+            name="language",
+            field=models.ManyToManyField(
+                to="catalogue.Language", null=True, blank=True
+            ),
         ),
         migrations.AddField(
-            model_name='basicarchivemodel',
-            name='level',
-            field=models.ForeignKey(to='catalogue.Level'),
+            model_name="basicarchivemodel",
+            name="level",
+            field=models.ForeignKey(to="catalogue.Level"),
         ),
         migrations.AddField(
-            model_name='basicarchivemodel',
-            name='note',
-            field=models.ManyToManyField(to='catalogue.Note', null=True, blank=True),
+            model_name="basicarchivemodel",
+            name="note",
+            field=models.ManyToManyField(to="catalogue.Note", null=True, blank=True),
         ),
         migrations.AddField(
-            model_name='basicarchivemodel',
-            name='parent',
-            field=models.ForeignKey(related_name='children', blank=True, to='catalogue.BasicArchiveModel', null=True),
+            model_name="basicarchivemodel",
+            name="parent",
+            field=models.ForeignKey(
+                related_name="children",
+                blank=True,
+                to="catalogue.BasicArchiveModel",
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='basicarchivemodel',
-            name='repository',
-            field=models.ForeignKey(to='catalogue.Repository'),
+            model_name="basicarchivemodel",
+            name="repository",
+            field=models.ForeignKey(to="catalogue.Repository"),
         ),
     ]

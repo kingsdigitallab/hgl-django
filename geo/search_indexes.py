@@ -1,24 +1,25 @@
 from haystack import indexes
 from geo.models import *
 
+
 class LocusIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     Feature = indexes.MultiValueField(faceted=True)
-    name = indexes.CharField(model_attr='name')
+    name = indexes.CharField(model_attr="name")
     sort_name = indexes.CharField(indexed=False, stored=True)
-    variant_names =  indexes.MultiValueField()   
+    variant_names = indexes.MultiValueField()
     Period = indexes.MultiValueField(faceted=True)
 
     def prepare_Feature(self, object):
-        return [ ft.description for ft in object.featuretype_fk.all() ]
-    
-    #def prepare_location_feature_type(self, obj):
+        return [ft.description for ft in object.featuretype_fk.all()]
+
+    # def prepare_location_feature_type(self, obj):
     #    ret = []
     #    for f in obj.featuretype_fk.all():
     #        ret.append(f.description)
     #    return ret
-    
-    def prepare_variant_names(self,obj):
+
+    def prepare_variant_names(self, obj):
         ret = []
         for v in obj.variants.all():
             ret.append(v.name)
@@ -35,10 +36,10 @@ class LocusIndex(indexes.SearchIndex, indexes.Indexable):
         except Exception:
             return []
 
-    def prepare_sort_name(self,obj):
+    def prepare_sort_name(self, obj):
         ret = obj.name.lower()
-        ret = ret.replace(':',' ')
-        ret = ret.replace(',',' ')
+        ret = ret.replace(":", " ")
+        ret = ret.replace(",", " ")
         return ret
 
     def get_model(self):
@@ -46,5 +47,3 @@ class LocusIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         return self.get_model().objects.all()
-
-

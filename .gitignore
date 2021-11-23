@@ -64,5 +64,6 @@ target/
 .vagrant/
 hgl/settings/local.py
 static/
+.envs/*
 
 

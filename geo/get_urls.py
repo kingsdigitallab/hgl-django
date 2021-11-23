@@ -1,10 +1,16 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
+from .get_views import(
+    get_children,
+    get_parent,
+    get_features,
+    get_uri,
+    get_variant
+) 
 
-
-urlpatterns = patterns('',
-    (r'locus-child/(\d+)/$','geo.get_views.get_children'),
-    (r'locus-parent/(\d+)/$','geo.get_views.get_parent'),
-    (r'features/(\d+)/$','geo.get_views.get_features'),    
-    (r'variant/(\d+)/$','geo.get_views.get_variant'),
-    (r'uri/(\d+)/$','geo.get_views.get_uri'),        
-)
+urlpatterns = [
+    url(r"locus-child/(\d+)/$", get_children),
+    url(r"locus-parent/(\d+)/$", get_parent),
+    url(r"features/(\d+)/$", get_features),
+    url(r"variant/(\d+)/$", get_variant),
+    url(r"uri/(\d+)/$", get_uri),
+]

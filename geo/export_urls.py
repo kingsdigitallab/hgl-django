@@ -1,7 +1,6 @@
-from django.conf.urls import patterns, include, url
-
-
-urlpatterns = patterns('',
-    (r'dumpall/$','geo.export_views.json_dump'),
-    (r'locus/(\d+)/$','geo.export_views.single_json_dump'),
-)
+from .export_views import json_dump, single_json_dump
+from django.conf.urls import url
+urlpatterns = [
+    url(r"dumpall/$", json_dump),
+    url(r"locus/(\d+)/$", single_json_dump),
+]

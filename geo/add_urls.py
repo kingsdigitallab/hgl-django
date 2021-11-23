@@ -1,10 +1,18 @@
-from django.conf.urls import patterns, include, url
-
-urlpatterns = patterns('',
-    (r'parent/(\d+)/$','geo.add_views.add_parent'),	
-    (r'children/(\d+)/$','geo.add_views.add_children'),
-    (r'feature/(\d+)/$','geo.add_views.add_feature'),
-    (r'variant/(\d+)/$','geo.add_views.add_variant'),
-    (r'uri/(\d+)/$','geo.add_views.add_uri'),
-    (r'^$','geo.add_views.add'),
+from django.conf.urls import url
+from .add_views import (
+    add_parent,
+    add_children,
+    add_feature,
+    add_variant,
+    add_uri,
+    add
 )
+urlpatterns = [
+
+    url(r"parent/(\d+)/$", add_parent),
+    url(r"children/(\d+)/$", add_children),
+    url(r"feature/(\d+)/$", add_feature),
+    url(r"variant/(\d+)/$", add_variant),
+    url(r"uri/(\d+)/$", add_uri),
+    url(r"^$", add),
+]
