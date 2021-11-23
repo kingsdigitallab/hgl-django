@@ -1,16 +1,15 @@
 -r wagtailbase/requirements.txt
 -r ddhldap-django/requirements.txt
 django-grappelli
-django-haystack
+django-haystack==3.1.1
 django-model-utils
 django-redis
 django-require
-elasticsearch
-mysql-python
+elasticsearch>=5,<5.4
+django-mysql
+# mysql-python
 pillow
 redis
 south
 django-autocomplete-light==3.0.4
 simplejson
-
-

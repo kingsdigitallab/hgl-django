@@ -1,4 +1,4 @@
-from base import *
+from .base import *
 
 DEBUG = True
 
@@ -74,7 +74,7 @@ except ImportError:
 # -----------------------------------------------------------------------------
 
 try:
-    from local import *
+    from .local import *
 except ImportError:
     print('failed to import local settings')
     raise ImportError('Error importing local settings')
