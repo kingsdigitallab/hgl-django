@@ -74,7 +74,7 @@ class Locus(models.Model):
     featuretype = models.IntegerField(choices=FEATURE_FIELD_TYPE,
                                       verbose_name='Geometry type', null=True,
                                       blank=True)
-    featuretype_fk = models.ManyToManyField('FeatureTypes', null=True,
+    featuretype_fk = models.ManyToManyField('FeatureTypes',
                                             blank=True)
     note = models.TextField(blank=True, null=True, verbose_name='Notes',
                             help_text='Use sparingly!')
@@ -391,7 +391,7 @@ class Inscription(models.Model):
     inscription_id = models.CharField(blank=False, max_length=15, null=False,
                                       unique=True)
     title = models.CharField(blank=False, max_length=256, null=False)
-    locus = models.ManyToManyField(Locus, blank=True, null=True,
+    locus = models.ManyToManyField(Locus, blank=True,
                                    through='Inscription_Locus')
 
     note = models.TextField(blank=True, null=True)

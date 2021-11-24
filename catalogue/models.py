@@ -21,7 +21,7 @@ class BasicArchiveModel(models.Model):
     custodhist = models.TextField(null=True, blank=True)
     relatedmaterial = models.TextField(null=True, blank=True)
     bioghist = models.TextField(null=True, blank=True)
-    language = models.ManyToManyField("Language", null=True, blank=True)
+    language = models.ManyToManyField("Language", blank=True)
     # gaz_link = models.ManyToManyField("Locus", null=True, blank=True)
     # Fields above basic req. for Archive level desc.
     parent = models.ForeignKey("self", null=True, blank=True,
@@ -128,7 +128,7 @@ class Person(models.Model):
     surname = models.CharField(max_length=50)
     firstNames = models.CharField(max_length=60, null=True, blank=True)
     item = models.ManyToManyField(
-        BasicArchiveModel, null=True, blank=True, related_name="person"
+        BasicArchiveModel, blank=True, related_name="person"
     )
     details = models.TextField(null=True, blank=True)
 
@@ -138,7 +138,7 @@ class Person(models.Model):
 
 class BibliographicReference(models.Model):
     item = models.ManyToManyField(
-        BasicArchiveModel, null=True, blank=True, related_name="biblio_ref"
+        BasicArchiveModel, blank=True, related_name="biblio_ref"
     )
     url = models.CharField(max_length=100, null=True, blank=True)
     details = models.TextField(null=True, blank=True)
