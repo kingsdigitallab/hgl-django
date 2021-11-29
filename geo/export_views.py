@@ -14,7 +14,7 @@ from geo.models import *
 import datetime
 import urllib.request, urllib.error, urllib.parse
 import codecs
-import simplejson
+import json as simplejson
 
 
 from django.contrib.gis.geos import GEOSGeometry

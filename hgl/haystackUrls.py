@@ -214,7 +214,8 @@ class CustomSearchView(FacetedSearchView):
             for facet in facet_groups.get(model):
                 sqs = sqs.facet(facet)
                 fqs = sqs.facet_counts()
-                fqs["fields"]["Feature"] = sorted(fqs["fields"]["Feature"])
+                if "fields" in fqs and "Feature" in fqs["fields"]:
+                    fqs["fields"]["Feature"] = sorted(fqs["fields"]["Feature"])
             extra["facets"] = fqs  # sqs.facet_counts()
         else:
             sqs = self.results
@@ -267,17 +268,15 @@ class CustomSearchView(FacetedSearchView):
             context["suggestion"] = self.form.get_suggestion()
         context.update(self.extra_context())
         if not mime_type is None:
-            # return render_to_response(self.template, context, context_instance=self.context_class(self.request),mimetype=mime_type)
             return render(
                 self.request,
                 self.template,
                 context,
-                context_instance=self.context_class(self.request),
                 content_type=mime_type,
             )
         return render(
             self.request,
-            self.template, context, context_instance=self.context_class(self.request)
+            self.template, context,
         )
 
 
@@ -337,12 +336,11 @@ class CustomTextSearchView(SearchView):
                 self.request,
                 self.template,
                 context,
-                context_instance=self.context_class(self.request),
                 mimetype=mime_type,
             )
         return render(
             self.request,
-            self.template, context, context_instance=self.context_class(self.request)
+            self.template, context,
         )
 
 

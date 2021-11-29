@@ -68,7 +68,6 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.gis",
     #'debug_toolbar',
-    #'compressor',
     "require",
     "haystack",
     "catalogue",
@@ -214,7 +213,6 @@ STATICFILES_FINDERS = (
 )
 
 
-
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL.strip("/"))
 
@@ -322,7 +320,7 @@ WAGTAILSEARCH_INDEX = PROJECT_NAME
 
 WAGTAILSEARCH_BACKENDS = {
     "default": {
-        "BACKEND": "wagtail.wagtailsearch.backends.elasticsearch.ElasticSearch",
+        "BACKEND": "wagtail.search.backends.elasticsearch7",
         "URLS": ["http://127.0.0.1:9200"],
         "INDEX": WAGTAILSEARCH_INDEX,
         "TIMEOUT": 5,
@@ -335,7 +333,7 @@ ITEMS_PER_PAGE = ws.ITEMS_PER_PAGE
 
 HAYSTACK_CONNECTIONS = {
     "default": {
-        "ENGINE": "haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine",
+        "ENGINE": "haystack.backends.elasticsearch7_backend.Elasticsearch7SearchEngine",
         "URL": "http://127.0.0.1:9200/",
         "INDEX_NAME": "hglindex",
         "BATCH_SIZE": 10,

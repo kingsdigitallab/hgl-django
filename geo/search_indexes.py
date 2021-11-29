@@ -1,14 +1,15 @@
 from haystack import indexes
+from haystack.fields import FacetMultiValueField
 from geo.models import *
 
 
 class LocusIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    Feature = indexes.MultiValueField(faceted=True)
+    Feature = FacetMultiValueField()
     name = indexes.CharField(model_attr="name")
     sort_name = indexes.CharField(indexed=False, stored=True)
     variant_names = indexes.MultiValueField()
-    Period = indexes.MultiValueField(faceted=True)
+    Period = FacetMultiValueField() #indexes.MultiValueField(faceted=True)
 
     def prepare_Feature(self, object):
         return [ft.description for ft in object.featuretype_fk.all()]

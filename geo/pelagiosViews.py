@@ -10,7 +10,7 @@ from django.shortcuts import (
 )
 
 
-import simplejson
+import json as simplejson
 
 
 def getKey(item):

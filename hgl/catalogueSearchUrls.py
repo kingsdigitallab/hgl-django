@@ -196,7 +196,7 @@ class CustomSearchView(FacetedSearchView):
             context["suggestion"] = self.form.get_suggestion()
         context.update(self.extra_context())
         if not mime_type is None:
-            # return render_to_response(self.template, context, context_instance=self.context_class(self.request),mimetype=mime_type)
+
             return render(
                 self.request,
                 self.template,
@@ -205,7 +205,7 @@ class CustomSearchView(FacetedSearchView):
             )
         return render(
             self.request,
-            self.template, context, context_instance=self.context_class(self.request)
+            self.template, context,
         )
 
 
@@ -264,12 +264,11 @@ class CustomTextSearchView(SearchView):
                 self.request,
                 self.template,
                 context,
-                context_instance=self.context_class(self.request),
                 mimetype=mime_type,
             )
         return render(
             self.request,
-            self.template, context, context_instance=self.context_class(self.request)
+            self.template, context,
         )
 
 
