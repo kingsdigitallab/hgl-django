@@ -6,7 +6,8 @@ django-model-utils
 django-redis
 django-require
 elasticsearch
-mysql-python
+#mysql-python
+mysqlclient
 pillow
 redis
 south
