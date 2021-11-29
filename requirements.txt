@@ -10,6 +10,6 @@ django-mysql==4.2.0
 # mysql-python
 mysqlclient>=2.1.0
 pillow
-redis
+# redis
 django-autocomplete-light
 requests-oauthlib

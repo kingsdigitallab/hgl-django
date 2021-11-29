@@ -33,18 +33,18 @@ ALLOWED_HOSTS = []
 # https://docs.djangoproject.com/en/dev/topics/cache/
 # http://redis.io/topics/lru-cache
 # http://niwibe.github.io/django-redis/
-CACHE_REDIS_DATABASE = "0"
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/" + CACHE_REDIS_DATABASE,
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "IGNORE_EXCEPTIONS": True,
-        },
-    }
-}
+# CACHE_REDIS_DATABASE = "0"
+#
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/" + CACHE_REDIS_DATABASE,
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "IGNORE_EXCEPTIONS": True,
+#         },
+#     }
+# }
 
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
@@ -204,13 +204,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL.strip("/"))
 if not os.path.exists(STATIC_ROOT):
     os.makedirs(STATIC_ROOT)
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "assets"),)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets"),]
 
-STATICFILES_FINDERS = (
+STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "compressor.finders.CompressorFinder",
-)
+]
 
 
 MEDIA_URL = "/media/"
