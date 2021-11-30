@@ -1,46 +1,42 @@
-from base import *
+from .base import *
 
 DEBUG = True
 
-INTERNAL_IPS = INTERNAL_IPS + ('', )
+INTERNAL_IPS = INTERNAL_IPS + ("",)
 
 DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'app_hgl_dev',
-#        'USER': 'app_hgl',
-#        'PASSWORD': '',
-#        'HOST': ''
-#    },
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #        'NAME': 'app_hgl_dev',
+    #        'USER': 'app_hgl',
+    #        'PASSWORD': '',
+    #        'HOST': ''
+    #    },
 }
-
 
 
 #### IRT DATABASE ######
 
 
-INTERNAL_IPS = ('0.0.0.0', '127.0.0.1', '::1')
+INTERNAL_IPS = ("0.0.0.0", "127.0.0.1", "::1")
 
-SECRET_KEY = '12345'
+SECRET_KEY = "12345"
 
-FABRIC_USER = 'njakeman'
+FABRIC_USER = "njakeman"
 
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SECURE = False
 
 
-
 ##########
-
-
 
 
 LOGGING_LEVEL = logging.DEBUG
 
-LOGGING['loggers']['hgl']['level'] = LOGGING_LEVEL
+LOGGING["loggers"]["hgl"]["level"] = LOGGING_LEVEL
 
-TEMPLATES[0]['OPTIONS']['debug'] = True
+TEMPLATES[0]["OPTIONS"]["debug"] = True
 
 # -----------------------------------------------------------------------------
 # Django Extensions
@@ -50,7 +46,7 @@ TEMPLATES[0]['OPTIONS']['debug'] = True
 try:
     import django_extensions
 
-    INSTALLED_APPS = INSTALLED_APPS + ('django_extensions',)
+    INSTALLED_APPS = INSTALLED_APPS + ("django_extensions",)
 except ImportError:
     pass
 
@@ -62,9 +58,8 @@ except ImportError:
 try:
     import debug_toolbar
 
-    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
-    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
-        'debug_toolbar.middleware.DebugToolbarMiddleware',)
+    INSTALLED_APPS = INSTALLED_APPS + ("debug_toolbar",)
+    MIDDLEWARE = MIDDLEWARE + ("debug_toolbar.middleware.DebugToolbarMiddleware",)
     DEBUG_TOOLBAR_PATCH_SETTINGS = True
 except ImportError:
     pass
@@ -74,7 +69,7 @@ except ImportError:
 # -----------------------------------------------------------------------------
 
 try:
-    from local import *
+    from .local import *
 except ImportError:
-    print('failed to import local settings')
-    raise ImportError('Error importing local settings')
+    print("failed to import local settings")
+    raise ImportError("Error importing local settings")

@@ -1,12 +1,13 @@
 from haystack import indexes
 from catalogue.models import *
 
+
 class CatalogueIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    title = indexes.CharField(model_attr='unittitle')
+    title = indexes.CharField(model_attr="unittitle")
     level = indexes.CharField()
     sort_name = indexes.CharField(indexed=False, stored=True)
-    language =  indexes.MultiValueField()   
+    language = indexes.MultiValueField()
     period_start = indexes.IntegerField()
     period_end = indexes.IntegerField()
 
@@ -18,7 +19,7 @@ class CatalogueIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_title(self, obj):
         return obj.unittitle
-  
+
     def prepare_level(self, obj):
         return obj.level.desc
 
@@ -28,10 +29,10 @@ class CatalogueIndex(indexes.SearchIndex, indexes.Indexable):
             ret.append(l.desc)
         return ret
 
-    def prepare_sort_name(self,obj):
+    def prepare_sort_name(self, obj):
         ret = obj.unittitle.lower()
-        ret = ret.replace(':',' ')
-        ret = ret.replace(',',' ')
+        ret = ret.replace(":", " ")
+        ret = ret.replace(",", " ")
         return ret
 
     def get_model(self):
@@ -39,5 +40,3 @@ class CatalogueIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         return self.get_model().objects.all()
-
-

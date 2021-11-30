@@ -1,5 +1,5 @@
 {% extends 'wagtailbase/base.html' %}
-{% load wagtailcore_tags wagtailbase_tags staticfiles compress require %}
+{% load wagtailcore_tags wagtailbase_tags static compress require %}
 
 {% block meta_title %}{{record.name}}{% endblock %}
 
@@ -94,14 +94,14 @@
 	    	    
         
             {% for v in record.variants.all|dictsort:"language" %}
-			{% if v.language.en_name = "Arabic"%}
+			{% if v.language.en_name == "Arabic"%}
 			<li>{{ v.name }}{% if v.language %} ({{ v.language.en_name }}){% endif %}</li>
 			{% else %}
 			{% endif %}
             {% endfor %}
 
             {% for v in record.variants.all|dictsort:"language" %}
-                        {% if v.language.en_name = "Arabic"%}
+                        {% if v.language.en_name == "Arabic"%}
                         {% else %}
 			<li>{{ v.name }}{% if v.language %} ({{ v.language.en_name }}){% endif %}</li>
 			{% endif %}
@@ -339,7 +339,7 @@ $(document).ready(function(){
             }
         );
 
-	{% if record.featuretype = 1 %}
+	{% if record.featuretype == 1 %}
         
         var line;
 

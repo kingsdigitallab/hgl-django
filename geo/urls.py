@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
+import geo
 
-
-urlpatterns = patterns('',
-    (r'^kml', 'geo.views.kml'),
-    (r'^convex-hull/$','geo.views.convex_hull'),
-    (r'^line/$','geo.views.line'),
-    (r'^popupcontent/$','geo.views.popupcontent'),
-    (r'^recordview/$','geo.views.recordview'),
-    (r'^geojson/$','geo.views.geojson')
-)
+urlpatterns = [
+    url(r"^kml", geo.views.kml),
+    url(r"^convex-hull/$", geo.views.convex_hull),
+    url(r"^line/$", geo.views.line),
+    url(r"^popupcontent/$", geo.views.popupcontent),
+    url(r"^recordview/$", geo.views.recordview),
+    url(r"^geojson/$", geo.views.geojson),
+]
