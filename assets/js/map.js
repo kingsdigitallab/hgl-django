@@ -13,7 +13,7 @@ $(document).ready(function(){
 
     var ggl = new L.Google('HYBRID');
 
-    var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    var osm = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
 
     var switcher = new L.Control.Layers({'AWMC':awmc, 'Google':ggl, 'Open Street Map':osm },{}).addTo(map) 

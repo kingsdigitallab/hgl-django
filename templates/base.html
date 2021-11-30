@@ -14,6 +14,9 @@
   <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/font-awesome/scss/font-awesome.scss' %}">
   {% endcompress %}
 
+
+<meta http-equiv="Content-Security-Policy" content="script-src maps.google.com hypothes.is cdn.hypothes.is kdl.kcl.ac.uk 'self' 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; img-src *">
+  
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicon/apple-icon-57x57.png' %}">
   <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/favicon/apple-icon-60x60.png' %}">
@@ -74,23 +77,23 @@
 <!--<script src="{% static 'vendor/foundation-sites/dist/foundation.accordion.js' %}"></script>-->
 <!--<script src="{% static 'vendor/foundation-sites/dist/foundation.js' %}"></script>-->
 
-<script type="application/json" class="js-hypothesis-config">
+<!--<script type="application/json" class="js-hypothesis-config">
 
 {"showHighlights": false}
 
 </script>
-
+-->
 <script src="https://hypothes.is/embed.js" async></script>
 
 
 {% compress js %}
 <script src="{% static 'js/app.js' %}"></script>
 {% endcompress %}
-
+<!--
 <script>
   $(document).foundation();
 </script>
-
+-->
 {% block extra_footer %}
 {% endblock %}
 

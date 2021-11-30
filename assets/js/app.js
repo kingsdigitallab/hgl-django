@@ -31,4 +31,7 @@ $(document).ready(function() {
 		$this.text(text).toggleClass('secondary darker'); 
 		$(this).prev('.long-list').children('li.more-items').slideToggle();
 	});
+
 });
+
+ $(document).foundation();
