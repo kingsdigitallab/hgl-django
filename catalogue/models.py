@@ -31,6 +31,9 @@ class BasicArchiveModel(models.Model):
     def __unicode__(self):
         return self.unittitle
 
+    def __str__(self):
+        return self.__unicode__
+
     def get_top_parent(self):
         if get_parent(self) == self:
             return None
