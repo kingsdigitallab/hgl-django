@@ -110,6 +110,11 @@ class PhysDesc(models.Model):
         return self.type.desc
 
 
+    def __str__(self):
+        return self.__unicode__
+
+
+
 class PhysDescType(models.Model):
     desc = models.CharField(max_length=50)
 
