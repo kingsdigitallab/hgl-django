@@ -32,7 +32,7 @@ class BasicArchiveModel(models.Model):
         return self.unittitle
 
     def __str__(self):
-        return self.__unicode__
+        return self.__unicode__()
 
     def get_top_parent(self):
         if get_parent(self) == self:
@@ -111,7 +111,7 @@ class PhysDesc(models.Model):
 
 
     def __str__(self):
-        return self.__unicode__
+        return self.__unicode__()
 
 
 
