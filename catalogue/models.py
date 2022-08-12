@@ -97,6 +97,8 @@ class cat_to_gaz_link(models.Model):
     def __unicode__(self):
         return "%s to %s" % (self.item.unittitle, self.locus.id.__str__())
 
+    def __str__(self):
+        return self.__unicode__()
 
 class PhysDesc(models.Model):
     type = models.ForeignKey("PhysDescType", on_delete=models.CASCADE)
@@ -109,7 +111,6 @@ class PhysDesc(models.Model):
     def __unicode__(self):
         return self.type.desc
 
-
     def __str__(self):
         return self.__unicode__()
 
@@ -121,12 +122,17 @@ class PhysDescType(models.Model):
     def __unicode__(self):
         return self.desc
 
+    def __str__(self):
+        return self.__unicode__()
 
 class Repository(models.Model):
     desc = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.desc
+
+    def __str__(self):
+        return self.__unicode__()
 
     class Meta:
         verbose_name_plural = "Repositories"
@@ -143,6 +149,8 @@ class Person(models.Model):
     def __unicode__(self):
         return self.surname
 
+    def __str__(self):
+        return self.__unicode__()
 
 class BibliographicReference(models.Model):
     item = models.ManyToManyField(
@@ -161,12 +169,18 @@ class UnitId(models.Model):
     def __unicode__(self):
         return self.type.desc
 
+    def __str__(self):
+        return self.__unicode__()
+
 
 class UnitIdType(models.Model):
     desc = models.CharField(max_length=50)
 
     def __unicode__(self):
         return self.desc
+
+    def __str__(self):
+        return self.__unicode__()
 
 
 class Note(models.Model):
@@ -181,12 +195,18 @@ class Note(models.Model):
     def __unicode__(self):
         return self.audience.desc
 
+    def __str__(self):
+        return self.__unicode__()
+
 
 class NoteAudience(models.Model):
     desc = models.CharField(max_length=50)
 
     def __unicode__(self):
         return self.desc
+
+    def __str__(self):
+        return self.__unicode__()
 
 
 class NoteType(models.Model):
@@ -195,6 +215,9 @@ class NoteType(models.Model):
     def __unicode__(self):
         return self.desc
 
+    def __str__(self):
+        return self.__unicode__()
+
 
 class Level(models.Model):
     desc = models.CharField(max_length=50)
@@ -202,12 +225,18 @@ class Level(models.Model):
     def __unicode__(self):
         return self.desc
 
+    def __str__(self):
+        return self.__unicode__()
+
 
 class Language(models.Model):
     desc = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.desc
+
+    def __str__(self):
+        return self.__unicode__()
 
 
 class Image(models.Model):
@@ -218,3 +247,6 @@ class Image(models.Model):
 
     def __unicode__(self):
         return self.item.unittitle
+
+    def __str__(self):
+        return self.__unicode__()
