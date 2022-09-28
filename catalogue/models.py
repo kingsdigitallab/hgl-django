@@ -241,7 +241,7 @@ class Language(models.Model):
 
 class Image(models.Model):
     item = models.ForeignKey("BasicArchiveModel", on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="images/")
+    image = models.ImageField(upload_to="../static/images/")
     desc = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
 
