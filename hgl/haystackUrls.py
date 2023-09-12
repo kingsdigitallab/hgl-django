@@ -350,7 +350,7 @@ urlpatterns = [
         CustomSearchView(
             template="search/search_facet_list.html",
             form_class=CustomSearchForm,
-            results_per_page=100000,
+            results_per_page=10000,
         ),
         name="haystack_search",
     ),
@@ -359,7 +359,7 @@ urlpatterns = [
         CustomSearchView(
             template="search/search_facet_list.html",
             form_class=CustomSearchForm,
-            results_per_page=100000,
+            results_per_page=10000,
         ),
         name="haystack_search",
     ),
@@ -377,7 +377,7 @@ urlpatterns = [
         CustomSearchView(
             template="search/search_map_results.js",
             form_class=CustomSearchForm,
-            results_per_page=100000,
+            results_per_page=10000,
         ),
         name="haystack_search",
     ),
@@ -386,7 +386,7 @@ urlpatterns = [
         CustomSearchView(
             template="search/search_csv.txt",
             form_class=CustomSearchForm,
-            results_per_page=100000,
+            results_per_page=10000,
         ),
         name="haystack_search",
     ),

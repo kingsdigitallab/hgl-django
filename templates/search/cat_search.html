@@ -83,19 +83,17 @@
 {% endblock %}
 
 {% block extra_footer %}
-<script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyAtcVXdItN9K9_PCf6nAUQriPinrI97CSY"></script>
+
 {% compress js %}
+    <script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyAtcVXdItN9K9_PCf6nAUQriPinrI97CSY"></script>
 <script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 <script src="{% static 'vendor/spin.js/spin.min.js' %}"></script>
 <script src="{% static 'vendor/leaflet-spin/leaflet.spin.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
-
 <script src="{% static 'vendor/markercluster/leaflet.markercluster.js' %}"></script>
-
-
-
 <script src="{% static 'vendor/Google.js'%}"></script>
 <script src="{% static 'js/map.js' %}"></script>
+    {% endcompress %}
 <script>
         var clusterLayer;
 	$(document).ready(function(){
@@ -132,5 +130,5 @@
 
 
 </script>
-{% endcompress %}
+
 {% endblock %}
