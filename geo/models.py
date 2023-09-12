@@ -27,6 +27,9 @@ class Heritage(models.Model):
 
     def __unicode__(self):
         return self.name
+        
+    def __str__(self):
+        return self.__unicode__()
 
 
 
@@ -48,6 +51,9 @@ class Locus_Type(models.Model):
 
     def __unicode__(self):
         return self.name
+        
+    def __str__(self):
+        return self.__unicode__()
 
 
 #
@@ -172,6 +178,9 @@ class Locus(models.Model):
 
     def __unicode__(self):
         return self.name
+        
+    def __str__(self):
+        return self.__unicode__()
 
     ##return the value of featuretype value before save
     # def getType(self):
@@ -185,6 +194,9 @@ class FeatureTypes(models.Model):
 
     def __unicode__(self):
         return '%s' % self.description
+        
+    def __str__(self):
+        return self.__unicode__()
 
     class Meta:
         ordering = ('description',)
@@ -196,6 +208,9 @@ class FeatureCategory(models.Model):
 
     def __unicode__(self):
         return '%s' % self.description
+        
+    def __str__(self):
+        return self.__unicode__()
 
     class Meta:
         ordering = ('description',)
@@ -227,6 +242,9 @@ class Coordinate(models.Model):
         return str(self.latitude) + ', ' + str(self.longitude) + ', ' + str(
             self.height)
 
+    def __str__(self):
+        return self.__unicode__()
+
     def save(self, *args, **kwargs):
         if self.latitude and self.longitude:
             self.point = GEOSGeometry(
@@ -246,6 +264,8 @@ class Geojson(models.Model):
     def __unicode__(self):
         return self.geojson
 
+    def __str__(self):
+        return self.__unicode__()
 
 #
 class Related_Locus_Type(models.Model):
@@ -265,6 +285,8 @@ class Related_Locus_Type(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.__unicode__()
 
 #
 class Related_Locus(models.Model):
@@ -296,6 +318,8 @@ class Related_Locus(models.Model):
     def __unicode__(self):
         return self.subject.name + ": " + self.related_locus_type.name + ": " + self.obj.name
 
+    def __str__(self):
+        return self.__unicode__()
 
 class Period(models.Model):
     description = models.CharField(max_length=50)
@@ -308,6 +332,8 @@ class Period(models.Model):
     def __unicode__(self):
         return '%s' % (self.description)  # ,self.unit.name)
 
+    def __str__(self):
+        return self.__unicode__()
 
 #
 class Locus_Variant(models.Model):
@@ -332,6 +358,8 @@ class Locus_Variant(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.__unicode__()
 
 class Language(models.Model):
     code = models.CharField(max_length=5)
@@ -346,6 +374,8 @@ class Language(models.Model):
             en_name = self.en_name
         return '%s (%s)' % (self.code, en_name)
 
+    def __str__(self):
+        return self.__unicode__()
 
 class VariantAttestation(models.Model):
     name_variant = models.ForeignKey('Locus_Variant', on_delete=models.CASCADE)
@@ -360,6 +390,8 @@ class VariantAttestation(models.Model):
     def __unicode__(self):
         return '%s, attestation %s' % (self.name_variant, self.pk)
 
+    def __str__(self):
+        return self.__unicode__()
 
 class Author(models.Model):
     person = models.BooleanField(default=True)
@@ -371,6 +403,8 @@ class Author(models.Model):
     def __unicode__(self):
         return '%s' % self.family_or_institution_name
 
+    def __str__(self):
+        return self.__unicode__()
 
 class Publication(models.Model):
     publication_type = models.ForeignKey('PublicationType', null=True,
@@ -380,6 +414,8 @@ class Publication(models.Model):
     def __unicode__(self):
         return '%s' % self.title
 
+    def __str__(self):
+        return self.__unicode__()
 
 class PublicationType(models.Model):
     description = models.CharField(max_length=50)
@@ -387,6 +423,8 @@ class PublicationType(models.Model):
     def __unicode__(self):
         return '%s' % self.description
 
+    def __str__(self):
+        return self.__unicode__()
 
 #
 class Inscription(models.Model):
@@ -403,6 +441,8 @@ class Inscription(models.Model):
     def __unicode__(self):
         return self.inscription_id + ': ' + self.title
 
+    def __str__(self):
+        return self.__unicode__()
 
 #
 class Inscription_Locus_Type(models.Model):
@@ -420,6 +460,8 @@ class Inscription_Locus_Type(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.__unicode__()
 
 #
 class Inscription_Locus(models.Model):
@@ -452,6 +494,8 @@ class ExternalURI(models.Model):
     def __unicode__(self):
         return '%s, %s' % (self.locus.name, self.uri)
 
+    def __str__(self):
+        return self.__unicode__()
 
 class Authority(models.Model):
     name = models.CharField(max_length=75)
@@ -459,6 +503,9 @@ class Authority(models.Model):
 
     def __unicode__(self):
         return '%s' % self.name
+
+    def __str__(self):
+        return self.__unicode__()
 
     class Meta:
         verbose_name_plural = "Authorities"

@@ -61,7 +61,8 @@
 		<div class="row">
 		{% for img in cat.image_set.all %}
 			<div class="large-6 columns">
-                		<img src="https://loris.cch.kcl.ac.uk/libya/webroot/images/cat_{{ img.image.name }}/full/300,/0/default.jpg">
+                		<!--<img src="https://loris.cch.kcl.ac.uk/libya/webroot/images/cat_{{ img.image.name }}/full/300,/0/default.jpg">-->
+						<img src="/media/{{ img.image.name }}">
 				<p>{{ img.desc }}</p>
 			</div>
 		{% endfor %}
