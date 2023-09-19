@@ -22,8 +22,6 @@ class BasicArchiveModel(models.Model):
     relatedmaterial = models.TextField(null=True, blank=True)
     bioghist = models.TextField(null=True, blank=True)
     language = models.ManyToManyField("Language", blank=True)
-    # gaz_link = models.ManyToManyField("Locus", null=True, blank=True)
-    # Fields above basic req. for Archive level desc.
     parent = models.ForeignKey("self", null=True, blank=True,
                                related_name="children",
                                on_delete=models.CASCADE)
@@ -43,45 +41,45 @@ class BasicArchiveModel(models.Model):
     def clean_scope(self):
         str = (
             self.scopecontent.replace(" u'", " ")
-                .replace("None,", "")
-                .replace("[u", "")
-                .replace("]", "")
+            .replace("None,", "")
+            .replace("[u", "")
+            .replace("]", "")
         )
         return str
 
     def clean_arr(self):
         str = (
             self.arrangement.replace(" u'", " ")
-                .replace("None,", "")
-                .replace("[u", "")
-                .replace("]", "")
+            .replace("None,", "")
+            .replace("[u", "")
+            .replace("]", "")
         )
         return str
 
     def clean_cust(self):
         str = (
             self.custodhist.replace(" u'", " ")
-                .replace("None,", "")
-                .replace("[u", "")
-                .replace("]", "")
+            .replace("None,", "")
+            .replace("[u", "")
+            .replace("]", "")
         )
         return str
 
     def clean_bio(self):
         str = (
             self.bioghist.replace(" u'", " ")
-                .replace("None,", "")
-                .replace("[u", "")
-                .replace("]", "")
+            .replace("None,", "")
+            .replace("[u", "")
+            .replace("]", "")
         )
         return str
 
     def clean_rel(self):
         str = (
             self.relatedmaterial.replace(" u'", " ")
-                .replace("None,", "")
-                .replace("[u", "")
-                .replace("]", "")
+            .replace("None,", "")
+            .replace("[u", "")
+            .replace("]", "")
         )
         return str
 
@@ -100,6 +98,7 @@ class cat_to_gaz_link(models.Model):
     def __str__(self):
         return self.__unicode__()
 
+
 class PhysDesc(models.Model):
     type = models.ForeignKey("PhysDescType", on_delete=models.CASCADE)
     desc = models.TextField(null=True, blank=True)
@@ -115,7 +114,6 @@ class PhysDesc(models.Model):
         return self.__unicode__()
 
 
-
 class PhysDescType(models.Model):
     desc = models.CharField(max_length=50)
 
@@ -124,6 +122,7 @@ class PhysDescType(models.Model):
 
     def __str__(self):
         return self.__unicode__()
+
 
 class Repository(models.Model):
     desc = models.CharField(max_length=100)
@@ -145,12 +144,32 @@ class Person(models.Model):
         BasicArchiveModel, blank=True, related_name="person"
     )
     details = models.TextField(null=True, blank=True)
+    DateFrom = models.DateField(null=True, blank=True)
+    DateTo = models.DateField(null=True, blank=True)
+    referenceType = models.ForeignKey("ReferenceType", on_delete=models.CASCADE, null=True)
 
     def __unicode__(self):
         return self.surname
 
     def __str__(self):
         return self.__unicode__()
+
+
+class AlternativeName(models.Model):
+    Surname = models.CharField(max_length=60, null=True, blank=True)
+    Forename = models.CharField(max_length=60, null=True, blank=True)
+    referenceType = models.ForeignKey("ReferenceType",
+                                      on_delete=models.CASCADE, null=True)
+    DateFrom = models.DateField(null=True, blank=True)
+    defaultName = models.BooleanField(default=False)
+    person = models.ForeignKey("Person", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.Surname+" (Alias of "+Person.__str__()+")"
+
+
+class ReferenceType(models.Model):
+    Description = models.TextField(blank=True)
 
 class BibliographicReference(models.Model):
     item = models.ManyToManyField(

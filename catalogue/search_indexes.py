@@ -1,6 +1,20 @@
 from haystack import indexes
 from catalogue.models import *
 
+class PersonIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    surname = indexes.CharField(model_attr="surname")
+    firstNames = indexes.CharField(model_attr="firstNames")
+    details = indexes.CharField(model_attr="details")
+    DateFrom = indexes.DateField(model_attr="DateFrom")
+    DateTo = indexes.DateField(model_attr="DateTo")
+    referenceType = indexes.FacetCharField(model_attr="referenceType")
+
+    def get_model(self):
+        return Person
+
+    def index_queryset(self, using=None):
+        return self.get_model().objects.all()
 
 class CatalogueIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)

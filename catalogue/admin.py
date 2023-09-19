@@ -2,11 +2,17 @@ from django.contrib import admin
 from django.forms.models import BaseInlineFormSet
 from catalogue.models import *
 
+class AlternativeNameInline(admin.StackedInline):
+    model = AlternativeName
 
 class PersonAdmin(admin.ModelAdmin):
     filter_horizontal = [
         "item",
     ]
+    inlines = [
+        AlternativeNameInline
+    ]
+
 
 
 class BibRefAdmin(admin.ModelAdmin):
