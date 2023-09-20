@@ -36,7 +36,11 @@ def browse(request):
 
 def browse_item(request, id):
     context = {}
-    context["cat"] = BasicArchiveModel.objects.get(pk=id)
+    cat = BasicArchiveModel.objects.get(pk=id)
+    context["cat"] = cat
+    related_people = cat.person.all()
+    if related_people.count() > 0:
+        context["related_people"] = related_people
     return render(
         request,
         "../templates/browse_item.html",
@@ -66,3 +70,6 @@ def image_search(request, id):
     hyp = OAuth2Session(token=token)
     ret = hyp.get(searchurl).json()
     return HttpResponse(json.dumps(ret), content_type="application/json")
+
+""" Person views added for SoW """
+

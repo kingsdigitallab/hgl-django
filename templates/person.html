@@ -1,0 +1,63 @@
+{% extends 'wagtailbase/base.html' %}
+{% load wagtailcore_tags wagtailbase_tags static compress require %}
+
+{% block meta_title %}{{ record.name }}{% endblock %}
+
+{% block extra_head %}
+    {% compress css %}
+        <link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}<h1>{{ person.get_description }}</h1>
+    <h4><a id="show-uri-modal" href="#" data-reveal-id="show-uri-modal">URI<i class="fa fa-share"></i></a></h4>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="off-canvas-wrapper">
+                <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper="">
+                    <div class="off-canvas-content" data-off-canvas-content="">
+                        <div id="list-results">
+                            <div style="margin-bottom: 5px; display:block;" class="panel">
+                                {% if variant_names %}
+                                    <p><b>Variant names</b></p>
+                                    <ul>
+                                        {% for name in variant_names %}
+                                            <li>{{ name.get_description }} (Reference - {{ name.reference_type }})</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                <p><b>Details</b></p>
+                                <p> {{ person.details }}</p>
+                                <p><b>Reference Type</b> - {{ person.reference_type }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-6 columns">
+            {% if archive_items %}
+                <h2>Catalogue items</h2>
+                <ul>
+                    {% for item in archive_items %}
+                        <li><a href="/cat_item/{{ item.id }}">{{ item.unittitle }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_footer %}
+
+    {% compress js %}
+
+    {% endcompress %}
+
+{% endblock %}

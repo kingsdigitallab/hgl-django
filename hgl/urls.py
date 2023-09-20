@@ -22,6 +22,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r"^cat_search/", include("hgl.catalogueSearchUrls")),
+    url(r"^person/", include("catalogue.person_urls")),
     url(r"^haystack_search/", include("hgl.haystackUrls")),
     url(r"^grappelli/", include("grappelli.urls")),
     url('^admin/', admin.site.urls),

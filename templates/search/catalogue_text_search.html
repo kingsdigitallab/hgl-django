@@ -11,7 +11,7 @@
 {% endcompress %}
 {% endblock %}
 
-{% block title %}<h1>Search Archive</h1>{% endblock %}
+{% block title %}<h1>Search {% if record_type == "Person" %}People{% else %}Archive{% endif %}</h1>{% endblock %}
 
 {% block main %}
 {{ block.super }}
@@ -43,8 +43,12 @@
 			<div id="list-results">
 	            <ul start="{{ page.start_index }}">
 	            	{% for result in page.object_list %}
+                        {% if result.record_type == "Person" %}
+                            <li><a href="/person/{{ result.object.id }}">{{ result.description }}</a></li>
+                        {% else %}
 	                <li><a href="/cat_item/{{ result.object.id }}">{{ result.object.unittitle }}</a></li>
-	            	{% empty %}
+	            	{% endif %}
+                    {% empty %}
 	            	<li>No results found.</li>
 	            	{% endfor %}
 	            </ul>

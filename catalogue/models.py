@@ -146,7 +146,18 @@ class Person(models.Model):
     details = models.TextField(null=True, blank=True)
     DateFrom = models.DateField(null=True, blank=True)
     DateTo = models.DateField(null=True, blank=True)
-    referenceType = models.ForeignKey("ReferenceType", on_delete=models.CASCADE, null=True)
+    referenceType = models.ForeignKey("ReferenceType",
+                                      on_delete=models.CASCADE, null=True)
+
+    def get_description(self):
+        desc = self.surname
+        if len(self.firstNames) > 0:
+            desc += ", " + self.firstNames
+        if (self.DateFrom and self.DateTo):
+            desc += "(" + str(self.DateFrom) + "-" + str(self.DateTo) + ")"
+        elif self.DateFrom:
+            desc += "(" + str(self.DateFrom) + ")"
+        return desc
 
     def __unicode__(self):
         return self.surname
@@ -156,20 +167,35 @@ class Person(models.Model):
 
 
 class AlternativeName(models.Model):
-    Surname = models.CharField(max_length=60, null=True, blank=True)
-    Forename = models.CharField(max_length=60, null=True, blank=True)
+    surname = models.CharField(max_length=60, null=True, blank=True)
+    forename = models.CharField(max_length=60, null=True, blank=True)
     referenceType = models.ForeignKey("ReferenceType",
                                       on_delete=models.CASCADE, null=True)
     DateFrom = models.DateField(null=True, blank=True)
+    DateTo = models.DateField(null=True, blank=True)
     defaultName = models.BooleanField(default=False)
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
 
+    def get_description(self):
+        desc = self.surname
+        if len(self.forename) > 0:
+            desc += ", " + self.forename
+        if (self.DateFrom and self.DateTo):
+            desc += "(" + str(self.DateFrom) + "-" + str(self.DateTo) + ")"
+        elif self.DateFrom:
+            desc += "(" + str(self.DateFrom) + ")"
+        return desc
+
     def __str__(self):
-        return self.Surname+" (Alias of "+Person.__str__()+")"
+        return self.surname + " (Alias of " + Person.get_description() + ")"
 
 
 class ReferenceType(models.Model):
     Description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.Description;
+
 
 class BibliographicReference(models.Model):
     item = models.ManyToManyField(

@@ -31,6 +31,7 @@ object_type_for_sqs = {
 
 
 class CustomSearchForm(FacetedSearchForm):
+    record_type = forms.CharField(required=False)
     def __init__(self, *args, **kwargs):
         self.selected_filters = kwargs.pop("selected_filters", [])
         self.deselected_filters = kwargs.pop("deselected_filters", [])
@@ -40,6 +41,7 @@ class CustomSearchForm(FacetedSearchForm):
         self.query_store = kwargs.pop("query_store", "")
         self.polygon = kwargs.pop("polygon", "")
         self.models = kwargs.pop("models", [])
+        self.record_type = kwargs.pop("record_type", "")
         super(CustomSearchForm, self).__init__(*args, **kwargs)
 
     def search(self):
@@ -58,6 +60,9 @@ class CustomSearchForm(FacetedSearchForm):
             sqs = SearchQuerySet()
             q = self.cleaned_data.get("q")
             sqs = sqs.filter_or(content=q)
+            if self.record_type:
+                sqs = sqs.filter(record_type=self.record_type)
+
             if self.selected_filters:
                 filterString = ""
                 for filter in self.selected_filters:
@@ -110,6 +115,12 @@ class CustomSearchForm(FacetedSearchForm):
             return sqs
         # Otherwise return the entire set
         else:
+            if self.record_type == "Person":
+                # return person records
+                return (
+                    SearchQuerySet().filter(record_type=self.record_type)
+                    .order_by("sort_name")
+                )
             return (
                 SearchQuerySet()
                 .models(object_type_for_sqs.get("archive"))
@@ -160,6 +171,7 @@ class CustomSearchView(FacetedSearchView):
         # This way the form can always receive a list containing zero or more
         # facet expressions:
         # form_kwargs['selected_facets'] = self.request.GET.getlist("selected_facets")
+
         form_kwargs["selected_filters"] = self.request.GET.getlist("selected_filters")
         form_kwargs["deselected_filters"] = self.request.GET.getlist(
             "deselected_filters"
@@ -215,6 +227,7 @@ class CustomTextSearchView(SearchView):
         # if kwargs.get('form_class') is None:
         # kwargs['models'] = self.request.GET.get("models")
         kwargs["form_class"] = CustomSearchForm
+        self.record_type = kwargs.pop("record_type", "")
         super(CustomTextSearchView, self).__init__(*args, **kwargs)
 
     def build_form(self, form_kwargs=None):
@@ -223,6 +236,8 @@ class CustomTextSearchView(SearchView):
         # This way the form can always receive a list containing zero or more
         # facet expressions:
         # form_kwargs['selected_facets'] = self.request.GET.getlist("selected_facets")
+        if self.record_type:
+            form_kwargs["record_type"] = self.record_type
         form_kwargs["selected_filters"] = self.request.GET.getlist("selected_filters")
         form_kwargs["deselected_filters"] = self.request.GET.getlist(
             "deselected_filters"
@@ -253,6 +268,7 @@ class CustomTextSearchView(SearchView):
             "page": page,
             "paginator": paginator,
             "suggestion": None,
+            "record_type": self.record_type
         }
         # Get the mime type only if requested
         mime_type = self.request.GET.get("mime_type")
@@ -271,6 +287,8 @@ class CustomTextSearchView(SearchView):
             self.template, context,
         )
 
+#class PersonSearchView(CustomTextSearchView):
+
 
 urlpatterns = [
     # Disabling non text search briefly
@@ -284,6 +302,7 @@ urlpatterns = [
             template="search/catalogue_text_search.html",
             form_class=SearchForm,
             results_per_page=15,
+            record_type="BasicArchiveModel"
         ),
         name="haystack_search",
     ),
