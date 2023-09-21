@@ -1,1 +1,4 @@
+{{ object.surname }}
+{{ object.firstNames }}
 {{ object.preferred_name }}
+{{ object.alternative_names }}

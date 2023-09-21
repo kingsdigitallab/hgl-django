@@ -147,7 +147,7 @@ class Person(models.Model):
     DateFrom = models.DateField(null=True, blank=True)
     DateTo = models.DateField(null=True, blank=True)
     referenceType = models.ForeignKey("ReferenceType",
-                                      on_delete=models.CASCADE, null=True)
+                                      on_delete=models.CASCADE, null=True, blank=True)
 
     def get_description(self):
         desc = self.surname
