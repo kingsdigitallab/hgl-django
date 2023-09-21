@@ -169,12 +169,14 @@ class Person(models.Model):
 class AlternativeName(models.Model):
     surname = models.CharField(max_length=60, null=True, blank=True)
     forename = models.CharField(max_length=60, null=True, blank=True)
-    referenceType = models.ForeignKey("ReferenceType",
-                                      on_delete=models.CASCADE, null=True)
     DateFrom = models.DateField(null=True, blank=True)
     DateTo = models.DateField(null=True, blank=True)
     defaultName = models.BooleanField(default=False)
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
+    uri = models.URLField(blank=True, null=True)
+    referenceType = models.ForeignKey("ReferenceType",
+                                      on_delete=models.CASCADE, null=True)
+    notes = models.CharField(max_length=255, blank=True, null=True)
 
     def get_description(self):
         desc = self.surname
@@ -192,6 +194,7 @@ class AlternativeName(models.Model):
 
 class ReferenceType(models.Model):
     Description = models.TextField(blank=True)
+
 
     def __str__(self):
         return self.Description;
