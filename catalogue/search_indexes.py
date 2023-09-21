@@ -3,6 +3,8 @@ from catalogue.models import *
 
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
+    preferred_name = indexes.CharField()
+    alternative_names = indexes.MultiValueField(null=True)
     description = indexes.CharField()
     surname = indexes.FacetCharField(model_attr="surname")
     firstNames = indexes.CharField(model_attr="firstNames")
@@ -16,11 +18,32 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     def get_model(self):
         return Person
 
+    def prepare_preferred_name(self, obj):
+        preferred_name = self.get_preferred_alternative_name(obj)
+        if preferred_name:
+            return preferred_name.get_description()
+        return obj.firstNames + " " + obj.surname
+    def get_preferred_alternative_name(self, obj):
+        names = AlternativeName.objects.filter(person=obj)
+        if names.count() > 0:
+            for name in names:
+                if name.defaultName is True:
+                    return name
+        return None
     def prepare_description(self, obj):
+        preferred_name = self.get_preferred_alternative_name(obj)
+        if preferred_name:
+            return preferred_name.get_description()
         return obj.get_description()
+
     def prepare_record_type(self, obj):
         return "Person"
 
+    def prepare_alternative_names(self, obj):
+        ret = []
+        for name in AlternativeName.objects.filter(person=obj):
+            ret.append(name.get_description())
+        return ret
     def prepare_sort_name(self, obj):
         ret = obj.surname.lower() + " " + obj.firstNames.lower()
         return ret
