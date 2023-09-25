@@ -195,7 +195,7 @@ class Reference(models.Model):
 
 
     def __str__(self):
-        return self.Description;
+        return self.reference + "("+self.referenceTypeef+")";
 
 class ReferenceType(models.Model):
     Description = models.TextField(blank=True)
