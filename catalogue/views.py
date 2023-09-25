@@ -70,6 +70,3 @@ def image_search(request, id):
     hyp = OAuth2Session(token=token)
     ret = hyp.get(searchurl).json()
     return HttpResponse(json.dumps(ret), content_type="application/json")
-
-""" Person views added for SoW """
-

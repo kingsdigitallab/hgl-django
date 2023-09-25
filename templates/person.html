@@ -31,7 +31,14 @@
                                 {% endif %}
                                 <p><b>Details</b></p>
                                 <p> {{ person.details }}</p>
-                                <p><b>Reference Type</b> - {{ person.reference_type }} </p>
+                                {% if references %}
+                                <p><b>References</b></p>
+                                <ul>
+                                    {% for reference in references %}
+                                        <li>{{ reference.reference }} ({{ reference.referenceType }})</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

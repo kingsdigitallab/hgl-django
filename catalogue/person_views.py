@@ -6,7 +6,7 @@ from django.shortcuts import (
     render,
     HttpResponseRedirect,
 )
-from catalogue.models import Person, AlternativeName
+from catalogue.models import Person, AlternativeName, Reference
 
 """Person detail page added as per 2021 Sow
 done the old way because the django code is old...
@@ -16,10 +16,13 @@ def person(request, id):
     person = Person.objects.get(pk=id)
     items = person.item.all()
     variant_names = AlternativeName.objects.filter(person=person)
+    references = Reference.objects.filter(person=person)
     if variant_names.count() > 0:
         context["variant_names"] = items
     if items.count() > 0:
         context["archive_items"] = items
+    if references.count() > 0:
+        context['references'] = references
     context["person"] = person
     return render(
         request,
