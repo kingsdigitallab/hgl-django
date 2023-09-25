@@ -5,14 +5,17 @@ from catalogue.models import *
 class AlternativeNameInline(admin.StackedInline):
     model = AlternativeName
 
+class ReferenceInline(admin.StackedInline):
+    model = Reference
+
 class PersonAdmin(admin.ModelAdmin):
     filter_horizontal = [
         "item",
     ]
     inlines = [
-        AlternativeNameInline
+        AlternativeNameInline,
+        ReferenceInline
     ]
-
 
 
 class BibRefAdmin(admin.ModelAdmin):
