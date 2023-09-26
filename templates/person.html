@@ -11,9 +11,11 @@
 
 {% block title %}<h1>{{ person.get_description }}</h1>
     <h4><a id="show-uri-modal" href="#" data-reveal-id="show-uri-modal">URI<i class="fa fa-share"></i></a></h4>
+    <h4>Attested Dates: {{ dates }}</h4>
 {% endblock %}
 
 {% block main %}
+
     <div class="row">
         <div class="large-12 columns">
             <div class="off-canvas-wrapper">
@@ -32,12 +34,12 @@
                                 <p><b>Details</b></p>
                                 <p> {{ person.details }}</p>
                                 {% if references %}
-                                <p><b>References</b></p>
-                                <ul>
-                                    {% for reference in references %}
-                                        <li>{{ reference.reference }} ({{ reference.referenceType }})</li>
-                                    {% endfor %}
-                                </ul>
+                                    <p><b>References</b></p>
+                                    <ul>
+                                        {% for reference in references %}
+                                            <li>{{ reference.reference }} ({{ reference.referenceType }})</li>
+                                        {% endfor %}
+                                    </ul>
                                 {% endif %}
                             </div>
                         </div>

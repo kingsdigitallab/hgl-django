@@ -144,6 +144,7 @@ class Person(models.Model):
         BasicArchiveModel, blank=True, related_name="person"
     )
     details = models.TextField(null=True, blank=True)
+
     # DateFrom = models.DateField(null=True, blank=True)
     # DateTo = models.DateField(null=True, blank=True)
 
@@ -171,7 +172,6 @@ class AlternativeName(models.Model):
     defaultName = models.BooleanField(default=False)
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
 
-
     def get_description(self):
         desc = self.surname
         if len(self.forename) > 0:
@@ -181,17 +181,19 @@ class AlternativeName(models.Model):
         return desc
 
     def __str__(self):
-        return self.surname + " (Alias of " + Person.get_description() + ")"
+        return self.surname + " (Alias of " + self.person.get_description() + ")"
+
 
 class Reference(models.Model):
     reference = models.TextField(null=True, blank=True)
     referenceType = models.ForeignKey("ReferenceType",
                                       on_delete=models.CASCADE, null=True)
-    person = models.ForeignKey("Person", on_delete=models.CASCADE, blank=True, null=True)
-
+    person = models.ForeignKey("Person", on_delete=models.CASCADE, blank=True,
+                               null=True)
 
     def __str__(self):
-        return self.reference + "("+self.referenceTypeef+")";
+        return self.reference + "(" + self.referenceTypeef + ")";
+
 
 class ReferenceType(models.Model):
     Description = models.TextField(blank=True)

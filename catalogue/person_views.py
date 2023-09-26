@@ -24,6 +24,15 @@ def person(request, id):
     if references.count() > 0:
         context['references'] = references
     context["person"] = person
+    # Get a unique set of dates
+    dates = []
+    for item in items:
+        dates.append(item.unitstart_date)
+        dates.append(item.unitend_date)
+    date_set = set(dates)
+    dates = list(date_set)
+    dates.sort()
+    context["dates"] = str(dates)
     return render(
         request,
         "../templates/person.html",
