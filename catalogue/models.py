@@ -144,17 +144,17 @@ class Person(models.Model):
         BasicArchiveModel, blank=True, related_name="person"
     )
     details = models.TextField(null=True, blank=True)
-    DateFrom = models.DateField(null=True, blank=True)
-    DateTo = models.DateField(null=True, blank=True)
+    # DateFrom = models.DateField(null=True, blank=True)
+    # DateTo = models.DateField(null=True, blank=True)
 
     def get_description(self):
         desc = self.surname
         if len(self.firstNames) > 0:
             desc += ", " + self.firstNames
-        if (self.DateFrom and self.DateTo):
-            desc += "(" + str(self.DateFrom) + "-" + str(self.DateTo) + ")"
-        elif self.DateFrom:
-            desc += "(" + str(self.DateFrom) + ")"
+        # if (self.DateFrom and self.DateTo):
+        #     desc += "(" + str(self.DateFrom) + "-" + str(self.DateTo) + ")"
+        # elif self.DateFrom:
+        #     desc += "(" + str(self.DateFrom) + ")"
         return desc
 
     def __unicode__(self):
@@ -167,21 +167,17 @@ class Person(models.Model):
 class AlternativeName(models.Model):
     surname = models.CharField(max_length=60, null=True, blank=True)
     forename = models.CharField(max_length=60, null=True, blank=True)
-    DateFrom = models.DateField(null=True, blank=True)
-    DateTo = models.DateField(null=True, blank=True)
+    nickname = models.CharField(max_length=60, null=True, blank=True)
     defaultName = models.BooleanField(default=False)
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
-    uri = models.URLField(blank=True, null=True)
-    notes = models.CharField(max_length=255, blank=True, null=True)
+
 
     def get_description(self):
         desc = self.surname
         if len(self.forename) > 0:
             desc += ", " + self.forename
-        if (self.DateFrom and self.DateTo):
-            desc += "(" + str(self.DateFrom) + "-" + str(self.DateTo) + ")"
-        elif self.DateFrom:
-            desc += "(" + str(self.DateFrom) + ")"
+        if (self.nickname):
+            desc += "(" + str(self.nickname) + ")"
         return desc
 
     def __str__(self):
