@@ -173,15 +173,19 @@ class AlternativeName(models.Model):
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
 
     def get_description(self):
-        desc = self.surname
-        if len(self.forename) > 0:
-            desc += ", " + self.forename
-        if (self.nickname):
-            desc += "(" + str(self.nickname) + ")"
+        desc = ''
+        if self.surname is not None:
+            desc = self.surname
+            if len(self.forename) > 0:
+                desc += ", " + self.forename
+            if (self.nickname):
+                desc += "(" + str(self.nickname) + ")"
+        if self.nickname is not None:
+            desc += str(self.nickname)
         return desc
 
     def __str__(self):
-        return self.surname + " (Alias of " + self.person.get_description() + ")"
+        return self.person.get_description()
 
 
 class Reference(models.Model):
@@ -192,7 +196,7 @@ class Reference(models.Model):
                                null=True)
 
     def __str__(self):
-        return self.reference + "(" + self.referenceTypeef + ")";
+        return self.reference + "(" + self.referenceType + ")";
 
 
 class ReferenceType(models.Model):
