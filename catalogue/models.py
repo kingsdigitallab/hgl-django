@@ -196,7 +196,7 @@ class Reference(models.Model):
                                null=True)
 
     def __str__(self):
-        return self.reference + "(" + self.referenceType + ")";
+        return self.reference + "(" + self.referenceType.__str__() + ")";
 
 
 class ReferenceType(models.Model):
