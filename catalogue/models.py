@@ -188,7 +188,7 @@ class AlternativeName(models.Model):
                 desc += ", " + self.forename
             if (self.nickname):
                 desc += "(" + str(self.nickname) + ")"
-        if self.nickname is not None:
+        elif self.nickname is not None:
             desc += str(self.nickname)
         return desc
 
