@@ -42,7 +42,9 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare_alternative_names(self, obj):
         ret = []
         for name in AlternativeName.objects.filter(person=obj):
-            ret.append(name.get_description())
+            desc = name.get_description()
+            if (desc is not None and len(desc) > 0):
+                ret.append(desc)
         return ret
     def prepare_sort_name(self, obj):
         ret = obj.surname.lower() + " " + obj.firstNames.lower()

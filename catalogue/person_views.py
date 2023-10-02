@@ -18,7 +18,7 @@ def person(request, id):
     variant_names = AlternativeName.objects.filter(person=person)
     references = Reference.objects.filter(person=person)
     if variant_names.count() > 0:
-        context["variant_names"] = items
+        context["variant_names"] = variant_names
     if items.count() > 0:
         context["archive_items"] = items
     if references.count() > 0:
