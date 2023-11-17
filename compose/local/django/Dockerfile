@@ -26,6 +26,12 @@ COPY wagtailbase/requirements.txt /app/wagtailbase/
 
 RUN pip install -U pip
 RUN pip install -r requirements.txt
-COPY . /app/
+#COPY . /app/
+
+COPY --chown=django:django ./compose/local/django/start /start
+RUN sed -i 's/\r$//g' /start
+RUN chmod +x /start
+COPY --chown=django:django . /app
+
 # todo we may not need this now
 # COPY ./libgeos.py /usr/local/lib/python3.6/site-packages/django/contrib/gis/geos/
