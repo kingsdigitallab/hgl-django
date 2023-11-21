@@ -17,23 +17,22 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      #- ./nginx/vhost.d:/etc/nginx/vhost.d
       #- ../nginx/certs:/etc/nginx/certs
       - ./nginx/html:/usr/share/nginx/html
+      #- django_static:/usr/share/nginx/static:ro
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    expose:
+        - "80"
+    depends_on:
+      - app
+    volumes:
       - django_static:/usr/share/nginx/static:ro
-
-
-#  nginx:
-#    build:
-#      context: .
-#      dockerfile: ./nginx/Dockerfile
-#    expose:
-#        - "8001"
-#    depends_on:
-#      - app
-#    volumes:
-#      - django_static:/usr/share/nginx/static:ro
-#    restart: unless-stopped
+    restart: unless-stopped
 
 
   db:
@@ -85,8 +84,8 @@ services:
       db:
         condition: service_healthy
     environment:
-      VIRTUAL_HOST: "hgl.kdl.kcl.ac.uk,hgl.app.cch.kcl.ac.uk,localhost.127.0.0.1"
-      LETSENCRYPT_HOST: "hgl.kdl.kcl.ac.uk,hgl.app.cch.kcl.ac.uk,localhost,127.0.0.1"
+      VIRTUAL_HOST: "hgl.kdl.kcl.ac.uk,hgl.app.cch.kcl.ac.uk,localhost"
+      LETSENCRYPT_HOST: "hgl.kdl.kcl.ac.uk,hgl.app.cch.kcl.ac.uk,localhost"
       VIRTUAL_PROTO: http
       VIRTUAL_PORT: 8000
     volumes:
