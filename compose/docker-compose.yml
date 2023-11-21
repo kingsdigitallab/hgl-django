@@ -1,42 +1,47 @@
 
 
 volumes:
-  local_mysql_data: { }
+  hgl_mysql_data: { }
   local_elasticsearch_data: { }
+  django_static: { }
 
 services:
 
+#
+
   nginx-proxy:
-    restart: always
     image: nginxproxy/nginx-proxy
+    restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ../nginx/certs:/etc/nginx/certs
-      - ../nginx/vhost:/etc/nginx/vhost.d
-      - ../nginx/html:/usr/share/nginx/html
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      #- ../nginx/certs:/etc/nginx/certs
+      - ./nginx/html:/usr/share/nginx/html
+      - django_static:/usr/share/nginx/static:ro
 
-  nginx-proxy-acme:
-      restart: always
-      image: nginxproxy/acme-companion
-      volumes_from:
-        - nginx-proxy
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock:ro
-        - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates
-      environment:
-        - DEFAULT_EMAIL=kdl-support@kcl.ac.uk
-        - ACME_CA_URI=https://ca.core.cch.kcl.ac.uk/acme/acme/directory
-        - CA_BUNDLE=/usr/local/share/ca-certificates/kdl_ca.crt
+
+#  nginx:
+#    build:
+#      context: .
+#      dockerfile: ./nginx/Dockerfile
+#    expose:
+#        - "8001"
+#    depends_on:
+#      - app
+#    volumes:
+#      - django_static:/usr/share/nginx/static:ro
+#    restart: unless-stopped
+
 
   db:
     image: library/mysql:5.7.35
     #command: --default-authentication-plugin=mysql_native_password
     container_name: hgl_db
     volumes:
-      - local_mysql_data:/var/lib/mysql
+      - hgl_mysql_data:/var/lib/mysql:rw
     restart: unless-stopped
     expose:
       - "3306"
@@ -65,7 +70,7 @@ services:
   # To build:
   # docker-compose -f local.yml run --rm web python manage.py build_solr_schema --configure-directory=/app/solr_config/config
   # then docker cp results to solr folder above
-  hgl:
+  app:
     container_name: hgl_liv
     build:
       context: ../
@@ -74,18 +79,19 @@ services:
     #restart: unless-stopped
 #    volumes:
 #      - .:/app:z
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     depends_on:
       db:
         condition: service_healthy
     environment:
-      VIRTUAL_HOST: "hgl.kdl.kcl.ac.uk,roomlogger.app.cch.kcl.ac.uk,localhost"
-      LETSENCRYPT_HOST: "hgl.kdl.kcl.ac.uk,localhost"
+      VIRTUAL_HOST: "hgl.kdl.kcl.ac.uk,hgl.app.cch.kcl.ac.uk,localhost.127.0.0.1"
+      LETSENCRYPT_HOST: "hgl.kdl.kcl.ac.uk,hgl.app.cch.kcl.ac.uk,localhost,127.0.0.1"
       VIRTUAL_PROTO: http
       VIRTUAL_PORT: 8000
     volumes:
       - ../testapp/config:/etc/testapp/config:ro
+      - django_static:/app/static:rw
 
 
 
