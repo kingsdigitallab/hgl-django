@@ -232,9 +232,19 @@ def popupcontent(request):
 def recordview(request):
     id = request.GET.get("id", "")
     locus = Locus.objects.get(pk=id)
+    arabic = Language.objects.filter(en_name="Arabic")
+    arabic_variants = []
+    other_variants = []
+    if (arabic.count() > 0):
+         arabic_variants = Locus_Variant.objects.filter(locus=locus, language=arabic[0])
+         other_variants = Locus_Variant.objects.filter(locus=locus).exclude(language=arabic[0])
+   
     context = {}
     context["record"] = locus
     context["google_api"] = GOOGLE_API
+    context["arabic_variants"] = arabic_variants
+    context["other_variants"] = other_variants
+
     return render(
         request,
         "../templates/single-record.html",

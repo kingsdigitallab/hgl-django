@@ -93,21 +93,12 @@
 		<ul class="long-list">
 	    	    
         
-            {% for v in record.variants.all|dictsort:"language" %}
-			{% if v.language.en_name == "Arabic"%}
+            {% for v in arabic_variants %}
 			<li>{{ v.name }}{% if v.language %} ({{ v.language.en_name }}){% endif %}</li>
-			{% else %}
-			{% endif %}
-            {% endfor %}
-
-            {% for v in record.variants.all|dictsort:"language" %}
-                        {% if v.language.en_name == "Arabic"%}
-                        {% else %}
+			{% endfor %}
+             {% for v in other_variants %}
 			<li>{{ v.name }}{% if v.language %} ({{ v.language.en_name }}){% endif %}</li>
-			{% endif %}
-            {% endfor %}
-
-
+			{% endfor %}
 
 
 		</ul>
