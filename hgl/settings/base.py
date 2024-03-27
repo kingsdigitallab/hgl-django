@@ -10,8 +10,9 @@ https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 # from ddhldap-django.settings import *
 
 from wagtailbase import settings as ws
-
+import environ
 import os
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -23,6 +24,19 @@ PROJECT_TITLE = "Heritage Gazetteer of Libya"
 # Core Settings
 # https://docs.djangoproject.com/en/dev/ref/settings/#id6
 # -----------------------------------------------------------------------------
+db_engine = 'django.contrib.gis.db.backends.mysql'
+
+COMPOSE_DIR = os.path.join(BASE_DIR, "compose")
+
+env = environ.Env()
+
+READ_DOT_ENV_FILE = True #env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+
+if READ_DOT_ENV_FILE:
+    # OS environment variables take precedence over variables from .env
+    environ.Env.read_env(os.path.join(COMPOSE_DIR, '.env'))
+
+
 
 ADMINS = ()
 MANAGERS = ADMINS

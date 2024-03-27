@@ -11,3 +11,4 @@ pillow
 # redis
 django-autocomplete-light==3.8.2
 requests-oauthlib
+django-environ==0.4.5

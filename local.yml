@@ -20,7 +20,7 @@ services:
 #      interval: 5s
 #      retries: 10
     env_file:
-      - .env
+      - ./compose/.env
 
   elasticsearch:
     image: elasticsearch:7.10.1

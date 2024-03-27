@@ -238,7 +238,7 @@ def recordview(request):
     if (arabic.count() > 0):
          arabic_variants = Locus_Variant.objects.filter(locus=locus, language=arabic[0])
          other_variants = Locus_Variant.objects.filter(locus=locus).exclude(language=arabic[0])
-   
+
     context = {}
     context["record"] = locus
     context["google_api"] = GOOGLE_API
