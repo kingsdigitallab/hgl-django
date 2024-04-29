@@ -63,7 +63,7 @@ target/
 #local
 .vagrant/
 hgl/settings/local.py
-static/
+static/*
 .envs/*
 /compose/.env
 
