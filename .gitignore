@@ -66,4 +66,6 @@ hgl/settings/local.py
 static/*
 .envs/*
 /compose/.env
+/compose/.env64
+volumes/*
 
