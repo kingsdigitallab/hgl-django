@@ -1,0 +1,6 @@
+django>=3.2.5
+django-compressor==2.4
+django-modelcluster
+wagtail>=2.9,<3 # https://github.com/wagtail/wagtail
+django-taggit
+django-libsass
