@@ -1,7 +1,8 @@
 import json
 from geo.models import *
 from geo.forms import *
-from hgl.settings import GOOGLE_API
+from django.conf import settings
+
 
 from django.contrib.gis.geos import Point, MultiPoint, LineString, MultiPolygon
 from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
@@ -241,7 +242,7 @@ def recordview(request):
 
     context = {}
     context["record"] = locus
-    context["google_api"] = GOOGLE_API
+    context["google_api"] = settings.GOOGLE_API
     context["arabic_variants"] = arabic_variants
     context["other_variants"] = other_variants
 
