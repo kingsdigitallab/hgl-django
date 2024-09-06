@@ -9,11 +9,12 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=['hgl-os.kdl.kcl.ac.uk'])
 INTERNAL_IPS = ['0.0.0.0', '127.0.0.1', '::1', '10.0.2.2']
 
+GOOGLE_API = env("GOOGLE_API")
+
+
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
-
 DATABASES = {
     'default': {
         'ENGINE': db_engine,
@@ -24,6 +25,6 @@ DATABASES = {
     },
 }
 
-DEBUG = True
+DEBUG = False
 
 

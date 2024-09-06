@@ -1,7 +1,7 @@
 import json
 from geo.models import *
 from geo.forms import *
-from hgl.settings.local import GOOGLE_API
+from hgl.settings import GOOGLE_API
 
 from django.contrib.gis.geos import Point, MultiPoint, LineString, MultiPolygon
 from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
