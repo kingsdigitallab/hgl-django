@@ -93,6 +93,7 @@
 {% block extra_footer %}
     <script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyAtcVXdItN9K9_PCf6nAUQriPinrI97CSY"></script>
 
+{% compress js %}
     <script src="{% static 'vendor/leaflet-18/leaflet.js' %}"></script>
     <script src="{% static 'vendor/spin.js/spin.min.js' %}"></script>
     <script src="{% static 'vendor/leaflet-spin/leaflet.spin.js' %}"></script>
@@ -100,7 +101,7 @@
     <script src="{% static 'vendor/markercluster/leaflet.markercluster.js' %}"></script>
     <script src="{% static 'vendor/Google.js' %}"></script>
     <script src="{% static 'js/map.js' %}"></script>
-    {% compress js %}
+
     {% endcompress %}
     <script>
         L.Icon.Default.imagePath = "{% static 'vendor/leaflet/dist/images' %}/";

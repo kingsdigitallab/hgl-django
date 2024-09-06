@@ -7,7 +7,7 @@ from django import forms
 from haystack.forms import FacetedSearchForm, SearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import FacetedSearchView, SearchView
-from haystack.inputs import AutoQuery, Exact, Clean
+from haystack.inputs import AutoQuery, Exact, Clean, Raw
 
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render
@@ -48,6 +48,9 @@ class CustomSearchForm(FacetedSearchForm):
         self.models = kwargs.pop("models", [])
         super(CustomSearchForm, self).__init__(*args, **kwargs)
 
+    def filterbyfield(self, queryset, field_name, field_value):
+        return queryset.filter(**{field_name+'__exact': field_value})
+
     def search(self):
         if not self.is_valid():
             return self.no_query_found()
@@ -73,13 +76,14 @@ class CustomSearchForm(FacetedSearchForm):
                     field, value = filter.split(":", 1)
                     if value:
                         value = value.replace("%20", " ")
-                        filterString += '.filter(%s="%s")' % (
-                            field,
-                            sqs.query.clean(value),
-                        )
+                        sqs= self.filterbyfield(field,value)
+                        # filterString += '.filter(%s="%s")' % (
+                        #     field,
+                        #     sqs.query.clean(value),
+                        # )
                         # filterString += u'.filter_or(%s_exact="%s").filter_or(variant_names="%s")' % (field , sqs.query.clean(value),sqs.query.clean(value))
                 filterString = "sqs=sqs" + filterString
-                exec(filterString)
+                #exec(filterString)
                 # sqs = sqs.filter
             return sqs.order_by("sort_name")
 
@@ -144,16 +148,17 @@ class CustomSearchForm(FacetedSearchForm):
                         continue
                     field, value = filter.split(":", 1)
                     if value:
-                        value = value.replace("%20", " ")
+                        #value = value.replace("%20", " ")
+                        sqs = self.filterbyfield(sqs, field, value)
                         # filterString += u'.filter(%s_exact=Exact("%s"))' % (field , sqs.query.clean(value))
-                        filterString += '.filter(%s="%s")' % (
-                            field,
-                            sqs.query.clean(value),
-                        )
+                        # filterString += '.filter(%s="%s")' % (
+                        #     field,
+                        #     sqs.query.clean(value),
+                        # )
                 filterString = "sqs=sqs" + filterString
                 print(filterString)
                 print(sqs)
-                exec(filterString)
+                #exec(filterString)
             # And filters to exclude..!
             if self.deselected_filters:
                 exFilterString = ""
