@@ -3,7 +3,7 @@ name: 'hgl_openstack'
 
 
 services:
-
+  
 #
 
   nginx-proxy:
