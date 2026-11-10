@@ -3,9 +3,10 @@
 
 {% block extra_head %}
 {% compress css %}
-<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet/dist/leaflet.css' %}">
+<link rel="stylesheet" type="text/x-scss" href="{% static 'vendor/leaflet-18/leaflet.css' %}">
 <link rel="stylesheet" type="text/x-scss" href="{% static 'js/jquery-ui.min.css' %}">
 {% endcompress %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/maplibre-gl/maplibre-gl.css' %}">
 {% endblock %}
 
 {% block title %}{% endblock %}
@@ -34,11 +35,12 @@
 <div class='autocomplete-suggestions'>"
 </div>
 
-  <script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyAtcVXdItN9K9_PCf6nAUQriPinrI97CSY"></script>
+<script src="{% static 'vendor/maplibre-gl/maplibre-gl.js' %}"></script>
 {% compress js %}
-<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+<script src="{% static 'vendor/leaflet-18/leaflet.js' %}"></script>
+<script src="{% static 'vendor/maplibre-gl-leaflet/leaflet-maplibre-gl.js' %}"></script>
+<script src="{% static 'js/openfreemap.js' %}"></script>
 <script src="{% static 'vendor/leaflet-draw/dist/leaflet.draw.js' %}"></script>
-<script src="{% static 'vendor/Google.js'%}"></script>
 <script src="{% static 'js/map.js' %}"></script>
     {% endcompress %}
 <script>

@@ -48,10 +48,8 @@ $(document).ready(function(){
     //var awmc = new L.TileLayer("http://{s}.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png",{subdomains:'abcd',
     // attribution:'<a href="http://awmc.unc.edu/wordpress/">AWMC</a>'}).addTo(map)
 
-    var ggl = new L.Google('HYBRID');
 
-    var osm = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    var switcher = new L.Control.Layers({ 'Google':ggl, 'Open Street Map':osm },{}).addTo(map);
+    var ofm = hglOpenFreeMapLayer().addTo(map);
     map.whenReady(loadMarkers);
     map.setView([30.449,18.018], 5);
 
