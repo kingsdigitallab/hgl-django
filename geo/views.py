@@ -242,7 +242,6 @@ def recordview(request):
 
     context = {}
     context["record"] = locus
-    context["google_api"] = settings.GOOGLE_API
     context["arabic_variants"] = arabic_variants
     context["other_variants"] = other_variants
 
@@ -265,7 +264,6 @@ def recordview_simple(request, record_id):
         
     context = {}
     context["record"] = locus
-    context["google_api"] = settings.GOOGLE_API
     context["arabic_variants"] = arabic_variants
     context["other_variants"] = other_variants
     
