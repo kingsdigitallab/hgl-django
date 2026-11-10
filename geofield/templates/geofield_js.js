@@ -84,12 +84,7 @@ $(document).ready(function(){
         //    maxZoom: 18,
         //    subdomains:['otile1','otile2','otile3','otile4']
 
-	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	    maxZomm: 18,
-	    subdomains: ['a','b','c']
-
-
-        }).addTo(currMap);        
+	hglOpenFreeMapLayer().addTo(currMap);
 
         // Add a draw control
 	    window["drawnItems"+ i.toString()] = new L.FeatureGroup();

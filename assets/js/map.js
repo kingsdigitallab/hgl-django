@@ -50,8 +50,8 @@ $(document).ready(function(){
 
     var ggl = new L.Google('HYBRID');
 
-    var osm = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    var switcher = new L.Control.Layers({ 'Google':ggl, 'Open Street Map':osm },{}).addTo(map);
+    var ofm = hglOpenFreeMapLayer().addTo(map);
+    var switcher = new L.Control.Layers({ 'Google':ggl, 'OpenFreeMap':ofm },{}).addTo(map);
     map.whenReady(loadMarkers);
     map.setView([30.449,18.018], 5);
 
