@@ -86,9 +86,9 @@ $(document).ready(function(){
 
 	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	    maxZomm: 18,
-	    subdomains: ['a','b','c']
-
-
+	    subdomains: ['a','b','c'],
+      referrerPolicy: "strict-origin-when-cross-origin",
+      attribution: "&copy; OpenStreetMap contributors",
         }).addTo(currMap);        
 
         // Add a draw control
