@@ -1,0 +1,30 @@
+name: "hgl_openstack"
+
+services:
+  db:
+    image: mysql:5
+    platform: linux/amd64
+    volumes:
+      - ../volumes/local_mysql_data:/var/lib/mysql
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test: mysql --user=root --password=$$MYSQL_ROOT_PASSWORD -e 'SHOW DATABASES;'
+      timeout: 10s
+      interval: 5s
+      retries: 10
+    env_file:
+      - .env
+
+  elasticsearch:
+    image: elasticsearch:7.10.1
+    platform: linux/amd64
+    env_file:
+      - .env
+    ports:
+      - 9200:9200
+      - 9300:9300
+    restart: unless-stopped
