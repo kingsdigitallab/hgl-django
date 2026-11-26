@@ -5,13 +5,14 @@ DEBUG = True
 INTERNAL_IPS = INTERNAL_IPS + ("",)
 
 DATABASES = {
-    #    'default': {
-    #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #        'NAME': 'app_hgl_dev',
-    #        'USER': 'app_hgl',
-    #        'PASSWORD': '',
-    #        'HOST': ''
-    #    },
+    "default": {
+        "ENGINE": db_engine,
+        "NAME": env("MYSQL_DATABASE"),
+        "USER": env("MYSQL_USER"),
+        "PASSWORD": env("MYSQL_PASSWORD"),
+        "HOST": env("MYSQL_HOST"),
+        "DEBUG": True,
+    },
 }
 
 

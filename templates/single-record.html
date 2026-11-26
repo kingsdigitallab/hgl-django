@@ -308,7 +308,10 @@
 
             var ggl = new L.Google('HYBRID');
 
-            var osm = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            var osm = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      referrerPolicy: "strict-origin-when-cross-origin",
+      attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
             var switcher = new L.Control.Layers({'Google': ggl, 'Open Street Map': osm}, {}).addTo(map);
             //map.whenReady(loadMarkers);
             map.setView([30.449, 18.018], 5);
